@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using BankingManagmentSystem.Dto;
+using BankingManagmentSystem.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankingManagmentSystem.Controllers
@@ -9,8 +11,11 @@ namespace BankingManagmentSystem.Controllers
     [Route("[controller]")]
     public class CustomerController : ControllerBase
     {
-        public CustomerController()
+        private ICustomerService _customerService;
+
+        public CustomerController(ICustomerService customerService)
         {
+            _customerService = customerService;
         }
 
         [HttpPost]
@@ -20,9 +25,9 @@ namespace BankingManagmentSystem.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<CustomerDto> Customers()
+        public Task<List<CustomerDto>> Customers()
         {
-            return new List<CustomerDto> { new CustomerDto { Id = 1, CreatedAt = DateTime.UtcNow, Name = "FullName" } };
+            return _customerService.CutomersList();
         }
     }
 }

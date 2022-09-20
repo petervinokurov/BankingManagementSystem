@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BankingManagmentSystem.Entities
 {
-    public class Account
+    public class Account : DomainEntity
     {
         public int Id { get; set; }
 
