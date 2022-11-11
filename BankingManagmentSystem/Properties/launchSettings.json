@@ -20,7 +20,8 @@
     "BankingManagmentSystem": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:1149",
+      "launchUrl": "https://localhost:5001",
+      "applicationUrl": "https://localhost:5001",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

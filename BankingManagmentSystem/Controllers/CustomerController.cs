@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using BankingManagmentSystem.Dto;
 using BankingManagmentSystem.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankingManagmentSystem.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class CustomerController : ControllerBase
     {
         private ICustomerService _customerService;
@@ -24,7 +26,8 @@ namespace BankingManagmentSystem.Controllers
             return 0;
         }
 
-        [HttpGet]
+        [HttpGet("customers")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public Task<List<CustomerDto>> Customers()
         {
             return _customerService.CutomersList();

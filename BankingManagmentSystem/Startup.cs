@@ -15,6 +15,7 @@ using AutoMapper;
 using BankingManagmentSystem.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
+
 namespace BankingManagmentSystem
 {
     public class Startup
@@ -30,6 +31,15 @@ namespace BankingManagmentSystem
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<BankingManagmentSystemContext>();
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                   builder =>
+                   {
+                       builder.WithOrigins("https://localhost:5001")
+                  .WithHeaders("Authorization");
+                   });
+            });
 
             services.AddAuthentication(options =>
             {
@@ -38,13 +48,16 @@ namespace BankingManagmentSystem
             }).AddJwtBearer(options =>
             {
                 options.Authority = "https://dev-kw8p9nlf.eu.auth0.com/";
-                options.Audience = "https://bankingmanagmentsystem/api";
+                options.Audience = "jvGUhQ81K4NbeZTmNBil4CLZJWYEpB0V";
             });
+
+            
             services.AddControllers();
-            services.AddSwaggerGen();
+           
             services.AddSingleton(new MapperConfiguration(mc => { mc.AddProfile(new MappingProfile()); }).CreateMapper());
 
             services.AddTransient<ICustomerService, CustomerService>();
+            services.AddTransient<IIdentityService, Auth0Service>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,14 +66,13 @@ namespace BankingManagmentSystem
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI();
             }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            
+            app.UseCors();
+
 
             app.UseAuthentication();
             app.UseAuthorization();
