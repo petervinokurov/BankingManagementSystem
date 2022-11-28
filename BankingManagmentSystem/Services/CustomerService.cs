@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BankingManagmentSystem.Services
 {
-    public class CustomerService : PaginationService<Customer>, ICustomerService
+    public class CustomerService : ICustomerService
     {
         public BankingManagmentSystemContext _context;
         public IMapper _mapper;
@@ -23,9 +23,6 @@ namespace BankingManagmentSystem.Services
         public Task<List<CustomerDto>> CutomersList()
         {
             var query = _context.Customers.AsQueryable();
-            
-            query = PaginatedQuery(query);
-            
             return query.ProjectTo<CustomerDto>(_mapper.ConfigurationProvider).ToListAsync(); 
         }
     }

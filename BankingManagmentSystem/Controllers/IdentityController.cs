@@ -17,6 +17,11 @@ namespace BankingManagmentSystem.Controllers
             _identityService = identityService;
         }
 
+        [HttpGet("token")]
+        public Task Token(object model)
+        {
+            return Task.CompletedTask;
+        }
     }
 }
 

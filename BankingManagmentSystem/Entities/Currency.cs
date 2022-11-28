@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BankingManagmentSystem.Entities
 {
-    public class Currency : DomainEntity
+    public class Currency
     {
         public string Code { get; set; }
 

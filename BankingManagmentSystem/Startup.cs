@@ -14,7 +14,7 @@ using BankingManagmentSystem.Entities;
 using AutoMapper;
 using BankingManagmentSystem.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-
+using Microsoft.AspNetCore.Identity;
 
 namespace BankingManagmentSystem
 {
@@ -31,29 +31,10 @@ namespace BankingManagmentSystem
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<BankingManagmentSystemContext>();
-            services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(
-                   builder =>
-                   {
-                       builder.WithOrigins("https://localhost:5001")
-                  .WithHeaders("Authorization");
-                   });
-            });
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                options.Authority = "https://dev-kw8p9nlf.eu.auth0.com/";
-                options.Audience = "jvGUhQ81K4NbeZTmNBil4CLZJWYEpB0V";
-            });
-
-            
+            services.AddIdentityCore<BmcUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                    .AddEntityFrameworkStores<BankingManagmentSystemContext>();
             services.AddControllers();
-           
+
             services.AddSingleton(new MapperConfiguration(mc => { mc.AddProfile(new MappingProfile()); }).CreateMapper());
 
             services.AddTransient<ICustomerService, CustomerService>();
@@ -72,8 +53,6 @@ namespace BankingManagmentSystem
 
             app.UseRouting();
             app.UseCors();
-
-
             app.UseAuthentication();
             app.UseAuthorization();
 
