@@ -7,7 +7,7 @@ namespace BankingManagmentSystem.Dto
     {
         [Required]
         [RegularExpression(@"\S+@\S+.\S+")]
-        public string UserName { get; set; }
+        public string Username { get; set; }
 
         [Required]
         [MaxLength(1024)]

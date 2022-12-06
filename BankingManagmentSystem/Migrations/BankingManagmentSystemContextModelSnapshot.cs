@@ -57,7 +57,7 @@ namespace BankingManagmentSystem.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Accounts", (string)null);
                 });
 
             modelBuilder.Entity("BankingManagmentSystem.Entities.BmcRole", b =>
@@ -85,7 +85,7 @@ namespace BankingManagmentSystem.Migrations
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("BankingManagmentSystem.Entities.BmcUser", b =>
@@ -150,7 +150,7 @@ namespace BankingManagmentSystem.Migrations
                     b.HasIndex("UserName")
                         .HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("BankingManagmentSystem.Entities.Currency", b =>
@@ -166,7 +166,7 @@ namespace BankingManagmentSystem.Migrations
 
                     b.HasKey("Code");
 
-                    b.ToTable("Currencies");
+                    b.ToTable("Currencies", (string)null);
                 });
 
             modelBuilder.Entity("BankingManagmentSystem.Entities.CurrencyRate", b =>
@@ -196,7 +196,7 @@ namespace BankingManagmentSystem.Migrations
 
                     b.HasIndex("CurrencyCode");
 
-                    b.ToTable("CurrencyRates");
+                    b.ToTable("CurrencyRates", (string)null);
                 });
 
             modelBuilder.Entity("BankingManagmentSystem.Entities.Customer", b =>
@@ -216,7 +216,7 @@ namespace BankingManagmentSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("BankingManagmentSystem.Entities.Transaction", b =>
@@ -261,7 +261,7 @@ namespace BankingManagmentSystem.Migrations
 
                     b.HasIndex("CurrencyRateId");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("Transactions", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -285,7 +285,7 @@ namespace BankingManagmentSystem.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RoleClaims");
+                    b.ToTable("RoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
@@ -309,7 +309,7 @@ namespace BankingManagmentSystem.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserClaims");
+                    b.ToTable("UserClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
@@ -332,7 +332,7 @@ namespace BankingManagmentSystem.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserLogins");
+                    b.ToTable("UserLogins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
@@ -345,7 +345,7 @@ namespace BankingManagmentSystem.Migrations
 
                     b.HasKey("UserId", "RoleId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("UserRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -364,7 +364,7 @@ namespace BankingManagmentSystem.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("UserTokens");
+                    b.ToTable("UserTokens", (string)null);
                 });
 
             modelBuilder.Entity("BankingManagmentSystem.Entities.Account", b =>

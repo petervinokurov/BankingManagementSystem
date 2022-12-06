@@ -17,10 +17,10 @@ namespace BankingManagmentSystem.Controllers
             _identityService = identityService;
         }
 
-        [HttpGet("token")]
-        public Task Token(object model)
+        [HttpPost("login")]
+        public Task Token(SignInDto model)
         {
-            return Task.CompletedTask;
+            return _identityService.Login(model.Username, model.Password);
         }
     }
 }

@@ -6,7 +6,8 @@ namespace BankingManagmentSystem.Services
 {
     public interface IIdentityService
     {
-        
+        Task Login(string login, string passwordHash);
+        Task LogOut(string login);
     }
 }
 

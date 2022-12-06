@@ -190,8 +190,8 @@ namespace BankingManagmentSystem.Entities
                 .Property(b => b.Id).UseIdentityColumn();
             modelBuilder.Entity<Customer>()
                 .Property(b => b.CreatedAt).IsRequired();
-            //modelBuilder.Entity<Customer>()
-            //    .Property(b => b.CreatedAt).HasDefaultValueSql("now() at time zone 'utc'");
+            modelBuilder.Entity<Customer>()
+                .Property(b => b.CreatedAt).HasDefaultValueSql("now() at time zone 'utc'");
             modelBuilder.Entity<Customer>()
                 .Property(b => b.Name).IsRequired();
             modelBuilder.Entity<Customer>()

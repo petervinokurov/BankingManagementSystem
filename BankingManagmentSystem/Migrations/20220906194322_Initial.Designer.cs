@@ -35,7 +35,7 @@ namespace BankingManagmentSystem.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("now() at time zone 'utc'");
 
                     b.Property<string>("CurrencyCode")
@@ -84,7 +84,7 @@ namespace BankingManagmentSystem.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("now() at time zone 'utc'");
 
                     b.Property<string>("CurrencyCode")
@@ -115,7 +115,7 @@ namespace BankingManagmentSystem.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("now() at time zone 'utc'");
 
                     b.Property<string>("Name")
@@ -144,7 +144,7 @@ namespace BankingManagmentSystem.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("now() at time zone 'utc'");
 
                     b.Property<string>("CurrencyCode")
@@ -157,7 +157,7 @@ namespace BankingManagmentSystem.Migrations
                         .HasColumnType("numeric");
 
                     b.Property<DateTime?>("Processing")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("Type")
                         .HasColumnType("integer");
