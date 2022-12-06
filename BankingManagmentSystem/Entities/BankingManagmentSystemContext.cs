@@ -1,9 +1,11 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankingManagmentSystem.Entities
 {
-    public class BankingManagmentSystemContext : DbContext
+    public class BankingManagmentSystemContext : IdentityDbContext<BmcUser, BmcRole, Guid>
     {
         public DbSet<Account> Accounts { get; set; }
 
@@ -25,12 +27,71 @@ namespace BankingManagmentSystem.Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<BmcUser>()
+                .HasKey(b => b.Id);
+            modelBuilder.Entity<BmcUser>()
+                .Property(b => b.Id).HasDefaultValueSql("gen_random_uuid()");
+            modelBuilder.Entity<BmcUser>().HasMany<IdentityUserClaim<Guid>>().WithOne().HasForeignKey(uc => uc.UserId).IsRequired();
+            modelBuilder.Entity<BmcUser>().HasMany<IdentityUserLogin<Guid>>().WithOne().HasForeignKey(ul => ul.UserId).IsRequired();
+            modelBuilder.Entity<BmcUser>().HasMany<IdentityUserToken<Guid>>().WithOne().HasForeignKey(ut => ut.UserId).IsRequired();
+            modelBuilder.Entity<BmcUser>().HasMany<IdentityUserRole<Guid>>().WithOne().HasForeignKey(ur => ur.UserId).IsRequired();
+            modelBuilder.Entity<BmcUser>()
+                .Property(b => b.Email).HasMaxLength(256);
+            modelBuilder.Entity<BmcUser>()
+                .Property(b => b.UserName).HasMaxLength(256);
+            modelBuilder.Entity<BmcUser>()
+                .Property(b => b.NormalizedEmail).HasMaxLength(256);
+            modelBuilder.Entity<BmcUser>()
+                .Property(b => b.NormalizedUserName).HasMaxLength(256);
+            modelBuilder.Entity<BmcUser>()
+                .HasIndex(b => b.NormalizedEmail).HasDatabaseName("EmailNameIndex").IsUnique();
+            modelBuilder.Entity<BmcUser>()
+                .HasIndex(b => b.UserName).HasDatabaseName("UserNameIndex");
+
+            modelBuilder.Entity<BmcRole>()
+                .HasKey(b => b.Id);
+            modelBuilder.Entity<BmcRole>()
+                .Property(b => b.Id).HasDefaultValueSql("gen_random_uuid()");
+            modelBuilder.Entity<BmcRole>()
+                .HasIndex(b => b.NormalizedName).HasDatabaseName("RoleNameIndex").IsUnique();
+            modelBuilder.Entity<BmcRole>()
+                .HasMany<IdentityRoleClaim<Guid>>().WithOne().HasForeignKey(rc => rc.RoleId).IsRequired();
+            modelBuilder.Entity<BmcRole>()
+                .Property(b => b.NormalizedName).HasMaxLength(256);
+            modelBuilder.Entity<BmcRole>()
+                .Property(b => b.Name).HasMaxLength(256);
+            modelBuilder.Entity<BmcRole>()
+                .Property(b => b.ConcurrencyStamp).IsConcurrencyToken();
+
+            modelBuilder.Entity<IdentityUserLogin<Guid>>()
+                .HasKey(b => new { b.LoginProvider, b.ProviderKey });
+            modelBuilder.Entity<IdentityUserLogin<Guid>>()
+                .Property(b => b.LoginProvider).HasMaxLength(256);
+            modelBuilder.Entity<IdentityUserLogin<Guid>>()
+                .Property(b => b.ProviderKey).HasMaxLength(256);
+
+            modelBuilder.Entity<IdentityUserRole<Guid>>()
+                .HasKey(r => new { r.UserId, r.RoleId });
+
+
+            modelBuilder.Entity<IdentityUserToken<Guid>>()
+                .HasKey(t => new { t.UserId, t.LoginProvider, t.Name });
+
+            modelBuilder.Entity<IdentityUserClaim<Guid>>()
+                .HasKey(b => b.Id);
+            modelBuilder.Entity<IdentityUserClaim<Guid>>()
+                .Property(b => b.Id).UseIdentityColumn();
+
+            modelBuilder.Entity<IdentityRoleClaim<Guid>>()
+                .HasKey(b => b.Id);
+            
+
             modelBuilder.Entity<Account>()
                 .HasKey(b => b.Id);
             modelBuilder.Entity<Account>()
                 .Property(b => b.Id).UseIdentityColumn();
-            modelBuilder.Entity<Account>()
-                .Property(b => b.CreatedAt).HasDefaultValueSql("now() at time zone 'utc'");
+            //modelBuilder.Entity<Account>()
+            //    .Property(b => b.CreatedAt).HasDefaultValueSql("now() at time zone 'utc'");
             modelBuilder.Entity<Account>()
                 .Property(b => b.CreatedAt).IsRequired();
             modelBuilder.Entity<Account>()
@@ -81,8 +142,8 @@ namespace BankingManagmentSystem.Entities
                 .Property(b => b.Id).UseIdentityColumn();
             modelBuilder.Entity<CurrencyRate>()
                 .Property(b => b.CreatedAt).IsRequired();
-            modelBuilder.Entity<CurrencyRate>()
-                .Property(b => b.CreatedAt).HasDefaultValueSql("now() at time zone 'utc'");
+            //modelBuilder.Entity<CurrencyRate>()
+             //   .Property(b => b.CreatedAt).HasDefaultValueSql("now() at time zone 'utc'");
             modelBuilder.Entity<CurrencyRate>()
                 .Property(b => b.Value).IsRequired();
             modelBuilder.Entity<CurrencyRate>()
@@ -102,8 +163,8 @@ namespace BankingManagmentSystem.Entities
                 .Property(b => b.Id).UseIdentityColumn();
             modelBuilder.Entity<Transaction>()
                 .Property(b => b.CreatedAt).IsRequired();
-            modelBuilder.Entity<Transaction>()
-                .Property(b => b.CreatedAt).HasDefaultValueSql("now() at time zone 'utc'");
+            //modelBuilder.Entity<Transaction>()
+            //    .Property(b => b.CreatedAt).HasDefaultValueSql("now() at time zone 'utc'");
             modelBuilder.Entity<Transaction>()
                 .Property(b => b.Amount).HasDefaultValue(0);
             modelBuilder.Entity<Transaction>()

@@ -1,7 +1,7 @@
 ﻿using System;
 namespace BankingManagmentSystem.Entities
 {
-    public class Transaction : DomainEntity
+    public class Transaction
     {
         public int Id { get; set; }
 

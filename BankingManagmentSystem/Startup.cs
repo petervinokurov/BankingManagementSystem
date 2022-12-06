@@ -14,6 +14,11 @@ using BankingManagmentSystem.Entities;
 using AutoMapper;
 using BankingManagmentSystem.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Http;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace BankingManagmentSystem
 {
@@ -29,22 +34,48 @@ namespace BankingManagmentSystem
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<BankingManagmentSystemContext>();
+            services.AddSpaStaticFiles(options =>
+            {
+                options.RootPath = "ClientApp";
+            });
 
-            services.AddAuthentication(options =>
+            services.AddCors(options =>
+              options.AddPolicy("AllowNgApp", p => p
+                  .WithOrigins("https://localhost:5001")
+                  .AllowCredentials()
+                  .AllowAnyMethod()
+                  .AllowAnyHeader()));
+
+            services.AddDbContext<BankingManagmentSystemContext>();
+            services.AddHttpContextAccessor();
+            services.AddIdentityCore<BmcUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                    .AddEntityFrameworkStores<BankingManagmentSystemContext>();
+            services.AddTransient<ICustomerService, CustomerService>();
+            services.AddTransient<ITokenService, TokenService>();
+            services.AddTransient<IIdentityService, IdentityService>();
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                options.Authority = "https://dev-kw8p9nlf.eu.auth0.com/";
-                options.Audience = "https://bankingmanagmentsystem/api";
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    ValidAudience = Configuration["Jwt:Issuer"],
+                    IssuerSigningKey = new
+                    SymmetricSecurityKey
+                    (Encoding.UTF8.GetBytes
+                    (Configuration["Jwt:Key"]))
+                };
             });
             services.AddControllers();
-            services.AddSwaggerGen();
+
             services.AddSingleton(new MapperConfiguration(mc => { mc.AddProfile(new MappingProfile()); }).CreateMapper());
 
-            services.AddTransient<ICustomerService, CustomerService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,21 +84,39 @@ namespace BankingManagmentSystem
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI();
             }
 
             app.UseHttpsRedirection();
 
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseRouting();
+
+            app.UseCors();
+
             
 
+
+            app.UseSession();
+            app.Use(async (context, next) =>
+            {
+                var token = context.Session.GetString("Token");
+                if (!string.IsNullOrEmpty(token))
+                {
+                    context.Request.Headers.Add("Authorization", "Bearer " + token);
+                }
+                await next();
+            });
             app.UseAuthentication();
             app.UseAuthorization();
+            
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+            app.UseSpaStaticFiles();
+            app.UseSpa(spa => {
             });
         }
     }

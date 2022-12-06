@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BankingManagmentSystem.Entities
 {
-    public class CurrencyRate : DomainEntity
+    public class CurrencyRate
     {
         public int Id { get; set; }
 

@@ -2,6 +2,7 @@
 using AutoMapper;
 using BankingManagmentSystem.Dto;
 using BankingManagmentSystem.Entities;
+using BankingManagmentSystem.Projections;
 
 namespace BankingManagmentSystem
 {
@@ -10,6 +11,7 @@ namespace BankingManagmentSystem
         public MappingProfile()
         {
             CreateMap<Customer, CustomerDto>();
+            CreateMap<BmcUser, BmcUserProjection>();
         }
     }
 }
