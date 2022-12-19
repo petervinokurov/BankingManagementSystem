@@ -28,6 +28,8 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.1.31" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="7.0.0" />
+    <PackageReference Include="NLog" Version="5.1.0" />
+    <PackageReference Include="NLog.Database" Version="5.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -63,6 +65,9 @@
     <None Remove="Microsoft.Extensions.DependencyInjection" />
     <None Remove="Projections\" />
     <None Remove="Services\Interfaces\" />
+    <None Remove="Middlewares\" />
+    <None Remove="NLog" />
+    <None Remove="NLog.Database" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -71,5 +76,6 @@
     <Folder Include="Dto\" />
     <Folder Include="Projections\" />
     <Folder Include="Services\Interfaces\" />
+    <Folder Include="Middlewares\" />
   </ItemGroup>
 </Project>

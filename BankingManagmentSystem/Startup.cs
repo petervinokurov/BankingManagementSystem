@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using BankingManagmentSystem.Entities;
 using AutoMapper;
 using BankingManagmentSystem.Services;
@@ -19,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Http;
 using static System.Net.Mime.MediaTypeNames;
+using NLog;
 
 namespace BankingManagmentSystem
 {
@@ -34,6 +34,7 @@ namespace BankingManagmentSystem
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.AddSpaStaticFiles(options =>
             {
                 options.RootPath = "ClientApp";
@@ -77,16 +78,17 @@ namespace BankingManagmentSystem
 
             services.AddSingleton(new MapperConfiguration(mc => { mc.AddProfile(new MappingProfile()); }).CreateMapper());
 
-            
+            LogManager.Setup().LoadConfiguration(builder => {
+                builder.ForLogger().FilterMinLevel(LogLevel.Info).WriteToConsole();
+                builder.ForLogger().FilterMinLevel(LogLevel.Debug).WriteToFile(fileName: "file.txt");
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.UseBmpErrorHandler();
 
             app.UseHttpsRedirection();
 
@@ -95,9 +97,6 @@ namespace BankingManagmentSystem
             app.UseRouting();
 
             app.UseCors();
-
-            
-
 
             app.UseSession();
             app.Use(async (context, next) =>
@@ -118,8 +117,7 @@ namespace BankingManagmentSystem
                 endpoints.MapControllers();
             });
             app.UseSpaStaticFiles();
-            app.UseSpa(spa => {
-            });
+            app.UseSpa(spa => {});
         }
     }
 }

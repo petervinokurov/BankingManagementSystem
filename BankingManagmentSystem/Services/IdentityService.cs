@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -7,6 +8,7 @@ using BankingManagmentSystem.Entities;
 using BankingManagmentSystem.Projections;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace BankingManagmentSystem.Services
@@ -37,6 +39,7 @@ namespace BankingManagmentSystem.Services
 
         public Task Login(string login, string password)
         {
+            throw new DbUpdateException("My DB broken");
             if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
             {
                 return Task.CompletedTask;
