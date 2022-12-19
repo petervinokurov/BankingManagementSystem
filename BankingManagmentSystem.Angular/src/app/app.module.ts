@@ -8,18 +8,21 @@ import {APP_BASE_HREF} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpApiService } from './http-api.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { UserManagmentModule } from './user-managment/user-managment.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent
-
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    UserManagmentModule,
+    NgbModule
   ],
   providers: [{provide: APP_BASE_HREF, useValue: '/ClientApp'}, LoginService, HttpApiService, HttpClient],
   bootstrap: [AppComponent]

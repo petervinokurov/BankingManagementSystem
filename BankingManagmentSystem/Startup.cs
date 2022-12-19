@@ -53,6 +53,8 @@ namespace BankingManagmentSystem
             services.AddTransient<ICustomerService, CustomerService>();
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IIdentityService, IdentityService>();
+            services.AddTransient<IUserManagmentService, UserManagmentService>();
+            services.AddTransient<ICryptographyService, CryptographyService>();
             services.AddDistributedMemoryCache();
             services.AddSession();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>

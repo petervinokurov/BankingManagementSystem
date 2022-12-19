@@ -62,6 +62,7 @@
     <None Remove="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
     <None Remove="Microsoft.Extensions.DependencyInjection" />
     <None Remove="Projections\" />
+    <None Remove="Services\Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -69,5 +70,6 @@
     <Folder Include="Services\" />
     <Folder Include="Dto\" />
     <Folder Include="Projections\" />
+    <Folder Include="Services\Interfaces\" />
   </ItemGroup>
 </Project>

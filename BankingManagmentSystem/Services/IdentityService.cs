@@ -17,12 +17,14 @@ namespace BankingManagmentSystem.Services
         private readonly ITokenService _tokenService;
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContext;
+        private readonly ICryptographyService _cryptographyService;
         private readonly IMapper _mapper;
 
         public IdentityService(BankingManagmentSystemContext context,
             ITokenService tokenService,
             IConfiguration configuration,
             IHttpContextAccessor httpContextAccessor,
+            ICryptographyService cryptographyService,
             IMapper mapper)
 		{
             _context = context;
@@ -30,17 +32,19 @@ namespace BankingManagmentSystem.Services
             _configuration = configuration;
             _httpContext = httpContextAccessor;
             _mapper = mapper;
+            _cryptographyService = cryptographyService;
 		}
 
-        public Task Login(string login, string passwordHash)
+        public Task Login(string login, string password)
         {
-            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(passwordHash))
+            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
             {
                 return Task.CompletedTask;
 
                 //return (RedirectToAction("Error"));
             }
             //IActionResult response = Unauthorized();
+            var passwordHash = _cryptographyService.GetPasswordHash(password);
             var validUser = _context.Users.Where(x => x.UserName == login && x.PasswordHash == passwordHash).ProjectTo<BmcUserProjection>(_mapper.ConfigurationProvider).SingleOrDefault();
 
             if (validUser != null)
@@ -64,6 +68,11 @@ namespace BankingManagmentSystem.Services
         }
 
         public Task LogOut(string login)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RefreshToken()
         {
             throw new NotImplementedException();
         }
