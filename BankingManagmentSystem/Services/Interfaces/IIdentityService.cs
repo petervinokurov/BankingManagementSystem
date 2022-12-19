@@ -8,6 +8,7 @@ namespace BankingManagmentSystem.Services
     {
         Task Login(string login, string passwordHash);
         Task LogOut(string login);
+        Task RefreshToken();
     }
 }
 
