@@ -39,7 +39,6 @@ namespace BankingManagmentSystem.Services
 
         public Task Login(string login, string password)
         {
-            throw new DbUpdateException("My DB broken");
             if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
             {
                 return Task.CompletedTask;
