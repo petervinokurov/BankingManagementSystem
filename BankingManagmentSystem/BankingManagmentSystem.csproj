@@ -30,6 +30,7 @@
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="7.0.0" />
     <PackageReference Include="NLog" Version="5.1.0" />
     <PackageReference Include="NLog.Database" Version="5.1.0" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.2.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -68,6 +69,8 @@
     <None Remove="Middlewares\" />
     <None Remove="NLog" />
     <None Remove="NLog.Database" />
+    <None Remove="NLog.Web.AspNetCore" />
+    <None Remove="NLog.Extensions.Logging" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />

@@ -19,6 +19,7 @@ using System.Text;
 using Microsoft.AspNetCore.Http;
 using static System.Net.Mime.MediaTypeNames;
 using NLog;
+using NLog.Web;
 
 namespace BankingManagmentSystem
 {
@@ -34,7 +35,7 @@ namespace BankingManagmentSystem
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            services.AddLogging();
             services.AddSpaStaticFiles(options =>
             {
                 options.RootPath = "ClientApp";
@@ -77,11 +78,7 @@ namespace BankingManagmentSystem
             services.AddControllers();
 
             services.AddSingleton(new MapperConfiguration(mc => { mc.AddProfile(new MappingProfile()); }).CreateMapper());
-
-            LogManager.Setup().LoadConfiguration(builder => {
-                builder.ForLogger().FilterMinLevel(LogLevel.Info).WriteToConsole();
-                builder.ForLogger().FilterMinLevel(LogLevel.Debug).WriteToFile(fileName: "file.txt");
-            });
+            
 
         }
 
@@ -89,9 +86,7 @@ namespace BankingManagmentSystem
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseBmpErrorHandler();
-
             app.UseHttpsRedirection();
-
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseRouting();
@@ -118,6 +113,7 @@ namespace BankingManagmentSystem
             });
             app.UseSpaStaticFiles();
             app.UseSpa(spa => {});
+            
         }
     }
 }

@@ -197,6 +197,29 @@ namespace BankingManagmentSystem.Entities
             modelBuilder.Entity<Customer>()
                 .HasMany(b => b.Accounts)
                 .WithOne(b => b.Customer);
+
+            modelBuilder.Entity<Log>()
+                .HasKey(b => b.Id);
+            modelBuilder.Entity<Log>()
+                .Property(b => b.Id).UseIdentityColumn();
+            modelBuilder.Entity<Log>()
+                .Property(b => b.MachineName).HasMaxLength(50);
+            modelBuilder.Entity<Log>()
+                .Property(b => b.MachineName).IsRequired();
+            modelBuilder.Entity<Log>()
+                .Property(b => b.Logged).IsRequired();
+            modelBuilder.Entity<Log>()
+                .Property(b => b.Message).IsRequired();
+            modelBuilder.Entity<Log>()
+                .Property(b => b.Level).HasMaxLength(50);
+            modelBuilder.Entity<Log>()
+                .Property(b => b.Level).IsRequired();
+            modelBuilder.Entity<Log>()
+                .Property(b => b.Logger).HasMaxLength(250);
+            modelBuilder.Entity<Log>()
+                .Property(b => b.UserPermissions).HasMaxLength(250);
+
+
         }
     }
 }

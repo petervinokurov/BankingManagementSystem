@@ -3,6 +3,7 @@ using System;
 using BankingManagmentSystem.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BankingManagmentSystem.Migrations
 {
     [DbContext(typeof(BankingManagmentSystemContext))]
-    partial class BankingManagmentSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20221221135121_LoggedAsString")]
+    partial class LoggedAsString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -260,8 +263,8 @@ namespace BankingManagmentSystem.Migrations
                     b.Property<string>("QueryParameters")
                         .HasColumnType("text");
 
-                    b.Property<string>("RequestMethod")
-                        .HasColumnType("text");
+                    b.Property<int>("RequestMethod")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Route")
                         .HasColumnType("text");

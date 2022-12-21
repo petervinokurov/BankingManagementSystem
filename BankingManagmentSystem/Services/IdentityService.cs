@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace BankingManagmentSystem.Services
 {
@@ -21,13 +22,15 @@ namespace BankingManagmentSystem.Services
         private readonly IHttpContextAccessor _httpContext;
         private readonly ICryptographyService _cryptographyService;
         private readonly IMapper _mapper;
+        private readonly ILogger<IdentityService> _logger;
 
         public IdentityService(BankingManagmentSystemContext context,
             ITokenService tokenService,
             IConfiguration configuration,
             IHttpContextAccessor httpContextAccessor,
             ICryptographyService cryptographyService,
-            IMapper mapper)
+            IMapper mapper,
+            ILogger<IdentityService> logger)
 		{
             _context = context;
             _tokenService = tokenService;
@@ -35,6 +38,7 @@ namespace BankingManagmentSystem.Services
             _httpContext = httpContextAccessor;
             _mapper = mapper;
             _cryptographyService = cryptographyService;
+            _logger = logger;
 		}
 
         public Task Login(string login, string password)
