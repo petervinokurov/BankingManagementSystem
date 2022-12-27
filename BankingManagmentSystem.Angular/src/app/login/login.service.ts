@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { HttpApiService } from "../http-api.service";
+import { HttpApiService } from "../common-services/http-api.service";
 import { LoginDto } from "./loginDto";
 import { LoginApiRoutes } from "./loginRoutes";
 

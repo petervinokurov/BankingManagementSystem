@@ -23,6 +23,8 @@ export class LoginComponent implements OnInit {
   }
 
   public onLogin(){
-     lastValueFrom(this.service.login(this.model, this.cancellationObservable));
+     lastValueFrom(this.service.login(this.model, this.cancellationObservable))
+     //.catch( err => console.log(err))
+     ;
   }
 }

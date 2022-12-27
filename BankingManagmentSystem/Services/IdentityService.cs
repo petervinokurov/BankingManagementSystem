@@ -43,6 +43,7 @@ namespace BankingManagmentSystem.Services
 
         public Task Login(string login, string password)
         {
+            throw new DbUpdateException("Database update failed!");
             if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
             {
                 return Task.CompletedTask;

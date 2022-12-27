@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using BankingManagmentSystem.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using NLog;
@@ -85,11 +86,12 @@ namespace BankingManagmentSystem.Middlewares
                 requestParametersBuilder.Append($"Body to large to be buffered. Limit set to 30k bytes cause performance reason.");
             }
             
-            var exceptionResult = JsonSerializer.Serialize(new
+            var exceptionResult = JsonSerializer.Serialize(new BmsResponse
             {
-                error = exception.Message
+                ApplicationError = exception.Message
             });
             context.Response.ContentType = ContentType;
+            //context.Response.ContentType = "text";
             context.Response.StatusCode = (int)status;
             _logger.LogError(exception,
                 "{RequesuestMethod}{Route}{QueryParameters}{UserPermissions}"
