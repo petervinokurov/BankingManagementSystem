@@ -91,7 +91,6 @@ namespace BankingManagmentSystem.Middlewares
                 ApplicationError = exception.Message
             });
             context.Response.ContentType = ContentType;
-            //context.Response.ContentType = "text";
             context.Response.StatusCode = (int)status;
             _logger.LogError(exception,
                 "{RequesuestMethod}{Route}{QueryParameters}{UserPermissions}"
