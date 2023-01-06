@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using NLog;
 using NLog.Web;
 
@@ -22,8 +16,7 @@ namespace BankingManagmentSystem
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
-                    //logger.Debug("init main");
+                    var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
                     webBuilder.UseNLog().UseStartup<Startup>();
                 });
     }

@@ -6,7 +6,7 @@ namespace BankingManagmentSystem.Services
 {
 	public interface IUserManagmentService
 	{
-		Task CreateNewUser(NewUserDto newUser);
+		Task<BmsResponse> CreateNewUser(NewUserDto newUser);
 
 	}
 }

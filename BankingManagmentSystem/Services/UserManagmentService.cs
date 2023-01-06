@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BankingManagmentSystem.Dto;
 using BankingManagmentSystem.Entities;
+using Microsoft.AspNetCore.Http;
 
 namespace BankingManagmentSystem.Services
 {
@@ -17,17 +18,24 @@ namespace BankingManagmentSystem.Services
             _cryptographyService = cryptographyService;
 		}
 
-        public Task CreateNewUser(NewUserDto newUser)
+        public Task<BmsResponse> CreateNewUser(NewUserDto newUser)
         {
-            if (_context.Users.Any(u => u.UserName == newUser.Username ))
+            if (_context.Users.Any(u => u.NormalizedEmail == newUser.Username.ToUpperInvariant()))
             {
-                return Task.CompletedTask;
+                return Task.FromResult(new BmsResponse { ApplicationError = $"User '{newUser.Username}' already exist." });
             }
             else
             {
-                _context.Users.AddAsync(new BmcUser { UserName = newUser.Username, PasswordHash = _cryptographyService.GetPasswordHash(newUser.Password) });
+                _context.Users.AddAsync(new BmcUser
+                {
+                    Email = newUser.Username,
+                    NormalizedEmail = newUser.Username.ToUpperInvariant(),
+                    PasswordHash = _cryptographyService.GetPasswordHash(newUser.Password),
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    TwoFactorEnabled = false
+                });
                 _context.SaveChangesAsync();
-                return Task.CompletedTask;
+                return Task.FromResult(new BmsResponse());
             }
         }
     }

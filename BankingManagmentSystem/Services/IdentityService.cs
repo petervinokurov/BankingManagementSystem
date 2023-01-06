@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using BankingManagmentSystem.Dto;
 using BankingManagmentSystem.Entities;
 using BankingManagmentSystem.Projections;
 using Microsoft.AspNetCore.Http;
@@ -41,18 +42,17 @@ namespace BankingManagmentSystem.Services
             _logger = logger;
 		}
 
-        public Task Login(string login, string password)
+        public Task<BmsResponse> Login(string login, string password)
         {
-            throw new DbUpdateException("Database update failed!");
+            var response = new BmsResponse();
             if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
             {
-                return Task.CompletedTask;
+                response.ApplicationError = "Login or password are empty.";
+                return Task.FromResult(response);
 
-                //return (RedirectToAction("Error"));
             }
-            //IActionResult response = Unauthorized();
             var passwordHash = _cryptographyService.GetPasswordHash(password);
-            var validUser = _context.Users.Where(x => x.UserName == login && x.PasswordHash == passwordHash).ProjectTo<BmcUserProjection>(_mapper.ConfigurationProvider).SingleOrDefault();
+            var validUser = _context.Users.Where(x => x.NormalizedEmail == login.ToUpper() && x.PasswordHash == passwordHash).ProjectTo<BmcUserProjection>(_mapper.ConfigurationProvider).SingleOrDefault();
 
             if (validUser != null)
             {
@@ -61,17 +61,20 @@ namespace BankingManagmentSystem.Services
                 {
                     
                     _httpContext.HttpContext.Session.SetString("Token", generatedToken);
-                    return Task.CompletedTask;
+                    _httpContext.HttpContext.Response.Cookies.Append("Token", generatedToken);
+                    return Task.FromResult(response);
                 }
                 else
                 {
-                    return Task.CompletedTask;
+                    response.ApplicationError = "Token not generated";
                 }
             }
             else
             {
-                return Task.CompletedTask;
+                response.ApplicationError = $"User '{login}' not found.";
+                
             }
+            return Task.FromResult(response);
         }
 
         public Task LogOut(string login)

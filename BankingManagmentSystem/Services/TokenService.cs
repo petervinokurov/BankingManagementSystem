@@ -14,7 +14,7 @@ namespace BankingManagmentSystem.Services
         {
             //TODO Expand the model.
             var claims = new[] {
-                new Claim(ClaimTypes.Name, user.UserName),
+                //new Claim(ClaimTypes.Name, user.UserName),
                 //new Claim(ClaimTypes.Role, user.Role),
                 new Claim(ClaimTypes.NameIdentifier,
                 Guid.NewGuid().ToString())

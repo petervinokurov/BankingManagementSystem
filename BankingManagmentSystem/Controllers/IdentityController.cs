@@ -18,9 +18,9 @@ namespace BankingManagmentSystem.Controllers
         }
 
         [HttpPost("login")]
-        public Task Token(SignInDto model)
+        public IActionResult Token(SignInDto model)
         {
-            return _identityService.Login(model.Username, model.Password);
+            return Ok(_identityService.Login(model.Username, model.Password));
         }
     }
 }

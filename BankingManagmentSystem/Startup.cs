@@ -1,25 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using BankingManagmentSystem.Entities;
+using System.Text;
 using AutoMapper;
+using BankingManagmentSystem.Entities;
 using BankingManagmentSystem.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using static System.Net.Mime.MediaTypeNames;
-using NLog;
-using NLog.Web;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BankingManagmentSystem
 {
@@ -36,11 +26,6 @@ namespace BankingManagmentSystem
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddLogging();
-            services.AddSpaStaticFiles(options =>
-            {
-                options.RootPath = "ClientApp";
-            });
-
             services.AddCors(options =>
               options.AddPolicy("AllowNgApp", p => p
                   .WithOrigins("https://localhost:5001")
@@ -76,6 +61,10 @@ namespace BankingManagmentSystem
                 };
             });
             services.AddControllers();
+            services.AddSpaStaticFiles(options =>
+            {
+                options.RootPath = "ClientApp/dist";
+            });
 
             services.AddSingleton(new MapperConfiguration(mc => { mc.AddProfile(new MappingProfile()); }).CreateMapper());
             
@@ -85,12 +74,13 @@ namespace BankingManagmentSystem
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            
             app.UseBmpErrorHandler();
+            app.UseSpaStaticFiles();
+            
             app.UseHttpsRedirection();
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
             app.UseRouting();
-
+            
             app.UseCors();
 
             app.UseSession();
@@ -106,14 +96,15 @@ namespace BankingManagmentSystem
             app.UseAuthentication();
             app.UseAuthorization();
             
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-            });
-            app.UseSpaStaticFiles();
-            app.UseSpa(spa => {});
-            
+                endpoints.Map("api/{**slug}", ctx => throw new Exception($"Wrong route {ctx.Request.Path}"));
+                
+            }).UseSpa(spa => {
+                spa.Options.SourcePath = "ClientApp";
+            }); 
         }
+
     }
 }

@@ -8,6 +8,8 @@ namespace BankingManagmentSystem.Entities
 		public BmcUser()
 		{
 		}
-	}
+
+        public override string ConcurrencyStamp { get ; set ; } = Guid.NewGuid().ToString();
+    }
 }
 

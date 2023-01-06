@@ -71,6 +71,7 @@
     <None Remove="NLog.Database" />
     <None Remove="NLog.Web.AspNetCore" />
     <None Remove="NLog.Extensions.Logging" />
+    <None Remove="Hellang.Middleware.SpaFallback" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />

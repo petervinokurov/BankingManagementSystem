@@ -18,7 +18,7 @@ export class NewUserComponent implements OnInit {
     text: 'Register',
     type: 'primary',
     useSubmitBehavior: true,
-    onclick: this.createNewUser()
+    //onclick: this.createNewUser()
   };
   passwordComparison = () => this.newUser.password;
   constructor(private readonly service:UserManagmentService) { }
@@ -26,7 +26,7 @@ export class NewUserComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  private createNewUser(){
+  public createNewUser(){
     lastValueFrom(this.service.createNewUser(this.newUser, this.cancellationObservable));
   }
 
