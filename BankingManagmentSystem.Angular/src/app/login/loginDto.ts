@@ -1,4 +1,4 @@
 export class LoginDto{
-  public Username: string = "email@email.com";
-  public Password: string = "somehashhere";
+  public Username: string = "admin@admin.com";
+  public Password: string = "1234";
 }

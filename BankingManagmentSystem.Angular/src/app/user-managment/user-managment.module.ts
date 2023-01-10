@@ -4,10 +4,12 @@ import { UserManagmentRoutingModule } from './user-managment-routing.module';
 import { UserManagmentService } from './user-managment.service';
 import { NewUserComponent } from './new-user/new-user.component';
 import { DxFormModule, DxButtonModule} from 'devextreme-angular';
+import { UserListComponent } from './user-list/user-list.component';
 
 @NgModule({
   declarations: [
-    NewUserComponent
+    NewUserComponent,
+    UserListComponent
   ],
   imports: [
     CommonModule,

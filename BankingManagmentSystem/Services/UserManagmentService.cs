@@ -1,28 +1,36 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using BankingManagmentSystem.Dto;
 using BankingManagmentSystem.Entities;
-using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace BankingManagmentSystem.Services
 {
-	public class UserManagmentService : IUserManagmentService
+    public class UserManagmentService : IUserManagmentService
 	{
         private readonly BankingManagmentSystemContext _context;
         private readonly ICryptographyService _cryptographyService;
+        private readonly IMapper _mapper;
 
-		public UserManagmentService(BankingManagmentSystemContext context, ICryptographyService cryptographyService)
+		public UserManagmentService(BankingManagmentSystemContext context,
+            ICryptographyService cryptographyService,
+            IMapper mapper)
 		{
             _context = context;
             _cryptographyService = cryptographyService;
+            _mapper = mapper;
 		}
 
         public Task<BmsResponse> CreateNewUser(NewUserDto newUser)
         {
+            var result = new BmsResponse();
             if (_context.Users.Any(u => u.NormalizedEmail == newUser.Username.ToUpperInvariant()))
             {
-                return Task.FromResult(new BmsResponse { ApplicationError = $"User '{newUser.Username}' already exist." });
+                result.ApplicationError = $"User '{newUser.Username}' already exist.";
             }
             else
             {
@@ -35,8 +43,13 @@ namespace BankingManagmentSystem.Services
                     TwoFactorEnabled = false
                 });
                 _context.SaveChangesAsync();
-                return Task.FromResult(new BmsResponse());
             }
+            return Task.FromResult(result);
+        }
+
+        public async Task<List<BmsUserProjection>> UserList()
+        {
+            return await _context.Users.ProjectTo<BmsUserProjection>(_mapper.ConfigurationProvider).ToListAsync();
         }
     }
 }

@@ -1,7 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NewUserDto } from './newUserDto';
 import { UserManagmentService } from '../user-managment.service';
 import { lastValueFrom, Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { AppRoutes } from 'src/app/app-routes';
 
 @Component({
   selector: 'app-new-user',
@@ -13,7 +15,6 @@ export class NewUserComponent implements OnInit {
   public newUser: NewUserDto = new NewUserDto();
   protected cancellationObservable: Observable<void> = new Observable();
 
-
   registerButtonOptions: any = {
     text: 'Register',
     type: 'primary',
@@ -21,13 +22,19 @@ export class NewUserComponent implements OnInit {
     //onclick: this.createNewUser()
   };
   passwordComparison = () => this.newUser.password;
-  constructor(private readonly service:UserManagmentService) { }
+  constructor(private readonly service:UserManagmentService,
+    private readonly router:Router) { }
 
   ngOnInit(): void {
   }
 
-  public createNewUser(){
-    lastValueFrom(this.service.createNewUser(this.newUser, this.cancellationObservable));
+  public async createNewUser(){
+    var result = lastValueFrom(this.service.createNewUser(this.newUser, this.cancellationObservable));
+    var b = await result;
+    if (b){
+      this.router.navigate([AppRoutes.Root]);
+    }
+
   }
 
 }

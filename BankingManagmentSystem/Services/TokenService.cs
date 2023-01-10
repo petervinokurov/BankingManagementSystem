@@ -3,20 +3,19 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using BankingManagmentSystem.Dto;
-using BankingManagmentSystem.Projections;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BankingManagmentSystem.Services
 {
 	public class TokenService : ITokenService
 	{
-        public string BuildToken(string key, string issuer, BmcUserProjection user)
+        public string BuildToken(string key, string issuer, BmsUserProjection user)
         {
             //TODO Expand the model.
             var claims = new[] {
-                //new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Email, user.Email),
                 //new Claim(ClaimTypes.Role, user.Role),
-                new Claim(ClaimTypes.NameIdentifier,
+                new Claim(ClaimTypes.Sid,
                 Guid.NewGuid().ToString())
             };
 

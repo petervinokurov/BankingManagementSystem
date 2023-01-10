@@ -43,7 +43,6 @@ namespace BankingManagmentSystem
             services.AddTransient<IUserManagmentService, UserManagmentService>();
             services.AddTransient<ICryptographyService, CryptographyService>();
             services.AddDistributedMemoryCache();
-            services.AddSession();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -83,10 +82,9 @@ namespace BankingManagmentSystem
             
             app.UseCors();
 
-            app.UseSession();
             app.Use(async (context, next) =>
             {
-                var token = context.Session.GetString("Token");
+                var token = context.Request.Cookies["Token"];
                 if (!string.IsNullOrEmpty(token))
                 {
                     context.Request.Headers.Add("Authorization", "Bearer " + token);

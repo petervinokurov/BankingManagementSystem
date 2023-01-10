@@ -18,10 +18,10 @@ export class HttpApiService {
         );
 
         if (cancellationSubject) {
-            request = this.applyCancellationSubject(
-                request,
-                cancellationSubject
-            );
+            //request = this.applyCancellationSubject(
+            //    request,
+            //    cancellationSubject
+            //);
         }
 
         return request;

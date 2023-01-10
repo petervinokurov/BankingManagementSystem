@@ -6,7 +6,6 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using BankingManagmentSystem.Dto;
 using BankingManagmentSystem.Entities;
-using BankingManagmentSystem.Projections;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -52,15 +51,13 @@ namespace BankingManagmentSystem.Services
 
             }
             var passwordHash = _cryptographyService.GetPasswordHash(password);
-            var validUser = _context.Users.Where(x => x.NormalizedEmail == login.ToUpper() && x.PasswordHash == passwordHash).ProjectTo<BmcUserProjection>(_mapper.ConfigurationProvider).SingleOrDefault();
+            var validUser = _context.Users.Where(x => x.NormalizedEmail == login.ToUpper() && x.PasswordHash == passwordHash).ProjectTo<BmsUserProjection>(_mapper.ConfigurationProvider).SingleOrDefault();
 
             if (validUser != null)
             {
                 var generatedToken = _tokenService.BuildToken(_configuration["Jwt:Key"].ToString(), _configuration["Jwt:Issuer"].ToString(), validUser);
                 if (generatedToken != null)
-                {
-                    
-                    _httpContext.HttpContext.Session.SetString("Token", generatedToken);
+                { 
                     _httpContext.HttpContext.Response.Cookies.Append("Token", generatedToken);
                     return Task.FromResult(response);
                 }
@@ -77,9 +74,10 @@ namespace BankingManagmentSystem.Services
             return Task.FromResult(response);
         }
 
-        public Task LogOut(string login)
+        public Task LogOut()
         {
-            throw new NotImplementedException();
+            _httpContext.HttpContext.Response.Cookies.Delete("Token");
+            return Task.CompletedTask;
         }
 
         public Task RefreshToken()

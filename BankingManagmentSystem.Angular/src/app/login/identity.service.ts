@@ -2,10 +2,10 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { HttpApiService } from "../common-services/http-api.service";
 import { LoginDto } from "./loginDto";
-import { LoginApiRoutes } from "./loginRoutes";
+import { IdentityApiRoutes } from "./identity-api-routes";
 
 @Injectable()
-export class LoginService {
+export class IdentityService {
 	constructor(public httpService: HttpApiService) {
 	}
 
@@ -14,9 +14,14 @@ export class LoginService {
 		cancellationSubject: Observable<void>
 	): Observable<LoginDto> {
 		return this.httpService.post<LoginDto>(
-			`${LoginApiRoutes.Root}/${LoginApiRoutes.Login}`,
+			`${IdentityApiRoutes.Root}/${IdentityApiRoutes.Login}`,
 			request,
 			cancellationSubject
 		);
 	}
+
+  public logout(
+  ):Observable<void> {
+    return this.httpService.get<void>(`${IdentityApiRoutes.Root}/${IdentityApiRoutes.Logout}`);
+  }
 }

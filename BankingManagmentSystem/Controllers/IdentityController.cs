@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BankingManagmentSystem.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class IdentityController : ControllerBase
     {
         private IIdentityService _identityService;
@@ -17,10 +17,16 @@ namespace BankingManagmentSystem.Controllers
             _identityService = identityService;
         }
 
-        [HttpPost("login")]
-        public IActionResult Token(SignInDto model)
+        [HttpPost]
+        public Task<BmsResponse> Login(SignInDto model)
         {
-            return Ok(_identityService.Login(model.Username, model.Password));
+            return _identityService.Login(model.Username, model.Password);
+        }
+
+        [HttpGet]
+        public Task LogOut()
+        {
+            return _identityService.LogOut();
         }
     }
 }

@@ -1,5 +1,9 @@
-﻿using BankingManagmentSystem.Dto;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using BankingManagmentSystem.Dto;
 using BankingManagmentSystem.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankingManagmentSystem.Controllers
@@ -15,9 +19,16 @@ namespace BankingManagmentSystem.Controllers
 		}
 
         [HttpPost()]
-        public IActionResult CreateNewUser(NewUserDto newUser)
+        public Task<BmsResponse> CreateNewUser(NewUserDto newUser)
         {
-            return Ok(_service.CreateNewUser(newUser));
+            return _service.CreateNewUser(newUser);
+        }
+
+        [HttpGet()]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public Task<List<BmsUserProjection>> UserList()
+        {
+            return _service.UserList();
         }
 	}
 }
