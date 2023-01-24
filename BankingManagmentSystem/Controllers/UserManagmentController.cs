@@ -18,13 +18,13 @@ namespace BankingManagmentSystem.Controllers
             _service = service;
 		}
 
-        [HttpPost()]
+        [HttpPost]
         public Task<BmsResponse> CreateNewUser(NewUserDto newUser)
         {
             return _service.CreateNewUser(newUser);
         }
 
-        [HttpGet()]
+        [HttpGet]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public Task<List<BmsUserProjection>> UserList()
         {

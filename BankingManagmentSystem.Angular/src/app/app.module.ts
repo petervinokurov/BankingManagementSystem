@@ -13,6 +13,7 @@ import { HttpErrorInterceptor } from './common-services/http-error-interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { AppEvents } from './app-events';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { AppEvents } from './app-events';
     IdentityService,
     HttpApiService,
     HttpClient,
-    AppEvents
+    AppEvents,
+    CookieService
   ],
   bootstrap: [AppComponent]
 })

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BankingManagmentSystem.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class CustomerController : ControllerBase
     {
         private ICustomerService _customerService;
@@ -26,7 +26,7 @@ namespace BankingManagmentSystem.Controllers
             return 0;
         }
 
-        [HttpGet("customers")]
+        [HttpGet]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public Task<List<CustomerDto>> Customers()
         {

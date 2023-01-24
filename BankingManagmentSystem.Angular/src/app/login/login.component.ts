@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginDto } from './loginDto';
 import { IdentityService } from './identity.service';
-import { lastValueFrom, Observable , Subscriber} from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { lastValueFrom, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { UserManagmentRoutes } from '../user-managment/user-managment-routes';
 import { AppEvents } from '../app-events';
