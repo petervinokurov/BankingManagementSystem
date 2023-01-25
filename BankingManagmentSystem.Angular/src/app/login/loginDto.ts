@@ -1,4 +1,4 @@
 export class LoginDto{
-  public Username: string = "admin@admin.com";
-  public Password: string = "1234";
+  public Username: string = "admin@irocbank.com";
+  public Password: string = "admin";
 }

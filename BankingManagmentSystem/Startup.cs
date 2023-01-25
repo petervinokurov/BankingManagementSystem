@@ -9,15 +9,19 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BankingManagmentSystem
 {
     public class Startup
     {
+        private AppSettings _appSettings;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            _appSettings = configuration.Get<AppSettings>();
         }
 
         public IConfiguration Configuration { get; }
@@ -32,6 +36,8 @@ namespace BankingManagmentSystem
                   .AllowCredentials()
                   .AllowAnyMethod()
                   .AllowAnyHeader()));
+            services.Configure<DatabaseSettings>(Configuration.GetSection("Database"));
+            services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
 
             services.AddDbContext<BankingManagmentSystemContext>();
             services.AddHttpContextAccessor();
@@ -43,6 +49,7 @@ namespace BankingManagmentSystem
             services.AddTransient<IUserManagmentService, UserManagmentService>();
             services.AddTransient<ICryptographyService, CryptographyService>();
             services.AddDistributedMemoryCache();
+            
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -51,12 +58,9 @@ namespace BankingManagmentSystem
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = Configuration["Jwt:Issuer"],
-                    ValidAudience = Configuration["Jwt:Issuer"],
-                    IssuerSigningKey = new
-                    SymmetricSecurityKey
-                    (Encoding.UTF8.GetBytes
-                    (Configuration["Jwt:Key"]))
+                    ValidIssuer = _appSettings.Jwt.Issuer,
+                    ValidAudience = _appSettings.Jwt.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.Jwt.Key))
                 };
             });
             services.AddControllers();
@@ -67,7 +71,6 @@ namespace BankingManagmentSystem
 
             services.AddSingleton(new MapperConfiguration(mc => { mc.AddProfile(new MappingProfile()); }).CreateMapper());
             
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

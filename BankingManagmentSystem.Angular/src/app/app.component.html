@@ -20,12 +20,12 @@
 
         </nav>
         <div class="">
-          <button type="button" class="btn btn-link mb-3" [hidden]="isLogOutHidden" (click)="onLogOut()">Log out</button>
+          <button type="button" class="btn btn-link mb-3" *ngIf="isUserLogin" (click)="onLogOut()">Log out</button>
         </div>
 
       </div>
-      <div id="two" class="d-flex flex-row h-100">
-        <div class="d-flex">
+      <div id="two" class="d-flex flex-row h-100" >
+        <div class="d-flex" *ngIf="isUserLogin">
           <ul class="nav flex-column">
             <li class="nav-item">
               <a class="nav-link active" href="#">User Managment</a>

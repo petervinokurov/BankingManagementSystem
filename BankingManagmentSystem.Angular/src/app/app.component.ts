@@ -15,7 +15,7 @@ import { CookieService } from 'ngx-cookie-service';
 export class AppComponent {
   protected cancellationObservable: Observable<void> = new Observable();
 
-  public isLogOutHidden:boolean = true;
+  public isUserLogin:boolean = false;
   constructor(private readonly service:IdentityService,
     private readonly events:AppEvents,
     private readonly router:Router,
@@ -23,16 +23,19 @@ export class AppComponent {
   ){}
 
   public ngOnInit(){
-    this.events.LoginEmitter.subscribe(x => this.isLogOutHidden = false);
-    this.events.LogoutEmitter.subscribe(x => this.isLogOutHidden = true);
+    this.events.LoginEmitter.subscribe(x => this.isUserLogin = true);
+    this.events.LogoutEmitter.subscribe(x => {
+      this.cookie.delete('Token');
+      this.isUserLogin = false
+    });
     if (this.cookie.get('Token')){
-      this.isLogOutHidden = false;
+      this.isUserLogin = true;
     }
   }
 
   public async onLogOut(){
     await lastValueFrom(this.service.logout());
-    this.isLogOutHidden = true;
+    this.isUserLogin = false;
     this.router.navigate([AppRoutes.Root]);
   }
 }

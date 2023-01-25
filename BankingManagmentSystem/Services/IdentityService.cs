@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace BankingManagmentSystem.Services
 {
@@ -23,6 +24,7 @@ namespace BankingManagmentSystem.Services
         private readonly ICryptographyService _cryptographyService;
         private readonly IMapper _mapper;
         private readonly ILogger<IdentityService> _logger;
+        private readonly JwtSettings _jwtSettings;
 
         public IdentityService(BankingManagmentSystemContext context,
             ITokenService tokenService,
@@ -30,7 +32,8 @@ namespace BankingManagmentSystem.Services
             IHttpContextAccessor httpContextAccessor,
             ICryptographyService cryptographyService,
             IMapper mapper,
-            ILogger<IdentityService> logger)
+            ILogger<IdentityService> logger,
+            IOptions<JwtSettings> jwtSettings)
 		{
             _context = context;
             _tokenService = tokenService;
@@ -39,6 +42,7 @@ namespace BankingManagmentSystem.Services
             _mapper = mapper;
             _cryptographyService = cryptographyService;
             _logger = logger;
+            _jwtSettings = jwtSettings?.Value;
 		}
 
         public Task<BmsResponse> Login(string login, string password)
@@ -55,7 +59,7 @@ namespace BankingManagmentSystem.Services
 
             if (validUser != null)
             {
-                var generatedToken = _tokenService.BuildToken(_configuration["Jwt:Key"].ToString(), _configuration["Jwt:Issuer"].ToString(), validUser);
+                var generatedToken = _tokenService.BuildToken(_jwtSettings.Key, _jwtSettings.Issuer, _jwtSettings.Audience, validUser);
                 if (generatedToken != null)
                 { 
                     _httpContext.HttpContext.Response.Cookies.Append("Token", generatedToken);

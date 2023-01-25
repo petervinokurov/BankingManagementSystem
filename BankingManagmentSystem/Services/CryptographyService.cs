@@ -6,10 +6,6 @@ namespace BankingManagmentSystem.Services
 {
 	public class CryptographyService : ICryptographyService
 	{
-		public CryptographyService()
-		{
-		}
-
         public string GetPasswordHash(string password)
         {
             using (SHA256 sha256Hash = SHA256.Create())

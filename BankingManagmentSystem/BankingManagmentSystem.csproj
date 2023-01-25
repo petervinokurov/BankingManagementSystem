@@ -72,6 +72,7 @@
     <None Remove="NLog.Web.AspNetCore" />
     <None Remove="NLog.Extensions.Logging" />
     <None Remove="Hellang.Middleware.SpaFallback" />
+    <None Remove="Options\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -81,5 +82,6 @@
     <Folder Include="Projections\" />
     <Folder Include="Services\Interfaces\" />
     <Folder Include="Middlewares\" />
+    <Folder Include="Options\" />
   </ItemGroup>
 </Project>

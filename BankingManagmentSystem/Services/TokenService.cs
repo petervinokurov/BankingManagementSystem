@@ -3,13 +3,21 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using BankingManagmentSystem.Dto;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BankingManagmentSystem.Services
 {
 	public class TokenService : ITokenService
 	{
-        public string BuildToken(string key, string issuer, BmsUserProjection user)
+        private readonly JwtSettings _jwtOptions;
+
+        public TokenService(IOptions<JwtSettings> jwtOptions)
+        {
+            _jwtOptions = jwtOptions?.Value;
+        }
+
+        public string BuildToken(string key, string issuer, string audience, BmsUserProjection user)
         {
             //TODO Expand the model.
             var claims = new[] {
@@ -21,9 +29,8 @@ namespace BankingManagmentSystem.Services
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
-            var tokenDescriptor = new JwtSecurityToken(issuer, issuer, claims,
-                //TODO Add Options to provide token threshold.
-                expires: DateTime.Now.AddMinutes(90), signingCredentials: credentials);
+            var tokenDescriptor = new JwtSecurityToken(issuer, audience, claims,
+                expires: DateTime.Now.AddMinutes(_jwtOptions.ExpirationTime), signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
         }
 
@@ -41,7 +48,7 @@ namespace BankingManagmentSystem.Services
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidIssuer = issuer,
-                    ValidAudience = issuer,
+                    ValidAudience = audience,
                     IssuerSigningKey = mySecurityKey,
                 }, out SecurityToken validatedToken);
             }

@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace BankingManagmentSystem.Entities
 {
@@ -17,13 +18,18 @@ namespace BankingManagmentSystem.Entities
 
         public DbSet<Transaction> Transactions { get; set; }
 
-        public BankingManagmentSystemContext(DbContextOptions<BankingManagmentSystemContext> options)
+        private readonly DatabaseSettings _databaseSettings;
+
+        private DemoDataProvider _demoDataProvider = new DemoDataProvider();
+
+        public BankingManagmentSystemContext(IOptions<DatabaseSettings> databaseSettings, DbContextOptions<BankingManagmentSystemContext> options)
             : base(options)
         {
+            _databaseSettings = databaseSettings?.Value;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-            optionsBuilder.UseNpgsql("Host=localhost;Database=BankingManagmentSystem;Username=postgres;Password=postgres");
+            optionsBuilder.UseNpgsql(_databaseSettings.ConnectionString);
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -47,6 +53,8 @@ namespace BankingManagmentSystem.Entities
                 .HasIndex(b => b.NormalizedEmail).HasDatabaseName("EmailNameIndex").IsUnique();
             modelBuilder.Entity<BmcUser>()
                 .HasIndex(b => b.UserName).HasDatabaseName("UserNameIndex");
+
+            modelBuilder.Entity<BmcUser>().HasData(_demoDataProvider.GetSystemAdmin());
 
             modelBuilder.Entity<BmcRole>()
                 .HasKey(b => b.Id);
