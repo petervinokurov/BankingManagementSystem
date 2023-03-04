@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunkBankingManagmentSystem_Angular"] = self["webpackChunkBankingManagmentSystem_Angular"] || []).push([["main"],{
+(self["webpackChunkBankingManagementSystem_Angular"] = self["webpackChunkBankingManagementSystem_Angular"] || []).push([["main"],{
 
 /***/ 13914:
 /*!*******************************!*\
@@ -67,8 +67,8 @@ __webpack_require__.r(__webpack_exports__);
 
 const routes = [
     { path: "", component: _login_login_component__WEBPACK_IMPORTED_MODULE_0__.LoginComponent },
-    { path: "user-managment",
-        loadChildren: () => Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ./user-managment/user-managment.module */ 55209)).then((m) => m.UserManagmentModule) }
+    { path: "user-management",
+        loadChildren: () => Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ./user-management/user-management.module */ 73933)).then((m) => m.UserManagementModule) }
 ];
 class AppRoutingModule {
 }
@@ -90,7 +90,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "AppComponent": () => (/* binding */ AppComponent)
 /* harmony export */ });
-/* harmony import */ var _Users_vinokurovpetr_Projects_BankingManagmentSystem_BankingManagmentSystem_Angular_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var _Users_vinokurovpetr_Projects_BankingManagementSystem_BankingManagementSystem_Angular_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs */ 90833);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! rxjs */ 78611);
 /* harmony import */ var _app_routes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app-routes */ 23054);
@@ -173,7 +173,7 @@ class AppComponent {
   onLogOut() {
     var _this = this;
 
-    return (0,_Users_vinokurovpetr_Projects_BankingManagmentSystem_BankingManagmentSystem_Angular_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,_Users_vinokurovpetr_Projects_BankingManagementSystem_BankingManagementSystem_Angular_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       yield (0,rxjs__WEBPACK_IMPORTED_MODULE_6__.lastValueFrom)(_this.service.logout());
       _this.isUserLogin = false;
 
@@ -192,7 +192,7 @@ AppComponent.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵ
   selectors: [["app-root"]],
   decls: 22,
   vars: 2,
-  consts: [[1, "d-flex", "flex-row", "h-100"], ["id", "outer0", 1, "d-flex", "flex-column", "flex-grow-1"], ["id", "one", 1, "d-flex", "flex-row", "justify-content-md-between", "bg-light"], [1, "navbar", "navbar-expand-lg"], [1, "container-fluid"], ["id", "navbarNav", 1, "collapse", "navbar-collapse"], [1, "navbar-nav"], [1, "nav-item"], ["src", "../assets/logo.png", 2, "width", "45px"], [1, "nav-link", "active"], [1, ""], ["type", "button", "class", "btn btn-link mb-3", 3, "click", 4, "ngIf"], ["id", "two", 1, "d-flex", "flex-row", "h-100"], ["orientation", "vertical", "class", "d-flex", 4, "ngIf"], [1, "d-flex", "flex-column", "flex-grow-1", "bg-info"], ["id", "three", 1, ""], ["type", "button", 1, "btn", "btn-link", "mb-3", 3, "click"], ["orientation", "vertical", 1, "d-flex"], ["text", "User Managment"], ["href", "user-managment/user-list"], ["href", "user-managment/roles"], ["href", "user-managment/claims"]],
+  consts: [[1, "d-flex", "flex-row", "h-100"], ["id", "outer0", 1, "d-flex", "flex-column", "flex-grow-1"], ["id", "one", 1, "d-flex", "flex-row", "justify-content-md-between", "bg-light"], [1, "navbar", "navbar-expand-lg"], [1, "container-fluid"], ["id", "navbarNav", 1, "collapse", "navbar-collapse"], [1, "navbar-nav"], [1, "nav-item"], ["src", "../assets/logo.png", 2, "width", "45px"], [1, "nav-link", "active"], [1, ""], ["type", "button", "class", "btn btn-link mb-3", 3, "click", 4, "ngIf"], ["id", "two", 1, "d-flex", "flex-row", "h-100"], ["orientation", "vertical", "class", "d-flex", 4, "ngIf"], [1, "d-flex", "flex-column", "flex-grow-1", "bg-info"], ["id", "three", 1, ""], ["type", "button", 1, "btn", "btn-link", "mb-3", 3, "click"], ["orientation", "vertical", 1, "d-flex"], ["text", "User management"], ["href", "user-management/user-list"], ["href", "user-management/roles"], ["href", "user-management/claims"]],
   template: function AppComponent_Template(rf, ctx) {
     if (rf & 1) {
       _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](0, "div", 0)(1, "div", 1)(2, "div", 2)(3, "nav", 3)(4, "div", 4)(5, "div", 5)(6, "ul", 6)(7, "li", 7)(8, "a");
@@ -211,7 +211,7 @@ AppComponent.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵ
       _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelement"](19, "router-outlet");
       _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]()();
       _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](20, "div", 15);
-      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](21, " Banking Managment System 2022 \u00A9 ");
+      _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](21, " Banking management System 2022 \u00A9 ");
       _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]()()();
     }
 
@@ -246,7 +246,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/forms */ 2508);
 /* harmony import */ var _common_services_http_api_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./common-services/http-api.service */ 21026);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/common/http */ 58987);
-/* harmony import */ var _user_managment_user_managment_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./user-managment/user-managment.module */ 55209);
+/* harmony import */ var _user_management_user_management_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./user-management/user-management.module */ 73933);
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ 34534);
 /* harmony import */ var _common_services_http_error_interceptor__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./common-services/http-error-interceptor */ 96008);
 /* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @angular/platform-browser/animations */ 37146);
@@ -298,7 +298,7 @@ AppModule.ɵinj = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵ
         _angular_common_http__WEBPACK_IMPORTED_MODULE_10__.HttpClientModule,
         _app_routing_module__WEBPACK_IMPORTED_MODULE_0__.AppRoutingModule,
         _angular_forms__WEBPACK_IMPORTED_MODULE_15__.FormsModule,
-        _user_managment_user_managment_module__WEBPACK_IMPORTED_MODULE_5__.UserManagmentModule,
+        _user_management_user_management_module__WEBPACK_IMPORTED_MODULE_5__.UserManagementModule,
         _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_16__.NgbModule,
         _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_17__.BrowserAnimationsModule,
         ngx_toastr__WEBPACK_IMPORTED_MODULE_18__.ToastrModule.forRoot()] });
@@ -308,7 +308,7 @@ AppModule.ɵinj = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵ
         _angular_common_http__WEBPACK_IMPORTED_MODULE_10__.HttpClientModule,
         _app_routing_module__WEBPACK_IMPORTED_MODULE_0__.AppRoutingModule,
         _angular_forms__WEBPACK_IMPORTED_MODULE_15__.FormsModule,
-        _user_managment_user_managment_module__WEBPACK_IMPORTED_MODULE_5__.UserManagmentModule,
+        _user_management_user_management_module__WEBPACK_IMPORTED_MODULE_5__.UserManagementModule,
         _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_16__.NgbModule,
         _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_17__.BrowserAnimationsModule, ngx_toastr__WEBPACK_IMPORTED_MODULE_18__.ToastrModule] }); })();
 
@@ -518,11 +518,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "LoginComponent": () => (/* binding */ LoginComponent)
 /* harmony export */ });
-/* harmony import */ var _Users_vinokurovpetr_Projects_BankingManagmentSystem_BankingManagmentSystem_Angular_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var _Users_vinokurovpetr_Projects_BankingManagementSystem_BankingManagementSystem_Angular_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
 /* harmony import */ var _loginDto__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./loginDto */ 99);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs */ 90833);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! rxjs */ 78611);
-/* harmony import */ var _user_managment_user_managment_routes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../user-managment/user-managment-routes */ 63099);
+/* harmony import */ var _user_management_user_management_routes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../user-management/user-management-routes */ 72275);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ 22560);
 /* harmony import */ var _identity_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./identity.service */ 34077);
 /* harmony import */ var _app_events__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../app-events */ 13914);
@@ -551,11 +551,11 @@ class LoginComponent {
   onLogin() {
     var _this = this;
 
-    return (0,_Users_vinokurovpetr_Projects_BankingManagmentSystem_BankingManagmentSystem_Angular_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,_Users_vinokurovpetr_Projects_BankingManagementSystem_BankingManagementSystem_Angular_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       var result = yield (0,rxjs__WEBPACK_IMPORTED_MODULE_6__.lastValueFrom)(_this.service.login(_this.model, _this.cancellationObservable));
 
       if (result) {
-        _this.router.navigate([_user_managment_user_managment_routes__WEBPACK_IMPORTED_MODULE_2__.UserManagmentRoutes.Root, _user_managment_user_managment_routes__WEBPACK_IMPORTED_MODULE_2__.UserManagmentRoutes.UserList]);
+        _this.router.navigate([_user_management_user_management_routes__WEBPACK_IMPORTED_MODULE_2__.UserManagementRoutes.Root, _user_management_user_management_routes__WEBPACK_IMPORTED_MODULE_2__.UserManagementRoutes.UserList]);
 
         _this.events.LoginEmitter.emit();
       }
@@ -573,7 +573,7 @@ LoginComponent.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_7__["
   selectors: [["app-login"]],
   decls: 23,
   vars: 2,
-  consts: [[1, "container", "text-center", 2, "margin-top", "25px"], [1, "row", "justify-content-md-center"], [1, "col-md-auto"], [1, "card"], [1, "row", "justify-content-md-center", 2, "margin", "5px"], ["src", "../../assets/logo.png", 2, "width", "75px"], ["for", "userName", 1, "col-auto", "col-form-label"], [1, "col-auto"], ["type", "text", "name", "userName", "id", "userName", "placeholder", "User name", "required", "", 1, "form-control", 3, "ngModel", "ngModelChange"], ["for", "password", 1, "col-auto", "col-form-label"], ["type", "password", "id", "password", "name", "password", "placeholder", "Password", "required", "", 1, "form-control", 3, "ngModel", "ngModelChange"], [1, "col-auto", 2, "margin", "5px"], ["type", "submit", "name", "Login", 1, "btn", "btn-primary", "mb-3", 3, "click"], ["routerLink", "/user-managment/new-user"]],
+  consts: [[1, "container", "text-center", 2, "margin-top", "25px"], [1, "row", "justify-content-md-center"], [1, "col-md-auto"], [1, "card"], [1, "row", "justify-content-md-center", 2, "margin", "5px"], ["src", "../../assets/logo.png", 2, "width", "75px"], ["for", "userName", 1, "col-auto", "col-form-label"], [1, "col-auto"], ["type", "text", "name", "userName", "id", "userName", "placeholder", "User name", "required", "", 1, "form-control", 3, "ngModel", "ngModelChange"], ["for", "password", 1, "col-auto", "col-form-label"], ["type", "password", "id", "password", "name", "password", "placeholder", "Password", "required", "", 1, "form-control", 3, "ngModel", "ngModelChange"], [1, "col-auto", 2, "margin", "5px"], ["type", "submit", "name", "Login", 1, "btn", "btn-primary", "mb-3", 3, "click"], ["routerLink", "/user-management/new-user"]],
   template: function LoginComponent_Template(rf, ctx) {
     if (rf & 1) {
       _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](0, "div", 0)(1, "div", 1)(2, "div", 2)(3, "div", 3)(4, "div", 4)(5, "a");
@@ -639,23 +639,23 @@ class LoginDto {
 
 /***/ }),
 
-/***/ 17414:
-/*!***************************************************************!*\
-  !*** ./src/app/user-managment/new-user/new-user.component.ts ***!
-  \***************************************************************/
+/***/ 35029:
+/*!****************************************************************!*\
+  !*** ./src/app/user-management/new-user/new-user.component.ts ***!
+  \****************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "NewUserComponent": () => (/* binding */ NewUserComponent)
 /* harmony export */ });
-/* harmony import */ var _Users_vinokurovpetr_Projects_BankingManagmentSystem_BankingManagmentSystem_Angular_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
-/* harmony import */ var _newUserDto__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./newUserDto */ 76265);
+/* harmony import */ var _Users_vinokurovpetr_Projects_BankingManagementSystem_BankingManagementSystem_Angular_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var _newUserDto__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./newUserDto */ 14878);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs */ 90833);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs */ 78611);
 /* harmony import */ var src_app_app_routes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/app-routes */ 23054);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 22560);
-/* harmony import */ var _user_managment_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../user-managment.service */ 62083);
+/* harmony import */ var _user_management_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../user-management.service */ 63030);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/router */ 60124);
 /* harmony import */ var devextreme_angular__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! devextreme-angular */ 49889);
 /* harmony import */ var devextreme_angular_ui_nested__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! devextreme-angular/ui/nested */ 18237);
@@ -689,7 +689,7 @@ class NewUserComponent {
   createNewUser() {
     var _this = this;
 
-    return (0,_Users_vinokurovpetr_Projects_BankingManagmentSystem_BankingManagmentSystem_Angular_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,_Users_vinokurovpetr_Projects_BankingManagementSystem_BankingManagementSystem_Angular_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       var result = (0,rxjs__WEBPACK_IMPORTED_MODULE_5__.lastValueFrom)(_this.service.createNewUser(_this.newUser, _this.cancellationObservable));
       var b = yield result;
 
@@ -702,7 +702,7 @@ class NewUserComponent {
 }
 
 NewUserComponent.ɵfac = function NewUserComponent_Factory(t) {
-  return new (t || NewUserComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵdirectiveInject"](_user_managment_service__WEBPACK_IMPORTED_MODULE_3__.UserManagmentService), _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_7__.Router));
+  return new (t || NewUserComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵdirectiveInject"](_user_management_service__WEBPACK_IMPORTED_MODULE_3__.UserManagementService), _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_7__.Router));
 };
 
 NewUserComponent.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵdefineComponent"]({
@@ -746,10 +746,10 @@ NewUserComponent.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_6__
 
 /***/ }),
 
-/***/ 76265:
-/*!*******************************************************!*\
-  !*** ./src/app/user-managment/new-user/newUserDto.ts ***!
-  \*******************************************************/
+/***/ 14878:
+/*!********************************************************!*\
+  !*** ./src/app/user-management/new-user/newUserDto.ts ***!
+  \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -767,21 +767,21 @@ class NewUserDto {
 
 /***/ }),
 
-/***/ 85475:
-/*!*********************************************************!*\
-  !*** ./src/app/user-managment/roles/roles.component.ts ***!
-  \*********************************************************/
+/***/ 39483:
+/*!**********************************************************!*\
+  !*** ./src/app/user-management/roles/roles.component.ts ***!
+  \**********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "RolesComponent": () => (/* binding */ RolesComponent)
 /* harmony export */ });
-/* harmony import */ var _Users_vinokurovpetr_Projects_BankingManagmentSystem_BankingManagmentSystem_Angular_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var _Users_vinokurovpetr_Projects_BankingManagementSystem_BankingManagementSystem_Angular_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ 90833);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs */ 78611);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 22560);
-/* harmony import */ var _user_managment_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../user-managment.service */ 62083);
+/* harmony import */ var _user_management_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../user-management.service */ 63030);
 /* harmony import */ var devextreme_angular_ui_nested__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! devextreme-angular/ui/nested */ 18237);
 /* harmony import */ var devextreme_angular__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! devextreme-angular */ 65821);
 
@@ -800,13 +800,13 @@ class RolesComponent {
   ngOnInit() {
     var _this = this;
 
-    return (0,_Users_vinokurovpetr_Projects_BankingManagmentSystem_BankingManagmentSystem_Angular_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,_Users_vinokurovpetr_Projects_BankingManagementSystem_BankingManagementSystem_Angular_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       _this.roles = yield (0,rxjs__WEBPACK_IMPORTED_MODULE_3__.lastValueFrom)(_this.service.getRolesList(_this.cancellationObservable));
     })();
   }
 
   saveRole(e, object) {
-    return (0,_Users_vinokurovpetr_Projects_BankingManagmentSystem_BankingManagmentSystem_Angular_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,_Users_vinokurovpetr_Projects_BankingManagementSystem_BankingManagementSystem_Angular_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       console.log(e);
       console.log(object);
     })();
@@ -815,7 +815,7 @@ class RolesComponent {
 }
 
 RolesComponent.ɵfac = function RolesComponent_Factory(t) {
-  return new (t || RolesComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_user_managment_service__WEBPACK_IMPORTED_MODULE_1__.UserManagmentService));
+  return new (t || RolesComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_user_management_service__WEBPACK_IMPORTED_MODULE_1__.UserManagementService));
 };
 
 RolesComponent.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdefineComponent"]({
@@ -852,21 +852,21 @@ RolesComponent.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_4__["
 
 /***/ }),
 
-/***/ 56392:
-/*!*****************************************************************!*\
-  !*** ./src/app/user-managment/user-list/user-list.component.ts ***!
-  \*****************************************************************/
+/***/ 24323:
+/*!******************************************************************!*\
+  !*** ./src/app/user-management/user-list/user-list.component.ts ***!
+  \******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "UserListComponent": () => (/* binding */ UserListComponent)
 /* harmony export */ });
-/* harmony import */ var _Users_vinokurovpetr_Projects_BankingManagmentSystem_BankingManagmentSystem_Angular_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var _Users_vinokurovpetr_Projects_BankingManagementSystem_BankingManagementSystem_Angular_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ 90833);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs */ 78611);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 22560);
-/* harmony import */ var _user_managment_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../user-managment.service */ 62083);
+/* harmony import */ var _user_management_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../user-management.service */ 63030);
 /* harmony import */ var devextreme_angular_ui_nested__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! devextreme-angular/ui/nested */ 18237);
 /* harmony import */ var devextreme_angular__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! devextreme-angular */ 65821);
 
@@ -885,7 +885,7 @@ class UserListComponent {
   ngOnInit() {
     var _this = this;
 
-    return (0,_Users_vinokurovpetr_Projects_BankingManagmentSystem_BankingManagmentSystem_Angular_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    return (0,_Users_vinokurovpetr_Projects_BankingManagementSystem_BankingManagementSystem_Angular_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       _this.users = yield (0,rxjs__WEBPACK_IMPORTED_MODULE_3__.lastValueFrom)(_this.service.getUserList(_this.cancellationObservable));
       console.log(_this.users); //this.dataSource.items = () => this.users;
       //this.dataSource.load();
@@ -895,7 +895,7 @@ class UserListComponent {
 }
 
 UserListComponent.ɵfac = function UserListComponent_Factory(t) {
-  return new (t || UserListComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_user_managment_service__WEBPACK_IMPORTED_MODULE_1__.UserManagmentService));
+  return new (t || UserListComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_user_management_service__WEBPACK_IMPORTED_MODULE_1__.UserManagementService));
 };
 
 UserListComponent.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdefineComponent"]({
@@ -932,61 +932,61 @@ UserListComponent.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_4_
 
 /***/ }),
 
-/***/ 78436:
-/*!*************************************************************!*\
-  !*** ./src/app/user-managment/user-managment-api-routes.ts ***!
-  \*************************************************************/
+/***/ 77756:
+/*!***************************************************************!*\
+  !*** ./src/app/user-management/user-management-api-routes.ts ***!
+  \***************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "UserManagmentApiRoutes": () => (/* binding */ UserManagmentApiRoutes)
+/* harmony export */   "UserManagementApiRoutes": () => (/* binding */ UserManagementApiRoutes)
 /* harmony export */ });
-var UserManagmentApiRoutes;
-(function (UserManagmentApiRoutes) {
-    UserManagmentApiRoutes["Root"] = "usermanagment";
-    UserManagmentApiRoutes["CreateNewUser"] = "createnewuser";
-    UserManagmentApiRoutes["UserList"] = "userlist";
-    UserManagmentApiRoutes["RoleList"] = "roleList";
-})(UserManagmentApiRoutes || (UserManagmentApiRoutes = {}));
+var UserManagementApiRoutes;
+(function (UserManagementApiRoutes) {
+    UserManagementApiRoutes["Root"] = "usermanagement";
+    UserManagementApiRoutes["CreateNewUser"] = "createnewuser";
+    UserManagementApiRoutes["UserList"] = "userlist";
+    UserManagementApiRoutes["RoleList"] = "roleList";
+})(UserManagementApiRoutes || (UserManagementApiRoutes = {}));
 
 
 /***/ }),
 
-/***/ 63099:
-/*!*********************************************************!*\
-  !*** ./src/app/user-managment/user-managment-routes.ts ***!
-  \*********************************************************/
+/***/ 72275:
+/*!***********************************************************!*\
+  !*** ./src/app/user-management/user-management-routes.ts ***!
+  \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "UserManagmentRoutes": () => (/* binding */ UserManagmentRoutes)
+/* harmony export */   "UserManagementRoutes": () => (/* binding */ UserManagementRoutes)
 /* harmony export */ });
-var UserManagmentRoutes;
-(function (UserManagmentRoutes) {
-    UserManagmentRoutes["Root"] = "user-managment";
-    UserManagmentRoutes["CreateNewUser"] = "new-user";
-    UserManagmentRoutes["UserList"] = "user-list";
-})(UserManagmentRoutes || (UserManagmentRoutes = {}));
+var UserManagementRoutes;
+(function (UserManagementRoutes) {
+    UserManagementRoutes["Root"] = "user-management";
+    UserManagementRoutes["CreateNewUser"] = "new-user";
+    UserManagementRoutes["UserList"] = "user-list";
+})(UserManagementRoutes || (UserManagementRoutes = {}));
 
 
 /***/ }),
 
-/***/ 43506:
-/*!*****************************************************************!*\
-  !*** ./src/app/user-managment/user-managment-routing.module.ts ***!
-  \*****************************************************************/
+/***/ 96019:
+/*!*******************************************************************!*\
+  !*** ./src/app/user-management/user-management-routing.module.ts ***!
+  \*******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "UserManagmentRoutingModule": () => (/* binding */ UserManagmentRoutingModule)
+/* harmony export */   "UserManagementRoutingModule": () => (/* binding */ UserManagementRoutingModule)
 /* harmony export */ });
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ 60124);
-/* harmony import */ var _new_user_new_user_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./new-user/new-user.component */ 17414);
-/* harmony import */ var _roles_roles_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./roles/roles.component */ 85475);
-/* harmony import */ var _user_list_user_list_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./user-list/user-list.component */ 56392);
+/* harmony import */ var _new_user_new_user_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./new-user/new-user.component */ 35029);
+/* harmony import */ var _roles_roles_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./roles/roles.component */ 39483);
+/* harmony import */ var _user_list_user_list_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./user-list/user-list.component */ 24323);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 22560);
 
 
@@ -999,35 +999,35 @@ const routes = [
     { path: "user-list", component: _user_list_user_list_component__WEBPACK_IMPORTED_MODULE_2__.UserListComponent },
     { path: "roles", component: _roles_roles_component__WEBPACK_IMPORTED_MODULE_1__.RolesComponent }
 ];
-class UserManagmentRoutingModule {
+class UserManagementRoutingModule {
 }
-UserManagmentRoutingModule.ɵfac = function UserManagmentRoutingModule_Factory(t) { return new (t || UserManagmentRoutingModule)(); };
-UserManagmentRoutingModule.ɵmod = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdefineNgModule"]({ type: UserManagmentRoutingModule });
-UserManagmentRoutingModule.ɵinj = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdefineInjector"]({ imports: [_angular_router__WEBPACK_IMPORTED_MODULE_4__.RouterModule.forChild(routes), _angular_router__WEBPACK_IMPORTED_MODULE_4__.RouterModule] });
-(function () { (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵsetNgModuleScope"](UserManagmentRoutingModule, { imports: [_angular_router__WEBPACK_IMPORTED_MODULE_4__.RouterModule], exports: [_angular_router__WEBPACK_IMPORTED_MODULE_4__.RouterModule] }); })();
+UserManagementRoutingModule.ɵfac = function UserManagementRoutingModule_Factory(t) { return new (t || UserManagementRoutingModule)(); };
+UserManagementRoutingModule.ɵmod = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdefineNgModule"]({ type: UserManagementRoutingModule });
+UserManagementRoutingModule.ɵinj = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdefineInjector"]({ imports: [_angular_router__WEBPACK_IMPORTED_MODULE_4__.RouterModule.forChild(routes), _angular_router__WEBPACK_IMPORTED_MODULE_4__.RouterModule] });
+(function () { (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵsetNgModuleScope"](UserManagementRoutingModule, { imports: [_angular_router__WEBPACK_IMPORTED_MODULE_4__.RouterModule], exports: [_angular_router__WEBPACK_IMPORTED_MODULE_4__.RouterModule] }); })();
 
 
 /***/ }),
 
-/***/ 55209:
-/*!*********************************************************!*\
-  !*** ./src/app/user-managment/user-managment.module.ts ***!
-  \*********************************************************/
+/***/ 73933:
+/*!***********************************************************!*\
+  !*** ./src/app/user-management/user-management.module.ts ***!
+  \***********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "UserManagmentModule": () => (/* binding */ UserManagmentModule)
+/* harmony export */   "UserManagementModule": () => (/* binding */ UserManagementModule)
 /* harmony export */ });
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/common */ 94666);
-/* harmony import */ var _user_managment_routing_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./user-managment-routing.module */ 43506);
-/* harmony import */ var _user_managment_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./user-managment.service */ 62083);
-/* harmony import */ var _new_user_new_user_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./new-user/new-user.component */ 17414);
+/* harmony import */ var _user_management_routing_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./user-management-routing.module */ 96019);
+/* harmony import */ var _user_management_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./user-management.service */ 63030);
+/* harmony import */ var _new_user_new_user_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./new-user/new-user.component */ 35029);
 /* harmony import */ var devextreme_angular__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! devextreme-angular */ 49889);
 /* harmony import */ var devextreme_angular__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! devextreme-angular */ 41661);
 /* harmony import */ var devextreme_angular__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! devextreme-angular */ 65821);
-/* harmony import */ var _user_list_user_list_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./user-list/user-list.component */ 56392);
-/* harmony import */ var _roles_roles_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./roles/roles.component */ 85475);
+/* harmony import */ var _user_list_user_list_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./user-list/user-list.component */ 24323);
+/* harmony import */ var _roles_roles_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./roles/roles.component */ 39483);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 22560);
 
 
@@ -1037,21 +1037,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class UserManagmentModule {
+class UserManagementModule {
 }
-UserManagmentModule.ɵfac = function UserManagmentModule_Factory(t) { return new (t || UserManagmentModule)(); };
-UserManagmentModule.ɵmod = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineNgModule"]({ type: UserManagmentModule });
-UserManagmentModule.ɵinj = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjector"]({ providers: [
-        _user_managment_service__WEBPACK_IMPORTED_MODULE_1__.UserManagmentService
+UserManagementModule.ɵfac = function UserManagementModule_Factory(t) { return new (t || UserManagementModule)(); };
+UserManagementModule.ɵmod = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineNgModule"]({ type: UserManagementModule });
+UserManagementModule.ɵinj = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineInjector"]({ providers: [
+        _user_management_service__WEBPACK_IMPORTED_MODULE_1__.UserManagementService
     ], imports: [_angular_common__WEBPACK_IMPORTED_MODULE_6__.CommonModule,
-        _user_managment_routing_module__WEBPACK_IMPORTED_MODULE_0__.UserManagmentRoutingModule,
+        _user_management_routing_module__WEBPACK_IMPORTED_MODULE_0__.UserManagementRoutingModule,
         devextreme_angular__WEBPACK_IMPORTED_MODULE_7__.DxFormModule,
         devextreme_angular__WEBPACK_IMPORTED_MODULE_8__.DxButtonModule,
         devextreme_angular__WEBPACK_IMPORTED_MODULE_9__.DxDataGridModule] });
-(function () { (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵsetNgModuleScope"](UserManagmentModule, { declarations: [_new_user_new_user_component__WEBPACK_IMPORTED_MODULE_2__.NewUserComponent,
+(function () { (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵsetNgModuleScope"](UserManagementModule, { declarations: [_new_user_new_user_component__WEBPACK_IMPORTED_MODULE_2__.NewUserComponent,
         _user_list_user_list_component__WEBPACK_IMPORTED_MODULE_3__.UserListComponent,
         _roles_roles_component__WEBPACK_IMPORTED_MODULE_4__.RolesComponent], imports: [_angular_common__WEBPACK_IMPORTED_MODULE_6__.CommonModule,
-        _user_managment_routing_module__WEBPACK_IMPORTED_MODULE_0__.UserManagmentRoutingModule,
+        _user_management_routing_module__WEBPACK_IMPORTED_MODULE_0__.UserManagementRoutingModule,
         devextreme_angular__WEBPACK_IMPORTED_MODULE_7__.DxFormModule,
         devextreme_angular__WEBPACK_IMPORTED_MODULE_8__.DxButtonModule,
         devextreme_angular__WEBPACK_IMPORTED_MODULE_9__.DxDataGridModule] }); })();
@@ -1059,38 +1059,38 @@ UserManagmentModule.ɵinj = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE
 
 /***/ }),
 
-/***/ 62083:
-/*!**********************************************************!*\
-  !*** ./src/app/user-managment/user-managment.service.ts ***!
-  \**********************************************************/
+/***/ 63030:
+/*!************************************************************!*\
+  !*** ./src/app/user-management/user-management.service.ts ***!
+  \************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "UserManagmentService": () => (/* binding */ UserManagmentService)
+/* harmony export */   "UserManagementService": () => (/* binding */ UserManagementService)
 /* harmony export */ });
-/* harmony import */ var _user_managment_api_routes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./user-managment-api-routes */ 78436);
+/* harmony import */ var _user_management_api_routes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./user-management-api-routes */ 77756);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 22560);
 /* harmony import */ var _common_services_http_api_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../common-services/http-api.service */ 21026);
 
 
 
-class UserManagmentService {
+class UserManagementService {
     constructor(httpService) {
         this.httpService = httpService;
     }
     createNewUser(request, cancellationSubject) {
-        return this.httpService.post(`${_user_managment_api_routes__WEBPACK_IMPORTED_MODULE_0__.UserManagmentApiRoutes.Root}/${_user_managment_api_routes__WEBPACK_IMPORTED_MODULE_0__.UserManagmentApiRoutes.CreateNewUser}`, request, cancellationSubject);
+        return this.httpService.post(`${_user_management_api_routes__WEBPACK_IMPORTED_MODULE_0__.UserManagementApiRoutes.Root}/${_user_management_api_routes__WEBPACK_IMPORTED_MODULE_0__.UserManagementApiRoutes.CreateNewUser}`, request, cancellationSubject);
     }
     getUserList(cancellationSubject) {
-        return this.httpService.get(`${_user_managment_api_routes__WEBPACK_IMPORTED_MODULE_0__.UserManagmentApiRoutes.Root}/${_user_managment_api_routes__WEBPACK_IMPORTED_MODULE_0__.UserManagmentApiRoutes.UserList}`, cancellationSubject);
+        return this.httpService.get(`${_user_management_api_routes__WEBPACK_IMPORTED_MODULE_0__.UserManagementApiRoutes.Root}/${_user_management_api_routes__WEBPACK_IMPORTED_MODULE_0__.UserManagementApiRoutes.UserList}`, cancellationSubject);
     }
     getRolesList(cancellationSubject) {
-        return this.httpService.get(`${_user_managment_api_routes__WEBPACK_IMPORTED_MODULE_0__.UserManagmentApiRoutes.Root}/${_user_managment_api_routes__WEBPACK_IMPORTED_MODULE_0__.UserManagmentApiRoutes.RoleList}`, cancellationSubject);
+        return this.httpService.get(`${_user_management_api_routes__WEBPACK_IMPORTED_MODULE_0__.UserManagementApiRoutes.Root}/${_user_management_api_routes__WEBPACK_IMPORTED_MODULE_0__.UserManagementApiRoutes.RoleList}`, cancellationSubject);
     }
 }
-UserManagmentService.ɵfac = function UserManagmentService_Factory(t) { return new (t || UserManagmentService)(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵinject"](_common_services_http_api_service__WEBPACK_IMPORTED_MODULE_1__.HttpApiService)); };
-UserManagmentService.ɵprov = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineInjectable"]({ token: UserManagmentService, factory: UserManagmentService.ɵfac });
+UserManagementService.ɵfac = function UserManagementService_Factory(t) { return new (t || UserManagementService)(_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵinject"](_common_services_http_api_service__WEBPACK_IMPORTED_MODULE_1__.HttpApiService)); };
+UserManagementService.ɵprov = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineInjectable"]({ token: UserManagementService, factory: UserManagementService.ɵfac });
 
 
 /***/ }),

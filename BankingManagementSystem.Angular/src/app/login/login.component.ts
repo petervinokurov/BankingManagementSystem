@@ -3,7 +3,7 @@ import { LoginDto } from './loginDto';
 import { IdentityService } from './identity.service';
 import { lastValueFrom, Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { UserManagmentRoutes } from '../user-managment/user-managment-routes';
+import { UserManagementRoutes } from '../user-management/user-management-routes';
 import { AppEvents } from '../app-events';
 
 @Component({
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
   public async onLogin(){
      var result = await lastValueFrom(this.service.login(this.model, this.cancellationObservable));
      if (result){
-      this.router.navigate([UserManagmentRoutes.Root,UserManagmentRoutes.UserList]);
+      this.router.navigate([UserManagementRoutes.Root,UserManagementRoutes.UserList]);
       this.events.LoginEmitter.emit();
      }
   }

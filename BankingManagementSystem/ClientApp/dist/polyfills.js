@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunkBankingManagmentSystem_Angular"] = self["webpackChunkBankingManagmentSystem_Angular"] || []).push([["polyfills"],{
+(self["webpackChunkBankingManagementSystem_Angular"] = self["webpackChunkBankingManagementSystem_Angular"] || []).push([["polyfills"],{
 
 /***/ 7435:
 /*!**************************!*\

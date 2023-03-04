@@ -7,7 +7,7 @@ import { IdentityService } from './login/identity.service';
 import { FormsModule } from '@angular/forms';
 import { HttpApiService } from './common-services/http-api.service';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { UserManagmentModule } from './user-managment/user-managment.module';
+import { UserManagementModule } from './user-management/user-management.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpErrorInterceptor } from './common-services/http-error-interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -29,7 +29,7 @@ import { JwtHelperService, JWT_OPTIONS} from '@auth0/angular-jwt';
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
-    UserManagmentModule,
+    UserManagementModule,
     NgbModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot()
