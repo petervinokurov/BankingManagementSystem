@@ -1,0 +1,53 @@
+
+
+<div class="d-flex flex-row h-100">
+  <div id="outer0" class="d-flex flex-column flex-grow-1">
+      <div id="one" class="d-flex flex-row justify-content-md-between bg-light">
+        <nav class="navbar navbar-expand-lg">
+          <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a><img src="../assets/logo.png" style="width: 45px;"></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active">Management system</a>
+                </li>
+              </ul>
+
+            </div>
+          </div>
+
+        </nav>
+        <div class="">
+          <button type="button" class="btn btn-link mb-3" *ngIf="isUserLogin" (click)="onLogOut()">Log out</button>
+        </div>
+
+      </div>
+      <div id="two" class="d-flex flex-row h-100" >
+        <div>
+          <dx-menu orientation="vertical" class="d-flex" *ngIf="isUserLogin">
+            <dxi-item text="User management">
+                <dxi-item>
+                  <a href="user-management/user-list">Users</a>
+                </dxi-item>
+                <dxi-item>
+                  <a href="user-management/roles">Roles</a>
+                </dxi-item>
+                <dxi-item>
+                  <a href="user-management/claims">Claims</a>
+                </dxi-item>
+            </dxi-item>
+        </dx-menu>
+        </div>
+        <!--bg-info-->
+        <div class="d-flex flex-column flex-grow-1">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+      <div id="three" class="">
+          Banking management System 2022 &copy;
+      </div>
+  </div>
+</div>
+

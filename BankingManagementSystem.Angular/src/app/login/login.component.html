@@ -1,0 +1,30 @@
+<div class="container text-center" style="margin-top: 25px;">
+  <div class="row justify-content-md-center">
+  <div class="col-md-auto">
+    <div class="card">
+      <div class="row justify-content-md-center" style="margin: 5px;">
+        <a><img src="../../assets/logo.png" style="width: 75px;"></a>
+      </div>
+    <div class="row justify-content-md-center" style="margin: 5px;">
+      <label for="userName" class="col-auto col-form-label">Username</label>
+      <div class="col-auto">
+        <input type="text" class="form-control" name="userName" id="userName" placeholder="User name" [(ngModel)]="model.Username" required>
+      </div>
+    </div>
+    <div class="row justify-content-md-center" style="margin: 5px;">
+      <label for="password"  class="col-auto col-form-label">Password</label>
+      <div class="col-auto">
+        <input type="password" class="form-control"
+        id="password" name="password" placeholder="Password" [(ngModel)]="model.Password" required>
+      </div>
+    </div>
+    <div class="col-auto" style="margin: 5px;">
+      <button type="submit" class="btn btn-primary mb-3" name="Login" (click)="onLogin()">Login</button>
+    </div>
+    <div class="col-auto">
+      <a routerLink="/user-management/new-user">Create a new user</a>
+    </div>
+</div>
+
+</div>
+
