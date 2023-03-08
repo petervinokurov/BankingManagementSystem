@@ -18,8 +18,5 @@ export class UserListComponent implements OnInit {
 
   async ngOnInit() {
     this.users = await lastValueFrom(this.service.getUserList(this.cancellationObservable));
-    console.log(this.users);
-    //this.dataSource.items = () => this.users;
-    //this.dataSource.load();
   }
 }

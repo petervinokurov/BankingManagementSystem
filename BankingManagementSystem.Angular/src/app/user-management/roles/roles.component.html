@@ -1,11 +1,17 @@
 <div>
-  <dx-data-grid height="790px" keyExpr="id" id="usersList" [dataSource]="roles" [showBorders]="true">
+  <dx-data-grid height="790px" keyExpr="id" id="usersList" [dataSource]="roles" [showBorders]="true" (onSaving)="saveRole($event)">
     <dxo-load-panel [enabled]="true"></dxo-load-panel>
     <dxo-scrolling mode="virtual"></dxo-scrolling>
-    <dxo-editing [allowAdding]="true"></dxo-editing>
+    <dxo-editing [allowAdding]="true"
+    [allowDeleting]="true"
+    [allowUpdating]="true"
+    mode="batch"
+
+    ></dxo-editing>
     <dxo-search-panel [visible]="true"></dxo-search-panel>
     <dxo-toolbar>
       <dxi-item name="addRowButton" location="center"></dxi-item>
+      <dxi-item name="saveButton" location="center"></dxi-item>
       <dxi-item
         name="searchPanel"
         locateInMenu="auto"

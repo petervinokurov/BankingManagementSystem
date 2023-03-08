@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using BankingManagementSystem.Dto;
 using BankingManagementSystem.Services;
@@ -10,6 +11,7 @@ namespace BankingManagementSystem.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UserManagementController : ControllerBase
     {
         private readonly IUserManagementService _service;
@@ -32,10 +34,27 @@ namespace BankingManagementSystem.Controllers
         }
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public Task<List<BmsRoleProjection>> RoleList()
         {
             return _service.RoleList();
+        }
+
+        [HttpPost]
+        public Task CreateNewRoles(IEnumerable<RoleDto> request)
+        {
+            return _service.CreateNewRoles(request);
+        }
+
+        [HttpPut]
+        public Task UpdateRoles(List<RoleDto> request)
+        {
+            return _service.UpdateRoles(request);
+        }
+
+        [HttpDelete]
+        public Task DeleteRoles([FromQuery]List<Guid> request)
+        {
+            return _service.DeleteRoles(request);
         }
     }
 }

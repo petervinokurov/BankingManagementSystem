@@ -21,7 +21,8 @@ export class IdentityService {
 	}
 
   public logout(
+    cancellationSubject: Observable<void>
   ):Observable<void> {
-    return this.httpService.get<void>(`${IdentityApiRoutes.Root}/${IdentityApiRoutes.Logout}`);
+    return this.httpService.get<void>(`${IdentityApiRoutes.Root}/${IdentityApiRoutes.Logout}`, null, cancellationSubject);
   }
 }

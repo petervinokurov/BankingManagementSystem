@@ -36,7 +36,7 @@ export class AppComponent {
   }
 
   public async onLogOut(){
-    await lastValueFrom(this.service.logout());
+    await lastValueFrom(this.service.logout(this.cancellationObservable));
     this.isUserLogin = false;
     this.router.navigate([AppRoutes.Root]);
   }

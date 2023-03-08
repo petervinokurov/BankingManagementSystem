@@ -25,7 +25,7 @@
 
       </div>
       <div id="two" class="d-flex flex-row h-100" >
-        <div >
+        <div>
           <dx-menu orientation="vertical" class="d-flex" *ngIf="isUserLogin">
             <dxi-item text="User management">
                 <dxi-item>
@@ -40,7 +40,8 @@
             </dxi-item>
         </dx-menu>
         </div>
-        <div class="d-flex flex-column flex-grow-1 bg-info">
+        <!--bg-info-->
+        <div class="d-flex flex-column flex-grow-1">
           <router-outlet></router-outlet>
         </div>
       </div>

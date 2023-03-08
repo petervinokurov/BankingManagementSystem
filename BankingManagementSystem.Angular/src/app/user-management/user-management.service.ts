@@ -37,8 +37,42 @@ export class UserManagementService {
   ): Observable<RoleDto[]>{
     return this.httpService.get<RoleDto[]>(
       `${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.RoleList}`,
+      null,
       cancellationSubject
-    )
+    );
+  }
+
+  public createNewRoles(
+    request:RoleDto[],
+    cancellationSubject:Observable<void>
+  ): Observable<RoleDto[]> {
+    return this.httpService.post<RoleDto[]>(
+      `${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.CreateNewRoles}`,
+      request,
+      cancellationSubject
+    );
+  }
+
+  public updateRoles(
+    request:RoleDto[],
+    cancellationSubject:Observable<void>
+  ): Observable<RoleDto[]> {
+    return this.httpService.put<RoleDto[]>(
+      `${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.UpdateRoles}`,
+      request,
+      cancellationSubject
+    );
+  }
+
+  public deleteRoles(
+    request:string[],
+    cancellationSubject:Observable<void>
+  ): Observable<string[]>{
+    return this.httpService.delete<string[]>(
+      `${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.DeleteRoles}`,
+      request,
+      cancellationSubject
+    );
   }
 
 }
