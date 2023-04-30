@@ -3,23 +3,27 @@ import { CommonModule } from '@angular/common';
 import { UserManagementRoutingModule } from './user-management-routing.module';
 import { UserManagementService } from './user-management.service';
 import { NewUserComponent } from './new-user/new-user.component';
-import { DxFormModule, DxButtonModule, DxDataGridModule} from 'devextreme-angular';
+import { DxFormModule, DxButtonModule, DxDataGridModule, DxTagBoxModule, DxTemplateModule} from 'devextreme-angular';
 import { UserListComponent } from './user-list/user-list.component';
 import { RolesComponent } from './roles/roles.component';
+import { ClaimsComponent } from './claims/claims.component';
 
 
 @NgModule({
   declarations: [
     NewUserComponent,
     UserListComponent,
-    RolesComponent
+    RolesComponent,
+    ClaimsComponent
   ],
   imports: [
     CommonModule,
     UserManagementRoutingModule,
     DxFormModule,
     DxButtonModule,
-    DxDataGridModule
+    DxDataGridModule,
+    DxTagBoxModule,
+    DxTemplateModule
   ],
   providers: [
     UserManagementService

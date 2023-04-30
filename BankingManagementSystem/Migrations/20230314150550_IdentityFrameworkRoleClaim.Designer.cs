@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BankingManagementSystem.Migrations
 {
     [DbContext(typeof(BankingManagementSystemContext))]
-    [Migration("20230201104101_FixedDefaultValuesForStamps")]
-    partial class FixedDefaultValuesForStamps
+    [Migration("20230314150550_IdentityFrameworkRoleClaim")]
+    partial class IdentityFrameworkRoleClaim
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,116 +61,6 @@ namespace BankingManagementSystem.Migrations
                     b.HasIndex("CustomerId");
 
                     b.ToTable("Accounts");
-                });
-
-            modelBuilder.Entity("BankingManagementSystem.Entities.BmsRole", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
-
-                    b.ToTable("Roles");
-                });
-
-            modelBuilder.Entity("BankingManagementSystem.Entities.BmsUser", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasDefaultValueSql("gen_random_uuid()");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .IsUnique()
-                        .HasDatabaseName("EmailNameIndex");
-
-                    b.HasIndex("UserName")
-                        .HasDatabaseName("UserNameIndex");
-
-                    b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("779f3783-e69a-4265-b92f-188943ed3be8"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "748a2661-93d0-41e1-9241-7272efa184da",
-                            Email = "admin@irocbank.com",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@IROCBANK.COM",
-                            PasswordHash = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "748a2661-93d0-41e1-9241-7272efa184da",
-                            TwoFactorEnabled = false,
-                            UserName = "Admin"
-                        });
                 });
 
             modelBuilder.Entity("BankingManagementSystem.Entities.Currency", b =>
@@ -295,6 +185,79 @@ namespace BankingManagementSystem.Migrations
                     b.ToTable("Log");
                 });
 
+            modelBuilder.Entity("BankingManagementSystem.Entities.Role", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("aa0bfc24-66aa-4b2e-8be4-71c50cb86e17"),
+                            ConcurrencyStamp = "7caea4ba-7575-4131-9285-1b96caa2546b",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = new Guid("54b5f558-fe32-4f74-aa74-1ce1b7ca2ac0"),
+                            ConcurrencyStamp = "e713754f-9c6a-48a8-b76d-e0bdacf43586",
+                            Name = "Sales",
+                            NormalizedName = "SALES"
+                        });
+                });
+
+            modelBuilder.Entity("BankingManagementSystem.Entities.RoleClaim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("RoleId1")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("RoleId1");
+
+                    b.ToTable("RoleClaims");
+                });
+
             modelBuilder.Entity("BankingManagementSystem.Entities.Transaction", b =>
                 {
                     b.Property<int>("Id")
@@ -340,28 +303,86 @@ namespace BankingManagementSystem.Migrations
                     b.ToTable("Transactions");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
+            modelBuilder.Entity("BankingManagementSystem.Entities.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("gen_random_uuid()");
+
+                    b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClaimType")
+                    b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("text");
 
-                    b.Property<string>("ClaimValue")
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("PasswordHash")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("NormalizedEmail")
+                        .IsUnique()
+                        .HasDatabaseName("EmailNameIndex");
 
-                    b.ToTable("RoleClaims");
+                    b.HasIndex("UserName")
+                        .HasDatabaseName("UserNameIndex");
+
+                    b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("779f3783-e69a-4265-b92f-188943ed3be8"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "748a2661-93d0-41e1-9241-7272efa184da",
+                            Email = "admin@irocbank.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@IROCBANK.COM",
+                            PasswordHash = "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "748a2661-93d0-41e1-9241-7272efa184da",
+                            TwoFactorEnabled = false,
+                            UserName = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
@@ -383,8 +404,6 @@ namespace BankingManagementSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("UserClaims");
                 });
 
@@ -405,8 +424,6 @@ namespace BankingManagementSystem.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("LoginProvider", "ProviderKey");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("UserLogins");
                 });
@@ -443,6 +460,21 @@ namespace BankingManagementSystem.Migrations
                     b.ToTable("UserTokens");
                 });
 
+            modelBuilder.Entity("UserRole", b =>
+                {
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("RoleId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserRole");
+                });
+
             modelBuilder.Entity("BankingManagementSystem.Entities.Account", b =>
                 {
                     b.HasOne("BankingManagementSystem.Entities.Currency", "Currency")
@@ -473,6 +505,21 @@ namespace BankingManagementSystem.Migrations
                     b.Navigation("Currency");
                 });
 
+            modelBuilder.Entity("BankingManagementSystem.Entities.RoleClaim", b =>
+                {
+                    b.HasOne("BankingManagementSystem.Entities.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BankingManagementSystem.Entities.Role", "Role")
+                        .WithMany("RoleClaims")
+                        .HasForeignKey("RoleId1");
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("BankingManagementSystem.Entities.Transaction", b =>
                 {
                     b.HasOne("BankingManagementSystem.Entities.Account", "Account")
@@ -498,36 +545,9 @@ namespace BankingManagementSystem.Migrations
                     b.Navigation("CurrencyOnDate");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
-                {
-                    b.HasOne("BankingManagementSystem.Entities.BmsRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
-                {
-                    b.HasOne("BankingManagementSystem.Entities.BmsUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
-                {
-                    b.HasOne("BankingManagementSystem.Entities.BmsUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("BankingManagementSystem.Entities.BmsUser", null)
+                    b.HasOne("BankingManagementSystem.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -536,11 +556,28 @@ namespace BankingManagementSystem.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("BankingManagementSystem.Entities.BmsUser", null)
+                    b.HasOne("BankingManagementSystem.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("UserRole", b =>
+                {
+                    b.HasOne("BankingManagementSystem.Entities.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_UserRole_Roles_UserId");
+
+                    b.HasOne("BankingManagementSystem.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_UserRole_Users_RoleId");
                 });
 
             modelBuilder.Entity("BankingManagementSystem.Entities.Account", b =>
@@ -565,6 +602,11 @@ namespace BankingManagementSystem.Migrations
             modelBuilder.Entity("BankingManagementSystem.Entities.Customer", b =>
                 {
                     b.Navigation("Accounts");
+                });
+
+            modelBuilder.Entity("BankingManagementSystem.Entities.Role", b =>
+                {
+                    b.Navigation("RoleClaims");
                 });
 #pragma warning restore 612, 618
         }

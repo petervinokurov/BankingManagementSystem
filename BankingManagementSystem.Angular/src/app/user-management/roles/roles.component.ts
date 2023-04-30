@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { lastValueFrom, Observable } from 'rxjs';
 import { UserManagementService } from '../user-management.service';
 import { RoleDto } from './roleDto';
-import * as _ from 'lodash';
 import { DataChange } from 'devextreme/ui/data_grid';
-import { update } from 'lodash';
+import { ClaimDto } from '../claims/claimDto';
 
 @Component({
   selector: 'app-roles',
@@ -15,15 +14,19 @@ export class RolesComponent implements OnInit {
 
   protected cancellationObservable: Observable<void> = new Observable();
   public roles:RoleDto[] = [];
-  //public changes: DataChange<any, any>[] = [];
+  public claimsSource:ClaimDto[] = [];
 
   constructor(private readonly service:UserManagementService) { }
 
   async ngOnInit() {
+    this.claimsSource = await lastValueFrom(this.service.getClaimsList(this.cancellationObservable));
     this.roles =  await lastValueFrom(this.service.getRolesList(this.cancellationObservable));
+    this.roles.forEach(r => r.roleClaims = this.claimsSource.filter(cs => r.roleClaims.map(rc => rc.claimView).includes(cs.claimView)));
   }
 
+
   async saveRole(e: any){
+
     const changes = (e.changes as DataChange<RoleDto, string>[]);
     const inserted = changes.filter(c => c.type === 'insert');
     if (inserted.length > 0){
@@ -32,14 +35,13 @@ export class RolesComponent implements OnInit {
     }
     const updated = changes.filter(c => c.type === 'update');
     if (updated.length > 0){
-      let updateRoles = updated.map(x => {
-        let r:RoleDto = new RoleDto();
-        r.id = x.key;
-        r.name = x.data.name;
-        return r;
+      const updateRolesIds = changes.filter(c => c.type === 'update').map(x => {
+        let data = x.data as RoleDto;
+        data.id = x.key;
+        return data;
       });
-
-      await lastValueFrom(this.service.updateRoles(updateRoles, this.cancellationObservable));
+      console.log(updateRolesIds);
+      await lastValueFrom(this.service.updateRoles(updateRolesIds, this.cancellationObservable));
     }
 
     const deleted = changes.filter(c => c.type === 'remove');

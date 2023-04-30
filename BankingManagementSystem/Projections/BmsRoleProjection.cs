@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using BankingManagementSystem.Dto;
+
 namespace BankingManagementSystem
 {
 	public class BmsRoleProjection
@@ -8,6 +11,8 @@ namespace BankingManagementSystem
 		public string Name { get; set; }
 		
 		public string ConcurrencyStamp { get; set; }
+
+		public List<RoleClaimDto> RoleClaims { get; set; }
 	}
 }
 

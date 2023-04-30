@@ -14,7 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { AppEvents } from './app-events';
 import { CookieService } from 'ngx-cookie-service';
-import { DxMenuModule, DxDataGridModule, DxTemplateModule} from "devextreme-angular";
+import { DxMenuModule } from "devextreme-angular";
 import DataSource from 'devextreme/data/data_source';
 import { JwtHelperService, JWT_OPTIONS} from '@auth0/angular-jwt';
 
@@ -25,7 +25,6 @@ import { JwtHelperService, JWT_OPTIONS} from '@auth0/angular-jwt';
     LoginComponent
   ],
   imports: [
-    DxMenuModule,
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
@@ -33,6 +32,7 @@ import { JwtHelperService, JWT_OPTIONS} from '@auth0/angular-jwt';
     UserManagementModule,
     NgbModule,
     BrowserAnimationsModule,
+    DxMenuModule,
     ToastrModule.forRoot()
   ],
   providers: [

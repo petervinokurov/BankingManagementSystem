@@ -304,9 +304,9 @@ namespace BankingManagementSystem
 
 		private readonly ICryptographyService _cryptographyService = new CryptographyService();
 
-		public IEnumerable<BmsUser> Fake1000Users()
+		public IEnumerable<User> Fake1000Users()
 		{
-			var userList = new Dictionary<string, BmsUser>();
+			var userList = new Dictionary<string, User>();
 			var random = new Random();
 			var maleOrFemale = true;
 			while (userList.Count < UserCount)
@@ -325,7 +325,7 @@ namespace BankingManagementSystem
 				var firstName = maleOrFemale ? _maleFirstNames[namePointer] : _femaleFirstName[namePointer];
 				var userName = $"{firstName} {lastName}";
 
-				var user = new BmsUser
+				var user = new User
 				{
 					Id = Guid.NewGuid(),
 					UserName = userName,
@@ -344,9 +344,9 @@ namespace BankingManagementSystem
 			return userList.Values;
 		}
 
-		public BmsUser GetSystemAdmin()
+		public User GetSystemAdmin()
 		{
-			return new BmsUser
+			return new User
             {
                 Id = new Guid("779f3783-e69a-4265-b92f-188943ed3be8"),
                 UserName = "Admin",
@@ -359,18 +359,18 @@ namespace BankingManagementSystem
             };
         }
 
-		public IEnumerable<BmsRole> GetDefaultSystemRoles()
+		public IEnumerable<Role> GetDefaultSystemRoles()
 		{
-			return new List<BmsRole>
+			return new List<Role>
 			{
-				new BmsRole
+				new Role
 				{
 					ConcurrencyStamp = new Guid("7caea4ba-7575-4131-9285-1b96caa2546b").ToString(),
 					Id = new Guid("aa0bfc24-66aa-4b2e-8be4-71c50cb86e17"),
 					Name = "Admin",
 					NormalizedName = "Admin".ToUpperInvariant()
 				},
-				new BmsRole
+				new Role
 				{
 					ConcurrencyStamp = new Guid("e713754f-9c6a-48a8-b76d-e0bdacf43586").ToString(),
 					Id = new Guid("54b5f558-fe32-4f74-aa74-1ce1b7ca2ac0"),

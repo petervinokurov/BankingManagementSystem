@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using BankingManagementSystem.Dto;
+using BankingManagementSystem.Entities;
 using BankingManagementSystem.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -15,10 +19,19 @@ namespace BankingManagementSystem.Controllers
     public class UserManagementController : ControllerBase
     {
         private readonly IUserManagementService _service;
-		public UserManagementController(IUserManagementService service)
+        private readonly IClaimPairsService _claimPairsService;
+        private readonly BankingManagementSystemContext _context;
+        private readonly IMapper _mapper;
+		public UserManagementController(IUserManagementService service,
+            BankingManagementSystemContext context,
+            IMapper mapper,
+            IClaimPairsService claimPairsService)
 		{
             _service = service;
-		}
+            _claimPairsService = claimPairsService;
+            _context = context;
+            _mapper = mapper;
+        }
 
         [HttpPost]
         public Task<BmsResponse> CreateNewUser(NewUserDto newUser)
@@ -27,7 +40,6 @@ namespace BankingManagementSystem.Controllers
         }
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public Task<List<BmsUserProjection>> UserList()
         {
             return _service.UserList();
@@ -37,6 +49,12 @@ namespace BankingManagementSystem.Controllers
         public Task<List<BmsRoleProjection>> RoleList()
         {
             return _service.RoleList();
+        }
+        
+        [HttpGet]
+        public HashSet<RoleClaimDto> ClaimList()
+        {
+            return _claimPairsService.ClaimPairs();
         }
 
         [HttpPost]
@@ -51,11 +69,11 @@ namespace BankingManagementSystem.Controllers
             return _service.UpdateRoles(request);
         }
 
-        [HttpDelete]
-        public Task DeleteRoles([FromQuery]List<Guid> request)
+        [HttpDelete] public Task DeleteRoles([FromQuery]List<Guid> request)
         {
             return _service.DeleteRoles(request);
         }
+        
     }
 }
 

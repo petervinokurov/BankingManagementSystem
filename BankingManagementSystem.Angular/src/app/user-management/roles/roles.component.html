@@ -19,5 +19,23 @@
       </dxi-item>
     </dxo-toolbar>
     <dxi-column dataField="name" dataType="string"></dxi-column>
+    <dxi-column dataField="roleClaims" editCellTemplate="claimsListTemplate"
+    cellTemplate="claimsListTemplate">
+    <dxo-lookup [dataSource]="claimsSource" valueExpr="claimView" displayExpr="claimView">
+    </dxo-lookup>
+    </dxi-column>
+    <div *dxTemplate="let cellInfo of 'claimsListTemplate'">
+      <dx-tag-box
+        [items]="claimsSource"
+        [value]="cellInfo.value"
+        displayExpr="claimView"
+        [hideSelectedItems]="true"
+        [maxDisplayedTags]="claimsSource.length"
+        [showMultiTagOnly]="true"
+        [searchEnabled]="true"
+        (onValueChanged)="cellInfo.setValue($event.value)"
+      >
+      </dx-tag-box>
+    </div>
   </dx-data-grid>
 </div>
