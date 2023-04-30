@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
 namespace BankingManagementSystem.Entities
 {
-	public class BmsUser : IdentityUser<Guid>
+	public class User : IdentityUser<Guid>
 	{
 		
         public override string ConcurrencyStamp { get ; set ; } = Guid.NewGuid().ToString();
+
+        public ICollection<Role> Roles { get; set; }
     }
 }
 

@@ -6,6 +6,7 @@ import { NewUserDto } from "./new-user/newUserDto";
 import { UserManagementApiRoutes } from "./user-management-api-routes";
 import { UserDto } from "./user-list/userDto";
 import { RoleDto } from "./roles/roleDto";
+import { ClaimDto } from "./claims/claimDto";
 
 @Injectable()
 export class UserManagementService {
@@ -37,6 +38,16 @@ export class UserManagementService {
   ): Observable<RoleDto[]>{
     return this.httpService.get<RoleDto[]>(
       `${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.RoleList}`,
+      null,
+      cancellationSubject
+    );
+  }
+
+  public getClaimsList(
+    cancellationSubject:Observable<void>
+  ): Observable<ClaimDto[]>{
+    return this.httpService.get<ClaimDto[]>(
+      `${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.ClaimList}`,
       null,
       cancellationSubject
     );

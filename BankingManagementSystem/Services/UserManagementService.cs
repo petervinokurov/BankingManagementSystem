@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -24,7 +23,7 @@ namespace BankingManagementSystem.Services
             _context = context;
             _cryptographyService = cryptographyService;
             _mapper = mapper;
-		}
+        }
 
         public Task<BmsResponse> CreateNewUser(NewUserDto newUser)
         {
@@ -35,7 +34,7 @@ namespace BankingManagementSystem.Services
             }
             else
             {
-                _context.Users.AddAsync(new BmsUser
+                _context.Users.AddAsync(new User
                 {
                     Email = newUser.Username,
                     NormalizedEmail = newUser.Username.ToUpperInvariant(),
@@ -50,7 +49,7 @@ namespace BankingManagementSystem.Services
 
         public async Task<List<BmsRoleProjection>> RoleList()
         {
-            return await _context.Roles.ProjectTo<BmsRoleProjection>(_mapper.ConfigurationProvider).ToListAsync();
+           return await _context.Roles.ProjectTo<BmsRoleProjection>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
         public async Task<List<BmsUserProjection>> UserList()
@@ -63,13 +62,14 @@ namespace BankingManagementSystem.Services
             var response = new BmsResponse();
             var existedRoles = await _context.Roles.Where(r => roles.Select(x => x.Name.ToUpperInvariant()).Contains(r.NormalizedName)).Select(x => x.Name).ToListAsync();
             response.ApplicationError = string.Join(',',existedRoles.Select(x => $"Role {x} already exist.").ToArray());
-            await _context.Roles.AddRangeAsync(roles.Where(r => !existedRoles.Contains(r.Name)).Select(r => new BmsRole
+            await _context.Roles.AddRangeAsync(roles.Where(r => !existedRoles.Contains(r.Name)).Select(r => new Role
             {
                 Id = r.Id, 
                 Name = r.Name, 
                 NormalizedName = r.Name.ToUpperInvariant(), 
                 ConcurrencyStamp = Guid.NewGuid().ToString()
             }));
+            
             await _context.SaveChangesAsync();
             return await Task.FromResult(response);
         }
@@ -77,19 +77,14 @@ namespace BankingManagementSystem.Services
         public async Task<BmsResponse> UpdateRoles(List<RoleDto> roles)
         {
             var response = new BmsResponse();
-            var repositoryRoles = await _context.Roles
+            var repositoryRoles = await _context.Roles.Include(r => r.RoleClaims)
                 .Where(r => roles.Select(x => x.Id).Contains(r.Id)).ToListAsync();
-            
-            var existedRoles = repositoryRoles.Where(r => roles.Select(x => x.Name.ToUpperInvariant()).Contains(r.NormalizedName)).Select(x => x.Name).ToList();
-            response.ApplicationError = string.Join(',',existedRoles.Select(x => $"Role {x} already exist.").ToArray());
-            var rolesForUpdate = roles.Where(r => !existedRoles.Contains(r.Name)).ToList();
+
             repositoryRoles.ForEach(rr =>
-                {
-                    var role = rolesForUpdate.Single(r => r.Id == rr.Id);
-                    rr.Name = role.Name;
-                    rr.NormalizedName = role.Name.ToUpperInvariant();
-                }
-            );
+            {
+                var role = roles.Single(r => r.Id == rr.Id);
+                _mapper.Map(role, rr);
+            });
             await _context.SaveChangesAsync();
             return await Task.FromResult(response);
         }
@@ -102,7 +97,6 @@ namespace BankingManagementSystem.Services
             await _context.SaveChangesAsync();
             return await Task.FromResult(response);
         }
-        
     }
 }
 

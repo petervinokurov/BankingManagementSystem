@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +7,7 @@ using Microsoft.Extensions.Options;
 
 namespace BankingManagementSystem.Entities
 {
-    public class BankingManagementSystemContext : IdentityDbContext<BmsUser, BmsRole, Guid>
+    public class BankingManagementSystemContext : IdentityDbContext<User, Role, Guid, IdentityUserClaim<Guid>, IdentityUserRole<Guid>, IdentityUserLogin<Guid>, RoleClaim, IdentityUserToken<Guid>>
     {
         public DbSet<Account> Accounts { get; set; }
 
@@ -33,45 +34,63 @@ namespace BankingManagementSystem.Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<BmsUser>()
+            modelBuilder.Entity<User>()
                 .HasKey(b => b.Id);
-            modelBuilder.Entity<BmsUser>()
+            modelBuilder.Entity<User>()
                 .Property(b => b.Id).HasDefaultValueSql("gen_random_uuid()");
-            modelBuilder.Entity<BmsUser>().HasMany<IdentityUserClaim<Guid>>().WithOne().HasForeignKey(uc => uc.UserId).IsRequired();
-            modelBuilder.Entity<BmsUser>().HasMany<IdentityUserLogin<Guid>>().WithOne().HasForeignKey(ul => ul.UserId).IsRequired();
-            modelBuilder.Entity<BmsUser>().HasMany<IdentityUserToken<Guid>>().WithOne().HasForeignKey(ut => ut.UserId).IsRequired();
-            modelBuilder.Entity<BmsUser>().HasMany<IdentityUserRole<Guid>>().WithOne().HasForeignKey(ur => ur.UserId).IsRequired();
-            modelBuilder.Entity<BmsUser>()
+            modelBuilder.Entity<User>().HasMany<IdentityUserToken<Guid>>().WithOne().HasForeignKey(uc => uc.UserId).IsRequired();
+            modelBuilder.Entity<User>().HasMany<IdentityUserToken<Guid>>().WithOne().HasForeignKey(ul => ul.UserId).IsRequired();
+            modelBuilder.Entity<User>().HasMany<IdentityUserToken<Guid>>().WithOne().HasForeignKey(ut => ut.UserId).IsRequired();
+            modelBuilder.Entity<User>().HasMany<IdentityUserRole<Guid>>().WithOne().HasForeignKey(ur => ur.UserId).IsRequired();
+            modelBuilder.Entity<User>()
                 .Property(b => b.Email).HasMaxLength(256);
-            modelBuilder.Entity<BmsUser>()
+            modelBuilder.Entity<User>()
                 .Property(b => b.UserName).HasMaxLength(256);
-            modelBuilder.Entity<BmsUser>()
+            modelBuilder.Entity<User>()
                 .Property(b => b.NormalizedEmail).HasMaxLength(256);
-            modelBuilder.Entity<BmsUser>()
+            modelBuilder.Entity<User>()
                 .Property(b => b.NormalizedUserName).HasMaxLength(256);
-            modelBuilder.Entity<BmsUser>()
+            modelBuilder.Entity<User>()
                 .HasIndex(b => b.NormalizedEmail).HasDatabaseName("EmailNameIndex").IsUnique();
-            modelBuilder.Entity<BmsUser>()
+            modelBuilder.Entity<User>()
                 .HasIndex(b => b.UserName).HasDatabaseName("UserNameIndex");
 
-            modelBuilder.Entity<BmsUser>().HasData(_demoDataProvider.GetSystemAdmin());
+            modelBuilder.Entity<User>().HasData(_demoDataProvider.GetSystemAdmin());
 
-            modelBuilder.Entity<BmsRole>()
+            modelBuilder.Entity<Role>()
                 .HasKey(b => b.Id);
-            modelBuilder.Entity<BmsRole>()
+            modelBuilder.Entity<Role>()
                 .Property(b => b.Id).HasDefaultValueSql("gen_random_uuid()");
-            modelBuilder.Entity<BmsRole>()
+            modelBuilder.Entity<Role>()
                 .HasIndex(b => b.NormalizedName).HasDatabaseName("RoleNameIndex").IsUnique();
-            modelBuilder.Entity<BmsRole>()
-                .HasMany<IdentityRoleClaim<Guid>>().WithOne().HasForeignKey(rc => rc.RoleId).IsRequired();
-            modelBuilder.Entity<BmsRole>()
+            modelBuilder.Entity<Role>()
                 .Property(b => b.NormalizedName).HasMaxLength(256);
-            modelBuilder.Entity<BmsRole>()
+            modelBuilder.Entity<Role>()
                 .Property(b => b.Name).HasMaxLength(256);
-            modelBuilder.Entity<BmsRole>()
+            modelBuilder.Entity<Role>()
                 .Property(b => b.ConcurrencyStamp).IsConcurrencyToken();
-
-            modelBuilder.Entity<BmsRole>().HasData(_demoDataProvider.GetDefaultSystemRoles());
+            modelBuilder.Entity<Role>().HasData(_demoDataProvider.GetDefaultSystemRoles());
+            
+            modelBuilder.Entity<User>()
+                .HasMany(p => p.Roles)
+                .WithMany(p => p.Users)
+                .UsingEntity<Dictionary<string, object>>(
+                    "UserRole",
+                    j => j
+                        .HasOne<Role>()
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .HasConstraintName("FK_UserRole_Roles_UserId")
+                        .OnDelete(DeleteBehavior.Cascade),
+                    j => j
+                        .HasOne<User>()
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("FK_UserRole_Users_RoleId")
+                        .OnDelete(DeleteBehavior.ClientCascade));
+            
+            modelBuilder.Entity<IdentityUserRole<Guid>>()
+                .HasKey(r => new { r.UserId, r.RoleId });
 
             modelBuilder.Entity<IdentityUserLogin<Guid>>()
                 .HasKey(b => new { b.LoginProvider, b.ProviderKey });
@@ -79,11 +98,7 @@ namespace BankingManagementSystem.Entities
                 .Property(b => b.LoginProvider).HasMaxLength(256);
             modelBuilder.Entity<IdentityUserLogin<Guid>>()
                 .Property(b => b.ProviderKey).HasMaxLength(256);
-
-            modelBuilder.Entity<IdentityUserRole<Guid>>()
-                .HasKey(r => new { r.UserId, r.RoleId });
-
-
+            
             modelBuilder.Entity<IdentityUserToken<Guid>>()
                 .HasKey(t => new { t.UserId, t.LoginProvider, t.Name });
 
@@ -91,10 +106,8 @@ namespace BankingManagementSystem.Entities
                 .HasKey(b => b.Id);
             modelBuilder.Entity<IdentityUserClaim<Guid>>()
                 .Property(b => b.Id).UseIdentityColumn();
-
-            modelBuilder.Entity<IdentityRoleClaim<Guid>>()
+            modelBuilder.Entity<IdentityUserClaim<Guid>>()
                 .HasKey(b => b.Id);
-            
 
             modelBuilder.Entity<Account>()
                 .HasKey(b => b.Id);
