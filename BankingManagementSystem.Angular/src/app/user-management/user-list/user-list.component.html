@@ -1,11 +1,15 @@
 <div>
-  <dx-data-grid height="790px" keyExpr="id" id="usersList" [dataSource]="users" [showBorders]="true">
+  <dx-data-grid height="790px" keyExpr="id" id="usersList" [dataSource]="users" [showBorders]="true" (onSaving)="saveUsers($event)">
     <dxo-load-panel [enabled]="true"></dxo-load-panel>
     <dxo-scrolling mode="virtual"></dxo-scrolling>
-    <dxo-editing [allowAdding]="true"></dxo-editing>
+    <dxo-editing [allowAdding]="true"
+    [allowDeleting]="true"
+    [allowUpdating]="true"
+    mode="batch"></dxo-editing>
     <dxo-search-panel [visible]="true"></dxo-search-panel>
     <dxo-toolbar>
       <dxi-item name="addRowButton" location="center"></dxi-item>
+      <dxi-item name="saveButton" location="center"></dxi-item>
       <dxi-item
         name="searchPanel"
         locateInMenu="auto"
@@ -14,5 +18,44 @@
     </dxo-toolbar>
     <dxi-column dataField="userName" dataType="string"></dxi-column>
     <dxi-column dataField="email" dataType="string"></dxi-column>
+
+    <dxi-column dataField="roles" editCellTemplate="rolesListTemplate"
+    cellTemplate="rolesListTemplate">
+    <dxo-lookup [dataSource]="claimsSource" valueExpr="name" displayExpr="name">
+    </dxo-lookup>
+    </dxi-column>
+    <div *dxTemplate="let cellInfo of 'rolesListTemplate'">
+      <dx-tag-box
+        [items]="rolesSource"
+        [value]="cellInfo.value"
+        displayExpr="name"
+        [hideSelectedItems]="true"
+        [maxDisplayedTags]="rolesSource.length"
+        [showMultiTagOnly]="true"
+        [searchEnabled]="true"
+        (onValueChanged)="cellInfo.setValue($event.value)"
+      >
+      </dx-tag-box>
+    </div>
+
+    <dxi-column dataField="claims" editCellTemplate="claimsListTemplate"
+    cellTemplate="claimsListTemplate">
+    <dxo-lookup [dataSource]="claimsSource" valueExpr="claimView" displayExpr="claimView">
+    </dxo-lookup>
+    </dxi-column>
+    <div *dxTemplate="let cellInfo of 'claimsListTemplate'">
+      <dx-tag-box
+        [items]="claimsSource"
+        [value]="cellInfo.value"
+        displayExpr="claimView"
+        [hideSelectedItems]="true"
+        [maxDisplayedTags]="claimsSource.length"
+        [showMultiTagOnly]="true"
+        [searchEnabled]="true"
+        (onValueChanged)="cellInfo.setValue($event.value)"
+      >
+      </dx-tag-box>
+    </div>
+
   </dx-data-grid>
 </div>

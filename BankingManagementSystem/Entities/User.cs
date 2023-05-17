@@ -10,6 +10,8 @@ namespace BankingManagementSystem.Entities
         public override string ConcurrencyStamp { get ; set ; } = Guid.NewGuid().ToString();
 
         public ICollection<Role> Roles { get; set; }
-    }
+
+        public ICollection<UserClaim> Claims { get; set; }
+	}
 }
 

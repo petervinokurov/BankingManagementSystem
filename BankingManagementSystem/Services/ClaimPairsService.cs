@@ -18,8 +18,8 @@ public class ClaimPairsService : IClaimPairsService
         _claimValues.Add("Wright");
     }
 
-    public HashSet<RoleClaimDto> ClaimPairs()
+    public HashSet<ClaimDto> ClaimPairs()
     {
-        return _claimTypes.SelectMany(ct => _claimValues.Select(cv => new RoleClaimDto(ct, cv) )).ToHashSet();
+        return _claimTypes.SelectMany(ct => _claimValues.Select(cv => new ClaimDto(ct, cv) )).ToHashSet();
     }
 }

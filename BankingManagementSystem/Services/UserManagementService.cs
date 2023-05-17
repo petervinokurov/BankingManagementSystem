@@ -34,17 +34,56 @@ namespace BankingManagementSystem.Services
             }
             else
             {
-                _context.Users.AddAsync(new User
-                {
-                    Email = newUser.Username,
-                    NormalizedEmail = newUser.Username.ToUpperInvariant(),
-                    PasswordHash = _cryptographyService.GetPasswordHash(newUser.Password),
-                    SecurityStamp = Guid.NewGuid().ToString(),
-                    TwoFactorEnabled = false
-                });
+                _context.Users.AddAsync(_mapper.Map<User>(newUser));
                 _context.SaveChangesAsync();
             }
             return Task.FromResult(result);
+        }
+
+        public async Task<BmsResponse> CreateNewUsers(IEnumerable<NewUserDto> newUsers)
+        {
+            var response = new BmsResponse();
+            await _context.Roles.ToListAsync();
+            var existedRoles = await _context.Users.Where(r => newUsers.Select(x => x.Email.ToUpperInvariant()).Contains(r.Email)).Select(x => x.Email).ToListAsync();
+            response.ApplicationError = string.Join(',',existedRoles.Select(x => $"User {x} already exist.").ToArray());
+            await _context.Users.AddRangeAsync(newUsers.Where(r => !existedRoles.Contains(r.Email)).Select(r =>
+            {
+                var user = _mapper.Map<User>(r);
+                user.Roles = _context.Roles.Where(r => user.Roles.Select(ur => ur.Id).Contains(r.Id)).ToList();
+                return user;
+            }));
+            
+            await _context.SaveChangesAsync();
+            return await Task.FromResult(response);
+        }
+
+        public async Task<BmsResponse> UpdateUsers(IEnumerable<UserDto> users)
+        {
+            var response = new BmsResponse();
+            var repositoryUsers = await _context.Users
+                .Include(r => r.Claims)
+                .Include(r => r.Roles)
+                .Where(r => users.Select(x => x.Id).Contains(r.Id)).ToListAsync();
+
+            repositoryUsers.ForEach(rr =>
+            {
+                var user = users.Single(r => r.Id == rr.Id);
+                _mapper.Map(user, rr);
+            });
+            await _context.SaveChangesAsync();
+            return await Task.FromResult(response);
+        }
+
+        public async Task<BmsResponse> DeleteUsers(IEnumerable<Guid> userIds)
+        {
+            var response = new BmsResponse();
+            var usersToRemove = _context.Users
+                .Include(u => u.Roles)
+                .Include(u => u.Claims)
+                .Where(r => userIds.Contains(r.Id));
+            _context.Users.RemoveRange(usersToRemove);
+            await _context.SaveChangesAsync();
+            return await Task.FromResult(response);
         }
 
         public async Task<List<BmsRoleProjection>> RoleList()
@@ -52,9 +91,9 @@ namespace BankingManagementSystem.Services
            return await _context.Roles.ProjectTo<BmsRoleProjection>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
-        public async Task<List<BmsUserProjection>> UserList()
+        public async Task<List<UserDto>> UserList()
         {
-            return await _context.Users.ProjectTo<BmsUserProjection>(_mapper.ConfigurationProvider).ToListAsync();
+            return await _context.Users.ProjectTo<UserDto>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
         public async Task<BmsResponse> CreateNewRoles(IEnumerable<RoleDto> roles)

@@ -2,7 +2,7 @@
 {
     public interface ITokenService
     {
-        string BuildToken(string key, string issuer, string audience, BmsUserProjection user);
+        string BuildToken(string key, string issuer, string audience, UserDto user);
         bool ValidateToken(string key, string issuer, string audience, string token);
     }
 }

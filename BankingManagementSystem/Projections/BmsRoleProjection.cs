@@ -12,7 +12,7 @@ namespace BankingManagementSystem
 		
 		public string ConcurrencyStamp { get; set; }
 
-		public List<RoleClaimDto> RoleClaims { get; set; }
+		public List<ClaimDto> RoleClaims { get; set; }
 	}
 }
 

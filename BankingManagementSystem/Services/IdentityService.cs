@@ -6,6 +6,7 @@ using AutoMapper.QueryableExtensions;
 using BankingManagementSystem.Entities;
 using BankingManagementSystem.Dto;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace BankingManagementSystem.Services
@@ -44,7 +45,11 @@ namespace BankingManagementSystem.Services
 
             }
             var passwordHash = _cryptographyService.GetPasswordHash(password);
-            var validUser = _context.Users.Where(x => x.NormalizedEmail == login.ToUpper() && x.PasswordHash == passwordHash).ProjectTo<BmsUserProjection>(_mapper.ConfigurationProvider).SingleOrDefault();
+            var validUser = _context.Users
+                .Include(u => u.Roles)
+                .Include(u => u.Claims)
+                .Where(x => x.NormalizedEmail == login.ToUpper() && x.PasswordHash == passwordHash)
+                .ProjectTo<UserDto>(_mapper.ConfigurationProvider).SingleOrDefault();
 
             if (validUser != null)
             {
