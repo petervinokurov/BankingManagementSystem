@@ -24,6 +24,38 @@ export class UserManagementService {
 		);
 	}
 
+  public createNewUsers(
+    request:NewUserDto[],
+    cancellationSubject: Observable<void>
+  ): Observable<BmsResponse> {
+    return this.httpService.post<BmsResponse>(
+			`${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.CreateNewUsers}`,
+			request,
+			cancellationSubject
+		);
+  }
+
+  public updateUsers(
+    request:UserDto[],
+    cancellationSubject:Observable<void>
+  ): Observable<UserDto[]> {
+    return this.httpService.put<UserDto[]>(
+      `${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.UpdateUsers}`,
+      request,
+      cancellationSubject
+    );
+  }
+
+  public deleteUsers(request:string[],
+    cancellationSubject:Observable<void>
+  ): Observable<string[]>{
+    return this.httpService.delete<string[]>(
+      `${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.DeleteUsers}`,
+      request,
+      cancellationSubject
+    );
+  }
+
   public getUserList(
     cancellationSubject:Observable<void>
     ): Observable<UserDto[]> {

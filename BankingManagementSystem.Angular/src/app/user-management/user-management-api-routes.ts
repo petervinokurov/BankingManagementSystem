@@ -1,6 +1,9 @@
 export enum UserManagementApiRoutes {
-	Root = "usermanagement",
-	CreateNewUser = "createNewUser",
+  Root = "usermanagement",
+  CreateNewUser = "createNewUser",
+  CreateNewUsers = "createNewUsers",
+  UpdateUsers = "updateUsers",
+  DeleteUsers = "deleteUsers",
   UserList = "userList",
   RoleList = "roleList",
   ClaimList = "claimList",

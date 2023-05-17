@@ -2,11 +2,11 @@
 using System.Text;
 using AutoMapper;
 using BankingManagementSystem.Entities;
+using BankingManagementSystem.Middlewares;
 using BankingManagementSystem.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -48,7 +48,7 @@ namespace BankingManagementSystem
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient<IUserManagementService, UserManagementService>();
-            services.AddTransient<ICryptographyService, CryptographyService>();
+            services.AddSingleton<ICryptographyService, CryptographyService>();
             services.AddDistributedMemoryCache();
             
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
@@ -70,15 +70,16 @@ namespace BankingManagementSystem
                 options.RootPath = "ClientApp/dist";
             });
 
-            services.AddSingleton(new MapperConfiguration(mc => { mc.AddProfile(new MappingProfile()); }).CreateMapper());
-            
+            services.AddSingleton(new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile(new CryptographyService()));
+            }).CreateMapper());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            
-            app.UseBmpErrorHandler();
+            app.UseMiddleware<ApplicationErrorHandlingMiddleware>();
             app.UseSpaStaticFiles();
             
             app.UseHttpsRedirection();

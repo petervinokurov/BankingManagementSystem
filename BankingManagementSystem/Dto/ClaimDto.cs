@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace BankingManagementSystem.Dto;
 
-public class RoleClaimDto
+public class ClaimDto
 {
     private const string Delimiter = "::";
     [NotNull] public string ClaimType { get; init; }
@@ -10,20 +10,20 @@ public class RoleClaimDto
 
     public string ClaimView => $"{ClaimType}{Delimiter}{ClaimValue}";
 
-    public RoleClaimDto(string claimPair)
+    public ClaimDto(string claimPair)
     {
         var claimData = claimPair.Split(Delimiter);
         ClaimType = claimData[0];
         ClaimValue = claimData[1];
     }
 
-    public RoleClaimDto()
+    public ClaimDto()
     {
         ClaimValue = string.Empty;
         ClaimType = string.Empty;
     }
 
-    public RoleClaimDto([NotNull]string claimType, [NotNull]string claimValue)
+    public ClaimDto([NotNull]string claimType, [NotNull]string claimValue)
     {
         ClaimValue = claimValue;
         ClaimType = claimType;

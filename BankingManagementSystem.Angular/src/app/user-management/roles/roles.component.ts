@@ -35,13 +35,12 @@ export class RolesComponent implements OnInit {
     }
     const updated = changes.filter(c => c.type === 'update');
     if (updated.length > 0){
-      const updateRolesIds = changes.filter(c => c.type === 'update').map(x => {
+      const rolesForUpdate = changes.filter(c => c.type === 'update').map(x => {
         let data = x.data as RoleDto;
         data.id = x.key;
         return data;
       });
-      console.log(updateRolesIds);
-      await lastValueFrom(this.service.updateRoles(updateRolesIds, this.cancellationObservable));
+      await lastValueFrom(this.service.updateRoles(rolesForUpdate, this.cancellationObservable));
     }
 
     const deleted = changes.filter(c => c.type === 'remove');

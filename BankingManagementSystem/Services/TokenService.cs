@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Options;
@@ -16,15 +17,18 @@ namespace BankingManagementSystem.Services
             _jwtOptions = jwtOptions?.Value;
         }
 
-        public string BuildToken(string key, string issuer, string audience, BmsUserProjection user)
+        public string BuildToken(string key, string issuer, string audience, UserDto user)
         {
-            //TODO Expand the model.
-            var claims = new[] {
+            var claimNames = user.Roles.SelectMany(r => r.RoleClaims)
+                .Select(rc => rc.ClaimView).ToHashSet();
+            user.Claims.ForEach(uc => claimNames.Add(uc.ClaimView));
+            user.Roles.ForEach(r => claimNames.Add(r.Name));
+            var claims = claimNames.Select(c => new Claim(ClaimTypes.Role, c)).ToList();
+            claims.AddRange(new[]
+            {
                 new Claim(ClaimTypes.Email, user.Email),
-                //new Claim(ClaimTypes.Role, user.Role),
-                new Claim(ClaimTypes.Sid,
-                Guid.NewGuid().ToString())
-            };
+                new Claim(ClaimTypes.Sid,Guid.NewGuid().ToString())
+            });
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
