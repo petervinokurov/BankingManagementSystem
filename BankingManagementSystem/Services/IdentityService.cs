@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using BankingManagementSystem.Entities;
 using BankingManagementSystem.Dto;
+using BankingManagementSystem.IdentityDomain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -81,6 +83,25 @@ namespace BankingManagementSystem.Services
         public Task RefreshToken()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<UserProfileResponse> UserProfile()
+        {
+            var response = new UserProfileResponse();
+            var userClaimEmail = _httpContext.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Email);
+            
+            if (string.IsNullOrEmpty(userClaimEmail?.Value))
+            {
+                response.ApplicationError = "Token structure invalid.";
+                return response;
+            }
+
+            var userDto = await _context.Users
+                .Where(x => x.NormalizedEmail == userClaimEmail.Value.ToUpper())
+                .ProjectTo<UserDto>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
+            response.User = userDto;
+            
+            return response;
         }
     }
 }

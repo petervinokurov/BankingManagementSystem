@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginDto } from './loginDto';
-import { IdentityService } from './identity.service';
-import { lastValueFrom, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { UserManagementRoutes } from '../user-management/user-management-routes';
-import { AppEvents } from '../app-events';
+import { Store } from '@ngrx/store';
+import { login, loginSuccess, userProfile } from '../app-state/app.actions';
+import { selectUserLogin } from '../app-state/app.selectors';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'app-login',
@@ -12,21 +13,24 @@ import { AppEvents } from '../app-events';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-	protected cancellationObservable: Observable<void> = new Observable();
-  public model:LoginDto = new LoginDto();
 
-  constructor(private readonly service:IdentityService,
-    private readonly events: AppEvents,
-    private readonly router:Router) { }
+  public model:LoginDto = new LoginDto();
+  isUserLogin$ = this.store.select(selectUserLogin);
+
+  constructor(private readonly router:Router,
+    private actions$: Actions,
+    private readonly store:Store) { }
 
   ngOnInit(): void {
   }
 
   public async onLogin(){
-     var result = await lastValueFrom(this.service.login(this.model, this.cancellationObservable));
-     if (result){
+    const loginDto = this.model;
+    console.log(loginDto);
+    this.store.dispatch(login({loginDto}));
+    this.actions$.pipe(ofType(loginSuccess)).subscribe(() => {
+      this.store.dispatch(userProfile());
       this.router.navigate([UserManagementRoutes.Root,UserManagementRoutes.UserList]);
-      this.events.LoginEmitter.emit();
-     }
+    });
   }
 }

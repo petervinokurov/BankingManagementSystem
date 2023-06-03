@@ -1,5 +1,6 @@
 export enum IdentityApiRoutes {
 	Root = "identity",
 	Login = "login",
-  Logout = "logout"
+  Logout = "logout",
+  UserProfile = "userprofile"
 }

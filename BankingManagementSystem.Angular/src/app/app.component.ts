@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { Router } from '@angular/router';
-import { lastValueFrom, Observable } from 'rxjs';
-import { AppEvents } from './app-events';
-import { IdentityService } from './login/identity.service';
-import { AppRoutes } from './app-routes';
+import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Store } from '@ngrx/store';
+import { userProfile, userTokenInvalid, userTokenValid } from './app-state/app.actions';
+import { selectUserLogin } from './app-state/app.selectors';
 
 @Component({
   selector: 'app-root',
@@ -15,29 +15,22 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 
 export class AppComponent {
   protected cancellationObservable: Observable<void> = new Observable();
+  isUserLogin$ = this.store.select(selectUserLogin);
 
-  public isUserLogin:boolean = false;
-  constructor(private readonly service:IdentityService,
-    private readonly events:AppEvents,
-    private readonly router:Router,
+  constructor(
     private readonly cookie:CookieService,
-    private jwtHelper: JwtHelperService
+    private readonly jwtHelper: JwtHelperService,
+    private readonly router:Router,
+    private store:Store
   ){}
 
   public ngOnInit(){
-    this.events.LoginEmitter.subscribe(x => this.isUserLogin = true);
-    this.events.LogoutEmitter.subscribe(x => {
-      this.cookie.delete('Token');
-      this.isUserLogin = false
-    });
     if (this.cookie.get('Token') && !this.jwtHelper.isTokenExpired(this.cookie.get('Token'))){
-      this.isUserLogin = true;
+      this.store.dispatch(userTokenValid());
+      this.store.dispatch(userProfile());
     }
-  }
-
-  public async onLogOut(){
-    await lastValueFrom(this.service.logout(this.cancellationObservable));
-    this.isUserLogin = false;
-    this.router.navigate([AppRoutes.Root]);
+    else{
+      this.store.dispatch(userTokenInvalid());
+    }
   }
 }

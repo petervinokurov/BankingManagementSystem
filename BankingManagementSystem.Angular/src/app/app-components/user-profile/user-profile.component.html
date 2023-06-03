@@ -1,0 +1,12 @@
+
+<div class="container-fluid text-center" (click)="userDetails()">
+  <div class="d-flex flex-row h-100">
+    <span class="material-symbols-outlined" style="font-size: 48px;">&#xe7fd;</span>
+
+    <div class="d-flex flex-column flex-grow-1">
+      <div>{{(userName$ | async)!}}</div>
+      <div style="font-style: italic;font-size: 12px;">{{(userEmail$ | async)!}}</div>
+    </div>
+  </div>
+</div>
+

@@ -17,15 +17,25 @@ import { CookieService } from 'ngx-cookie-service';
 import { DxMenuModule } from "devextreme-angular";
 import DataSource from 'devextreme/data/data_source';
 import { JwtHelperService, JWT_OPTIONS} from '@auth0/angular-jwt';
-
+import { UserProfileComponent } from './app-components/user-profile/user-profile.component';
+import { Store, StoreModule, provideStore } from '@ngrx/store';
+import { AppEffects } from './app-state/app.effects';
+import { EffectsModule } from '@ngrx/effects';
+import { appReducer } from './app-state/app.reducer';
+import { UserProfileDetailsComponent } from './app-components/user-profile-details/user-profile-details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    UserProfileComponent,
+    UserProfileDetailsComponent
   ],
   imports: [
+    EffectsModule.forRoot([]),
+    EffectsModule.forFeature([AppEffects]),
     BrowserModule,
+    StoreModule.forRoot({ appState: appReducer }),
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
@@ -33,7 +43,7 @@ import { JwtHelperService, JWT_OPTIONS} from '@auth0/angular-jwt';
     NgbModule,
     BrowserAnimationsModule,
     DxMenuModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS,
