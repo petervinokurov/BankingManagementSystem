@@ -1,6 +1,9 @@
 ﻿using System.Threading.Tasks;
 using BankingManagementSystem.Dto;
+using BankingManagementSystem.IdentityDomain;
 using BankingManagementSystem.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankingManagementSystem.Controllers
@@ -26,6 +29,13 @@ namespace BankingManagementSystem.Controllers
         public Task LogOut()
         {
             return _identityService.LogOut();
+        }
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public Task<UserProfileResponse> UserProfile()
+        {
+            return _identityService.UserProfile();
         }
     }
 }

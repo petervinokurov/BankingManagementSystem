@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BankingManagementSystem.Dto;
+using BankingManagementSystem.IdentityDomain;
 
 namespace BankingManagementSystem.Services
 {
@@ -9,6 +9,8 @@ namespace BankingManagementSystem.Services
         Task<BmsResponse> Login(string login, string passwordHash);
         Task LogOut();
         Task RefreshToken();
+
+        Task<UserProfileResponse> UserProfile();
     }
 }
 

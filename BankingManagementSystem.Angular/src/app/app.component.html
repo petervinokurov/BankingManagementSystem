@@ -17,16 +17,15 @@
 
             </div>
           </div>
-
         </nav>
-        <div class="">
-          <button type="button" class="btn btn-link mb-3" *ngIf="isUserLogin" (click)="onLogOut()">Log out</button>
+        <div class="d-flex flex-column flex-end">
+          <app-user-profile *ngIf="(isUserLogin$ | async)!"></app-user-profile>
         </div>
 
       </div>
       <div id="two" class="d-flex flex-row h-100" >
-        <div>
-          <dx-menu orientation="vertical" class="d-flex" *ngIf="isUserLogin">
+        <div *ngIf="(isUserLogin$ | async)!">
+          <dx-menu orientation="vertical" class="d-flex"  >
             <dxi-item text="User management">
                 <dxi-item>
                   <a href="user-management/user-list">Users</a>
@@ -38,7 +37,7 @@
                   <a href="user-management/claims">Claims</a>
                 </dxi-item>
             </dxi-item>
-        </dx-menu>
+          </dx-menu>
         </div>
         <!--bg-info-->
         <div class="d-flex flex-column flex-grow-1">
