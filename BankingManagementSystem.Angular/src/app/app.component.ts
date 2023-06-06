@@ -1,11 +1,11 @@
-import { Component, NgModule } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Store } from '@ngrx/store';
-import { userProfile, userTokenInvalid, userTokenValid } from './app-state/app.actions';
+import { refreshTokenSuccess, userProfile, userTokenInvalid, userTokenValid } from './app-state/app.actions';
 import { selectUserLogin } from './app-state/app.selectors';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'app-root',
@@ -20,17 +20,20 @@ export class AppComponent {
   constructor(
     private readonly cookie:CookieService,
     private readonly jwtHelper: JwtHelperService,
-    private readonly router:Router,
+    private actions$: Actions,
     private store:Store
   ){}
 
   public ngOnInit(){
-    if (this.cookie.get('Token') && !this.jwtHelper.isTokenExpired(this.cookie.get('Token'))){
+    if (this.cookie.get('Token') && !this.jwtHelper.isTokenExpired(this.cookie.get('Token')) ){
       this.store.dispatch(userTokenValid());
       this.store.dispatch(userProfile());
-    }
-    else{
+    }else{
       this.store.dispatch(userTokenInvalid());
+
+      this.actions$.pipe(ofType(refreshTokenSuccess)).subscribe(() => {
+        this.store.dispatch(userProfile());
+      });
     }
   }
 }

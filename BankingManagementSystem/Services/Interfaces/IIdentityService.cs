@@ -6,11 +6,10 @@ namespace BankingManagementSystem.Services
 {
     public interface IIdentityService
     {
-        Task<BmsResponse> Login(string login, string passwordHash);
-        Task LogOut();
-        Task RefreshToken();
-
-        Task<UserProfileResponse> UserProfile();
+        Task<LoginResponse> Login(string login, string passwordHash);
+        Task<BmsResponse> Logout(string userEmail);
+        Task<RefreshTokenResponse> RefreshToken(string userEmail);
+        Task<UserProfileResponse> UserProfile(string userEmail);
     }
 }
 

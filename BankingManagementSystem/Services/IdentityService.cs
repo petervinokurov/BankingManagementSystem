@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using BankingManagementSystem.Entities;
 using BankingManagementSystem.Dto;
+using BankingManagementSystem.Entities;
 using BankingManagementSystem.IdentityDomain;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -17,87 +17,116 @@ namespace BankingManagementSystem.Services
 	{
         private readonly BankingManagementSystemContext _context;
         private readonly ITokenService _tokenService;
-        private readonly IHttpContextAccessor _httpContext;
         private readonly ICryptographyService _cryptographyService;
         private readonly IMapper _mapper;
         private readonly JwtSettings _jwtSettings;
+        const string RefreshTokenName = "RefreshToken";
 
         public IdentityService(BankingManagementSystemContext context,
+            IOptions<JwtSettings> jwtSettings,
             ITokenService tokenService,
-            IHttpContextAccessor httpContextAccessor,
             ICryptographyService cryptographyService,
-            IMapper mapper,
-            IOptions<JwtSettings> jwtSettings)
+            IMapper mapper)
 		{
             _context = context;
             _tokenService = tokenService;
-            _httpContext = httpContextAccessor;
             _mapper = mapper;
             _cryptographyService = cryptographyService;
-            _jwtSettings = jwtSettings?.Value;
-		}
+            _jwtSettings = jwtSettings.Value;
+        }
 
-        public Task<BmsResponse> Login(string login, string password)
+        public async Task<BmsResponse> Logout(string userEmail)
         {
             var response = new BmsResponse();
+            if (string.IsNullOrWhiteSpace(userEmail))
+            {
+                response.ApplicationError = "Token structure invalid.";
+                return await Task.FromResult(response);
+            }
+
+            var validUser = await _context.Users
+                .Where(x => x.NormalizedEmail == userEmail.ToUpper())
+                .ProjectTo<UserDto>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
+            var refreshToken = await _context.UserTokens.SingleOrDefaultAsync(x => x.UserId == validUser.Id);
+            if (refreshToken == null) return await Task.FromResult(response);
+            _context.UserTokens.Remove(refreshToken);
+            await _context.SaveChangesAsync();
+
+            return await Task.FromResult(response);
+        }
+        
+        public async Task<LoginResponse> Login(string login, string password)
+        {
+            var response = new LoginResponse();
             if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
             {
                 response.ApplicationError = "Login or password are empty.";
-                return Task.FromResult(response);
+                return await Task.FromResult(response);
 
             }
             var passwordHash = _cryptographyService.GetPasswordHash(password);
-            var validUser = _context.Users
+            var validUser = await _context.Users
                 .Include(u => u.Roles)
                 .Include(u => u.Claims)
                 .Where(x => x.NormalizedEmail == login.ToUpper() && x.PasswordHash == passwordHash)
-                .ProjectTo<UserDto>(_mapper.ConfigurationProvider).SingleOrDefault();
+                .ProjectTo<UserDto>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
 
             if (validUser != null)
             {
-                var generatedToken = _tokenService.BuildToken(_jwtSettings.Key, _jwtSettings.Issuer, _jwtSettings.Audience, validUser);
-                if (generatedToken != null)
-                { 
-                    _httpContext.HttpContext.Response.Cookies.Append("Token", generatedToken);
-                    return Task.FromResult(response);
-                }
-                else
+                var accessToken = _tokenService.BuildAccessToken(validUser);
+                
+                var refreshToken = await _context.UserTokens.SingleOrDefaultAsync(x => x.UserId == validUser.Id);
+                if (refreshToken == null)
                 {
-                    response.ApplicationError = "Token not generated";
+                    var newRefreshToken = _tokenService.BuildRefreshToken(validUser);
+                    _context.UserTokens.Add(new IdentityUserToken<Guid>
+                        { UserId = validUser.Id, Value = newRefreshToken, LoginProvider = _jwtSettings.Provider, Name = RefreshTokenName});
+                    await _context.SaveChangesAsync();
+                } 
+                else if (!_tokenService.ValidateToken(refreshToken.Value))
+                {
+                    refreshToken.Value = _tokenService.BuildRefreshToken(validUser);
+                    await _context.SaveChangesAsync();
                 }
+                
+                response.AccessToken = accessToken;
             }
             else
             {
                 response.ApplicationError = $"User '{login}' not found.";
-                
             }
-            return Task.FromResult(response);
+            return await Task.FromResult(response);
         }
 
-        public Task LogOut()
+        public async Task<RefreshTokenResponse> RefreshToken(string userEmail)
         {
-            _httpContext.HttpContext.Response.Cookies.Delete("Token");
-            return Task.CompletedTask;
+            var response = new RefreshTokenResponse();
+
+            var validUser = await _context.Users
+                .Where(x => x.NormalizedEmail == userEmail.ToUpper())
+                .ProjectTo<UserDto>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
+
+            var savedToken = await _context.UserTokens.SingleOrDefaultAsync(x => x.UserId == validUser.Id);
+            if (_tokenService.ValidateToken(savedToken?.Value))
+            {
+                response.AccessToken = _tokenService.BuildAccessToken(validUser);
+            }
+            
+            return await Task.FromResult(response);
         }
 
-        public Task RefreshToken()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<UserProfileResponse> UserProfile()
+        public async Task<UserProfileResponse> UserProfile(string userEmail)
         {
             var response = new UserProfileResponse();
-            var userClaimEmail = _httpContext.HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Email);
             
-            if (string.IsNullOrEmpty(userClaimEmail?.Value))
+            if (string.IsNullOrEmpty(userEmail))
             {
                 response.ApplicationError = "Token structure invalid.";
                 return response;
             }
 
             var userDto = await _context.Users
-                .Where(x => x.NormalizedEmail == userClaimEmail.Value.ToUpper())
+                .Where(x => x.NormalizedEmail == userEmail.ToUpper())
                 .ProjectTo<UserDto>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
             response.User = userDto;
             

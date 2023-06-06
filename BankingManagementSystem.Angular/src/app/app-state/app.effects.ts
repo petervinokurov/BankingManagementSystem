@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { IdentityService } from '../login/identity.service';
-import { login, loginSuccess, logout, logoutSuccess, userProfile, userProfileSuccess } from './app.actions';
+import { login, loginSuccess, logout, logoutSuccess, refreshTokenSuccess, userProfile, userProfileSuccess, userTokenInvalid } from './app.actions';
 import { map, mergeMap, } from 'rxjs';
 import { UserProfileResponse } from '../app-responses/user-profile-response';
 
@@ -25,5 +25,10 @@ export class AppEffects {
   userProfile$ = createEffect(
     () => this.actions$.pipe(ofType(userProfile),
     mergeMap(() => this.service.userProfile().pipe(map((response:UserProfileResponse) => userProfileSuccess({response})))))
+  );
+
+  userTokenInvalid$ = createEffect(
+    () => this.actions$.pipe(ofType(userTokenInvalid),
+    mergeMap(() => this.service.refreshToken().pipe(map(() => refreshTokenSuccess()))))
   );
 }
