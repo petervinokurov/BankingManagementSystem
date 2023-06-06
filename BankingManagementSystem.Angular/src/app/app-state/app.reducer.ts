@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { loginSuccess, logout, userProfileSuccess, userTokenInvalid, userTokenValid } from './app.actions';
+import { loginSuccess, logout, refreshTokenSuccess, userProfileSuccess, userTokenInvalid, userTokenValid } from './app.actions';
 import { AppState } from './app.state';
 import { UserDto } from '../user-management/user-list/userDto';
 
@@ -14,8 +14,8 @@ export const appReducer = createReducer(
   on(userTokenValid, (state) =>
   ({...state, isLogin: true})
   ),
-  on(userTokenInvalid, (state) =>
-    ({...state, isLogin: false})
+  on(refreshTokenSuccess, (state) =>
+    ({...state, isLogin: true})
   ),
 
   on(loginSuccess, (state) =>

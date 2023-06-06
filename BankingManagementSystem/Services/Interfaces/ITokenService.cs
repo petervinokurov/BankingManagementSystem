@@ -2,8 +2,9 @@
 {
     public interface ITokenService
     {
-        string BuildToken(string key, string issuer, string audience, UserDto user);
-        bool ValidateToken(string key, string issuer, string audience, string token);
+        string BuildAccessToken(UserDto user);
+        string BuildRefreshToken(UserDto user);
+        bool ValidateToken(string token);
     }
 }
 

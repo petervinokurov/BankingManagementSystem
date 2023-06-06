@@ -25,6 +25,10 @@ export class IdentityService {
     return this.httpService.get(`${IdentityApiRoutes.Root}/${IdentityApiRoutes.Logout}`, this.cancellationSubject);
   }
 
+  public refreshToken():Observable<void> {
+    return this.httpService.get(`${IdentityApiRoutes.Root}/${IdentityApiRoutes.RefreshToken}`, this.cancellationSubject);
+  }
+
   public userProfile():Observable<UserProfileResponse>{
     return this.httpService.get(`${IdentityApiRoutes.Root}/${IdentityApiRoutes.UserProfile}`,this.cancellationSubject);
   }

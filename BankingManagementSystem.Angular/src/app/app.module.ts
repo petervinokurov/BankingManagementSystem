@@ -18,7 +18,7 @@ import { DxMenuModule } from "devextreme-angular";
 import DataSource from 'devextreme/data/data_source';
 import { JwtHelperService, JWT_OPTIONS} from '@auth0/angular-jwt';
 import { UserProfileComponent } from './app-components/user-profile/user-profile.component';
-import { Store, StoreModule, provideStore } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { AppEffects } from './app-state/app.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { appReducer } from './app-state/app.reducer';

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -17,7 +18,7 @@ namespace BankingManagementSystem.Services
             _jwtOptions = jwtOptions?.Value;
         }
 
-        public string BuildToken(string key, string issuer, string audience, UserDto user)
+        public string BuildAccessToken(UserDto user)
         {
             var claimNames = user.Roles.SelectMany(r => r.RoleClaims)
                 .Select(rc => rc.ClaimView).ToHashSet();
@@ -30,16 +31,31 @@ namespace BankingManagementSystem.Services
                 new Claim(ClaimTypes.Sid,Guid.NewGuid().ToString())
             });
 
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
-            var tokenDescriptor = new JwtSecurityToken(issuer, audience, claims,
+            var tokenDescriptor = new JwtSecurityToken(_jwtOptions.Issuer, _jwtOptions.Audience, claims,
                 expires: DateTime.Now.AddMinutes(_jwtOptions.ExpirationTime), signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
         }
 
-        public bool ValidateToken(string key, string issuer, string audience, string token)
+        public string BuildRefreshToken(UserDto user)
         {
-            var mySecret = Encoding.UTF8.GetBytes(key);
+            var claims = new List<Claim>(new[]
+            {
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Sid,Guid.NewGuid().ToString())
+            });
+
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Key));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
+            var tokenDescriptor = new JwtSecurityToken(_jwtOptions.Issuer, _jwtOptions.Audience, claims,
+                expires: DateTime.Now.AddMinutes(_jwtOptions.RefreshExpirationTime), signingCredentials: credentials);
+            return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
+        }
+
+        public bool ValidateToken(string token)
+        {
+            var mySecret = Encoding.UTF8.GetBytes(_jwtOptions.Key);
             var mySecurityKey = new SymmetricSecurityKey(mySecret);
             var tokenHandler = new JwtSecurityTokenHandler();
             try
@@ -50,8 +66,8 @@ namespace BankingManagementSystem.Services
                     ValidateIssuerSigningKey = true,
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidIssuer = issuer,
-                    ValidAudience = audience,
+                    ValidIssuer = _jwtOptions.Issuer,
+                    ValidAudience = _jwtOptions.Audience,
                     IssuerSigningKey = mySecurityKey,
                 }, out SecurityToken validatedToken);
             }

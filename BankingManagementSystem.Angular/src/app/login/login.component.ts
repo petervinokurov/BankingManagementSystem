@@ -26,7 +26,6 @@ export class LoginComponent implements OnInit {
 
   public async onLogin(){
     const loginDto = this.model;
-    console.log(loginDto);
     this.store.dispatch(login({loginDto}));
     this.actions$.pipe(ofType(loginSuccess)).subscribe(() => {
       this.store.dispatch(userProfile());
