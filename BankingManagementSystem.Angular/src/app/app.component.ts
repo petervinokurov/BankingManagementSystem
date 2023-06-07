@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { refreshTokenSuccess, userProfile, userTokenInvalid, userTokenValid } from './app-state/app.actions';
 import { selectUserLogin } from './app-state/app.selectors';
 import { Actions, ofType } from '@ngrx/effects';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -21,8 +22,21 @@ export class AppComponent {
     private readonly cookie:CookieService,
     private readonly jwtHelper: JwtHelperService,
     private actions$: Actions,
-    private store:Store
+    private store:Store,
+    private router:Router
   ){}
+
+  public onNavigateRoles(){
+    this.router.navigate(["user-management/roles"]);
+  }
+
+  public onNavigateClaims(){
+    this.router.navigate(["user-management/claims"]);
+  }
+
+  public onNavigateUsers(){
+    this.router.navigate(["user-management/user-list"]);
+  }
 
   public ngOnInit(){
     if (this.cookie.get('Token') && !this.jwtHelper.isTokenExpired(this.cookie.get('Token')) ){

@@ -1,5 +1,5 @@
 <div>
-  <dx-data-grid height="790px" keyExpr="id" id="usersList" [dataSource]="roles" [showBorders]="true" (onSaving)="saveRole($event)">
+  <dx-data-grid height="790px" keyExpr="id" id="usersList" [dataSource]="(rolesSource$ | async)!" [showBorders]="true" (onSaving)="saveRole($event)">
     <dxo-load-panel [enabled]="true"></dxo-load-panel>
     <dxo-scrolling mode="virtual"></dxo-scrolling>
     <dxo-editing [allowAdding]="true"
@@ -20,16 +20,16 @@
     <dxi-column dataField="name" dataType="string"></dxi-column>
     <dxi-column dataField="roleClaims" editCellTemplate="claimsListTemplate"
     cellTemplate="claimsListTemplate">
-    <dxo-lookup [dataSource]="claimsSource" valueExpr="claimView" displayExpr="claimView">
+    <dxo-lookup [dataSource]="(claimsSource$ | async)!" valueExpr="claimView" displayExpr="claimView">
     </dxo-lookup>
     </dxi-column>
     <div *dxTemplate="let cellInfo of 'claimsListTemplate'">
       <dx-tag-box
-        [items]="claimsSource"
+        [items]="(claimsSource$ | async)!"
         [value]="cellInfo.value"
         displayExpr="claimView"
         [hideSelectedItems]="true"
-        [maxDisplayedTags]="claimsSource.length"
+        [maxDisplayedTags]="(claimsSourceCount$ | async)!"
         [showMultiTagOnly]="true"
         [searchEnabled]="true"
         (onValueChanged)="cellInfo.setValue($event.value)"

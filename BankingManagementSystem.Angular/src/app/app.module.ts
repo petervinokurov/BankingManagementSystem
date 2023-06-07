@@ -23,6 +23,8 @@ import { AppEffects } from './app-state/app.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { appReducer } from './app-state/app.reducer';
 import { UserProfileDetailsComponent } from './app-components/user-profile-details/user-profile-details.component';
+import { userManagementReducer } from './user-management/user-management-state/user-management.reducer';
+import { UserManagementEffects } from './user-management/user-management-state/user-management.effects';
 
 @NgModule({
   declarations: [
@@ -32,10 +34,11 @@ import { UserProfileDetailsComponent } from './app-components/user-profile-detai
     UserProfileDetailsComponent
   ],
   imports: [
-    EffectsModule.forRoot([]),
-    EffectsModule.forFeature([AppEffects]),
+    EffectsModule.forRoot([AppEffects]),
+    EffectsModule.forFeature([UserManagementEffects]),
     BrowserModule,
     StoreModule.forRoot({ appState: appReducer }),
+    StoreModule.forFeature("userManagement", userManagementReducer),
     HttpClientModule,
     AppRoutingModule,
     FormsModule,

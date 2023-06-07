@@ -18,8 +18,7 @@ export class NewUserComponent implements OnInit {
   registerButtonOptions: any = {
     text: 'Register',
     type: 'primary',
-    useSubmitBehavior: true,
-    //onclick: this.createNewUser()
+    useSubmitBehavior: true
   };
   passwordComparison = () => this.newUser.password;
   constructor(private readonly service:UserManagementService,
@@ -29,12 +28,10 @@ export class NewUserComponent implements OnInit {
   }
 
   public async createNewUser(){
-    var result = lastValueFrom(this.service.createNewUser(this.newUser, this.cancellationObservable));
+    var result = lastValueFrom(this.service.createNewUser(this.newUser));
     var b = await result;
     if (b){
       this.router.navigate([AppRoutes.Root]);
     }
-
   }
-
 }

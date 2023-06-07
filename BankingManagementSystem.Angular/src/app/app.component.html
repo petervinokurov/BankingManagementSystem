@@ -28,13 +28,13 @@
           <dx-menu orientation="vertical" class="d-flex"  >
             <dxi-item text="User management">
                 <dxi-item>
-                  <a href="user-management/user-list">Users</a>
+                  <a (click)="onNavigateUsers()">Users</a>
                 </dxi-item>
                 <dxi-item>
-                  <a href="user-management/roles">Roles</a>
+                  <a (click)="onNavigateRoles()">Roles</a>
                 </dxi-item>
                 <dxi-item>
-                  <a href="user-management/claims">Claims</a>
+                  <a (click)="onNavigateClaims()">Claims</a>
                 </dxi-item>
             </dxi-item>
           </dx-menu>

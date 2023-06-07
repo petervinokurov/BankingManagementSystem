@@ -6,6 +6,9 @@ import { ClaimDto } from '../claims/claimDto';
 import { RoleDto } from '../roles/roleDto';
 import { DataChange } from 'devextreme/ui/data_grid';
 import { NewUserDto } from '../new-user/newUserDto';
+import { claims, roles, users } from '../user-management-state/user-management.actions';
+import { Store } from '@ngrx/store';
+import { selectClaims, selectClaimsCount, selectRoles, selectRolesCount, selectUsers } from '../user-management-state/user-management.selectors';
 
 @Component({
   selector: 'app-user-list',
@@ -13,22 +16,36 @@ import { NewUserDto } from '../new-user/newUserDto';
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit {
-  protected cancellationObservable: Observable<void> = new Observable();
 
-  public users:UserDto[] = [];
-  public claimsSource:ClaimDto[] = [];
-  public rolesSource:RoleDto[] = [];
 
-  constructor(private readonly service: UserManagementService) {
+  public users$ : Observable<UserDto[]> = this.store.select(selectUsers);
+
+  public claimsSource$: Observable<ClaimDto[]> = this.store.select(selectClaims);
+  public rolesSource$:Observable<RoleDto[]> = this.store.select(selectRoles);
+  public claimsSourceCount$: Observable<number> = this.store.select(selectClaimsCount);
+  public rolesSourceCount$:Observable<number> = this.store.select(selectRolesCount);
+
+  constructor(private readonly service: UserManagementService,
+    private store:Store) {
   }
 
   async ngOnInit() {
-    this.users = await lastValueFrom(this.service.getUserList(this.cancellationObservable));
-    this.claimsSource = await lastValueFrom(this.service.getClaimsList(this.cancellationObservable));
-    this.rolesSource =  await lastValueFrom(this.service.getRolesList(this.cancellationObservable));
-    this.users.forEach(r => {
-      r.claims = this.claimsSource.filter(cs => r.claims.map(rc => rc.claimView).includes(cs.claimView));
-      r.roles = this.rolesSource.filter(cs => r.roles.map(rc => rc.name).includes(cs.name));
+    this.users$.subscribe(data => {
+      if (data.length === 0){
+        this.store.dispatch(users())
+      }
+    });
+
+    this.rolesSource$.subscribe(data => {
+      if (data.length === 0){
+        this.store.dispatch(roles())
+      }
+    });
+
+    this.claimsSource$.subscribe(data => {
+      if (data.length === 0){
+        this.store.dispatch(claims())
+      }
     });
   }
 
@@ -47,7 +64,7 @@ export class UserListComponent implements OnInit {
         return newUserDto;
       } );
       console.log(createUsers);
-      await lastValueFrom(this.service.createNewUsers(createUsers, this.cancellationObservable));
+      await lastValueFrom(this.service.createNewUsers(createUsers));
     }
     const updated = changes.filter(c => c.type === 'update');
     if (updated.length > 0){
@@ -56,13 +73,13 @@ export class UserListComponent implements OnInit {
         data.id = x.key;
         return data;
       });
-      await lastValueFrom(this.service.updateUsers(usersForUpdate, this.cancellationObservable));
+      await lastValueFrom(this.service.updateUsers(usersForUpdate));
     }
 
     const deleted = changes.filter(c => c.type === 'remove');
     if (deleted.length > 0){
       let deleteUserIds = deleted.map(x => x.key as string);
-      await lastValueFrom(this.service.deleteUsers(deleteUserIds, this.cancellationObservable));
+      await lastValueFrom(this.service.deleteUsers(deleteUserIds));
     }
   }
 }
