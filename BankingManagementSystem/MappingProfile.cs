@@ -60,7 +60,10 @@ namespace BankingManagementSystem
                 .ForMember(d => d.RoleClaims, opt => opt.MapFrom(f => f.RoleClaims))
                 .ForMember(d => d.RoleClaims, opt => opt.Condition(f => f.RoleClaims != default))
                 .ForMember(d => d.Name, opt => opt.MapFrom(f => f.Name))
-                .ForMember(d => d.Name, opt => opt.Condition(f => f.Name != default));
+                .ForMember(d => d.Name, opt => opt.Condition(f => f.Name != default))
+                .ForMember(d => d.NormalizedName, opt => opt.MapFrom(f => f.Name.ToUpperInvariant()))
+                .ForMember(d => d.Name, opt => opt.Condition(f => f.Name != default))
+                .ForMember(d => d.ConcurrencyStamp, opt => opt.NullSubstitute(Guid.NewGuid().ToString()));
         }
     }
 }

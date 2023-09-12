@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using BankingManagementSystem.Domains.UserManagementDomain;
 using BankingManagementSystem.Entities;
 using BankingManagementSystem.Dto;
 using Microsoft.EntityFrameworkCore;
@@ -13,15 +14,12 @@ namespace BankingManagementSystem.Services
     public class UserManagementService : IUserManagementService
 	{
         private readonly BankingManagementSystemContext _context;
-        private readonly ICryptographyService _cryptographyService;
         private readonly IMapper _mapper;
 
 		public UserManagementService(BankingManagementSystemContext context,
-            ICryptographyService cryptographyService,
             IMapper mapper)
 		{
             _context = context;
-            _cryptographyService = cryptographyService;
             _mapper = mapper;
         }
 
@@ -96,44 +94,44 @@ namespace BankingManagementSystem.Services
             return await _context.Users.ProjectTo<UserDto>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
-        public async Task<BmsResponse> CreateNewRoles(IEnumerable<RoleDto> roles)
+        public async Task<CreateRolesResponse> CreateNewRoles(CreateRolesRequest request)
         {
-            var response = new BmsResponse();
+            var response = new CreateRolesResponse();
+            var roles = request.NewRoles.ToList();
             var existedRoles = await _context.Roles.Where(r => roles.Select(x => x.Name.ToUpperInvariant()).Contains(r.NormalizedName)).Select(x => x.Name).ToListAsync();
             response.ApplicationError = string.Join(',',existedRoles.Select(x => $"Role {x} already exist.").ToArray());
-            await _context.Roles.AddRangeAsync(roles.Where(r => !existedRoles.Contains(r.Name)).Select(r => new Role
-            {
-                Id = r.Id, 
-                Name = r.Name, 
-                NormalizedName = r.Name.ToUpperInvariant(), 
-                ConcurrencyStamp = Guid.NewGuid().ToString()
-            }));
+            var rolesEntities = roles.Where(r => !existedRoles.Contains(r.Name)).Select(r => _mapper.Map<Role>(r)).ToList();
+            await _context.Roles.AddRangeAsync(rolesEntities);
             
             await _context.SaveChangesAsync();
+            response.CreatedRoles = _mapper.Map<IEnumerable<RoleDto>>(rolesEntities);
             return await Task.FromResult(response);
         }
 
-        public async Task<BmsResponse> UpdateRoles(List<RoleDto> roles)
+        public async Task<UpdateRolesResponse> UpdateRoles(UpdateRolesRequest request)
         {
-            var response = new BmsResponse();
+            var response = new UpdateRolesResponse();
             var repositoryRoles = await _context.Roles.Include(r => r.RoleClaims)
-                .Where(r => roles.Select(x => x.Id).Contains(r.Id)).ToListAsync();
+                .Where(r => request.UpdateRoles.Select(x => x.Id).Contains(r.Id)).ToListAsync();
 
             repositoryRoles.ForEach(rr =>
             {
-                var role = roles.Single(r => r.Id == rr.Id);
+                var role = request.UpdateRoles.Single(r => r.Id == rr.Id);
                 _mapper.Map(role, rr);
             });
             await _context.SaveChangesAsync();
+            response.UpdatedRoles = _mapper.Map<IEnumerable<RoleDto>>(repositoryRoles);
             return await Task.FromResult(response);
         }
 
-        public async Task<BmsResponse> DeleteRoles(List<Guid> roleIds)
+        public async Task<DeleteRolesResponse> DeleteRoles(DeleteRolesRequest request)
         {
-            var response = new BmsResponse();
-            var rolesToRemove = _context.Roles.Where(r => roleIds.Contains(r.Id));
+            var response = new DeleteRolesResponse();
+            var rolesToRemove = await _context.Roles.Where(r => request.RoleIds.Contains(r.Id)).ToListAsync();
+            //TODO Add input validation.
             _context.Roles.RemoveRange(rolesToRemove);
             await _context.SaveChangesAsync();
+            response.DeletedRoleIds = rolesToRemove.Select(r => r.Id).ToList();
             return await Task.FromResult(response);
         }
     }

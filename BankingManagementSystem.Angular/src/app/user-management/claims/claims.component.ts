@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { UserManagementService } from '../user-management.service';
 import { ClaimDto } from './claimDto';
-import { Observable, lastValueFrom } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectClaims, selectClaimsCount } from '../user-management-state/user-management.selectors';
+import { claims } from '../user-management-state/user-management.actions';
 
 @Component({
   selector: 'app-claims',
@@ -10,12 +12,16 @@ import { Observable, lastValueFrom } from 'rxjs';
 })
 export class ClaimsComponent implements OnInit {
 
-  public claimsSource:ClaimDto[] = [];
-  protected cancellationObservable: Observable<void> = new Observable();
+  public claimsSource$: Observable<ClaimDto[]> = this.store.select(selectClaims);
+  public claimsSourceCount$: Observable<number> = this.store.select(selectClaimsCount);
 
-  constructor(private readonly service:UserManagementService) { }
+  constructor(private readonly store:Store) { }
 
-  async ngOnInit(): Promise<void> {
-    this.claimsSource = await lastValueFrom(this.service.getClaimsList(this.cancellationObservable));
+  async ngOnInit() {
+    this.claimsSource$.subscribe(data => {
+      if (data.length === 0){
+        this.store.dispatch(claims())
+      }
+    });
   }
 }

@@ -7,114 +7,111 @@ import { UserManagementApiRoutes } from "./user-management-api-routes";
 import { UserDto } from "./user-list/userDto";
 import { RoleDto } from "./roles/roleDto";
 import { ClaimDto } from "./claims/claimDto";
+import { CreateRolesRequest } from "./domain/createRolesRequest";
+import { CreateRolesResponse } from "./domain/createRolesResponse";
+import { DeleteRolesRequest } from "./domain/deleteRolesRequest";
+import { DeleteRolesResponse } from "./domain/deleteRolesResponse";
+import { UpdateRolesRequest } from "./domain/updateRolesRequest";
+import { UpdateRolesResponse } from "./domain/updateRolesResponse";
 
 @Injectable()
 export class UserManagementService {
+
+  protected cancellationSubject: Observable<void> = new Observable();
+
 	constructor(public httpService: HttpApiService) {
 	}
 
 	public createNewUser(
-		request: NewUserDto,
-		cancellationSubject: Observable<void>
+		request: NewUserDto
 	): Observable<BmsResponse> {
 		return this.httpService.post<BmsResponse>(
 			`${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.CreateNewUser}`,
 			request,
-			cancellationSubject
+			this.cancellationSubject
 		);
 	}
 
   public createNewUsers(
-    request:NewUserDto[],
-    cancellationSubject: Observable<void>
+    request:NewUserDto[]
   ): Observable<BmsResponse> {
     return this.httpService.post<BmsResponse>(
 			`${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.CreateNewUsers}`,
 			request,
-			cancellationSubject
+			this.cancellationSubject
 		);
   }
 
   public updateUsers(
-    request:UserDto[],
-    cancellationSubject:Observable<void>
+    request:UserDto[]
   ): Observable<UserDto[]> {
     return this.httpService.put<UserDto[]>(
       `${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.UpdateUsers}`,
       request,
-      cancellationSubject
+      this.cancellationSubject
     );
   }
 
-  public deleteUsers(request:string[],
-    cancellationSubject:Observable<void>
+  public deleteUsers(request:string[]
   ): Observable<string[]>{
     return this.httpService.delete<string[]>(
       `${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.DeleteUsers}`,
       request,
-      cancellationSubject
+      this.cancellationSubject
     );
   }
 
   public getUserList(
-    cancellationSubject:Observable<void>
     ): Observable<UserDto[]> {
     return this.httpService.get<UserDto[]>(
       `${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.UserList}`,
-      cancellationSubject
+      this.cancellationSubject
     );
   }
 
   public getRolesList(
-    cancellationSubject:Observable<void>
   ): Observable<RoleDto[]>{
-    return this.httpService.get<RoleDto[]>(
+    return this.httpService.get(
       `${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.RoleList}`,
-      null,
-      cancellationSubject
+      this.cancellationSubject
     );
   }
 
   public getClaimsList(
-    cancellationSubject:Observable<void>
   ): Observable<ClaimDto[]>{
-    return this.httpService.get<ClaimDto[]>(
+    return this.httpService.get(
       `${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.ClaimList}`,
-      null,
-      cancellationSubject
+      this.cancellationSubject
     );
   }
 
   public createNewRoles(
-    request:RoleDto[],
-    cancellationSubject:Observable<void>
-  ): Observable<RoleDto[]> {
-    return this.httpService.post<RoleDto[]>(
+    request:CreateRolesRequest
+  ): Observable<CreateRolesResponse> {
+    return this.httpService.post<CreateRolesResponse>(
       `${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.CreateNewRoles}`,
       request,
-      cancellationSubject
+      this.cancellationSubject
     );
   }
 
   public updateRoles(
-    request:RoleDto[],
-    cancellationSubject:Observable<void>
-  ): Observable<RoleDto[]> {
-    return this.httpService.put<RoleDto[]>(
+    request:UpdateRolesRequest
+  ): Observable<UpdateRolesResponse> {
+    return this.httpService.put<UpdateRolesResponse>(
       `${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.UpdateRoles}`,
       request,
-      cancellationSubject
+      this.cancellationSubject
     );
   }
 
   public deleteRoles(
-    request:string[],
-    cancellationSubject:Observable<void>
-  ): Observable<string[]>{
-    return this.httpService.delete<string[]>(
+    request:DeleteRolesRequest
+  ): Observable<DeleteRolesResponse>{
+    return this.httpService.delete<DeleteRolesResponse>(
       `${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.DeleteRoles}`,
       request,
-      cancellationSubject
+      this.cancellationSubject
     );
   }
 
