@@ -70,6 +70,8 @@ namespace BankingManagementSystem.Entities
             modelBuilder.Entity<Role>()
                 .Property(b => b.ConcurrencyStamp).IsConcurrencyToken();
             modelBuilder.Entity<Role>().HasData(_demoDataProvider.GetDefaultSystemRoles());
+
+            modelBuilder.Entity<RoleClaim>().HasIndex(c => new { c.RoleId, c.ClaimType, c.ClaimValue }).IsUnique();
             
             modelBuilder.Entity<User>()
                 .HasMany(p => p.Roles)

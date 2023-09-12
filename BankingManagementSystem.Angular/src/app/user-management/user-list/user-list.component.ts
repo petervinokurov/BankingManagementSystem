@@ -8,7 +8,8 @@ import { DataChange } from 'devextreme/ui/data_grid';
 import { NewUserDto } from '../new-user/newUserDto';
 import { claims, roles, users } from '../user-management-state/user-management.actions';
 import { Store } from '@ngrx/store';
-import { selectClaims, selectClaimsCount, selectRoles, selectRolesCount, selectUsers } from '../user-management-state/user-management.selectors';
+import { selectClaims, selectClaimsCount, selectRoles, selectRolesCount, selectUsers, selectUsersCount } from '../user-management-state/user-management.selectors';
+import { Dictionary } from '@ngrx/entity';
 
 @Component({
   selector: 'app-user-list',
@@ -18,7 +19,8 @@ import { selectClaims, selectClaimsCount, selectRoles, selectRolesCount, selectU
 export class UserListComponent implements OnInit {
 
 
-  public users$ : Observable<UserDto[]> = this.store.select(selectUsers);
+  public users$ : Observable<(UserDto | undefined)[]> = this.store.select(selectUsers);
+  public usersCount$ = this.store.select(selectUsersCount);
 
   public claimsSource$: Observable<ClaimDto[]> = this.store.select(selectClaims);
   public rolesSource$:Observable<RoleDto[]> = this.store.select(selectRoles);
@@ -30,11 +32,7 @@ export class UserListComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.users$.subscribe(data => {
-      if (data.length === 0){
-        this.store.dispatch(users())
-      }
-    });
+    this.store.dispatch(users())
 
     this.rolesSource$.subscribe(data => {
       if (data.length === 0){

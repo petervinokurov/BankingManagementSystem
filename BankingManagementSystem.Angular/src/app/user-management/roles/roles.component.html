@@ -1,5 +1,5 @@
 <div>
-  <dx-data-grid height="790px" keyExpr="id" id="usersList" [dataSource]="(rolesSource$ | async)!" [showBorders]="true" (onSaving)="saveRole($event)">
+  <dx-data-grid height="790px" keyExpr="id" id="rolesList" [dataSource]="(rolesSource$ | async)!" [showBorders]="true" (onSaving)="saveRole($event)">
     <dxo-load-panel [enabled]="true"></dxo-load-panel>
     <dxo-scrolling mode="virtual"></dxo-scrolling>
     <dxo-editing [allowAdding]="true"

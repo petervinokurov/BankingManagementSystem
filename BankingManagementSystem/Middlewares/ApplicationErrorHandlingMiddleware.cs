@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -15,7 +15,7 @@ namespace BankingManagementSystem.Middlewares
 	{
 		private readonly RequestDelegate _next;
         private readonly ILogger<ApplicationErrorHandlingMiddleware> _logger;
-        const int MaxBodyLength = 30000; //A body bigger than that will be swop into the file system.
+        const int MaxBodyLength = 30000; //A body bigger than that will be swap into the file system.
         const string ContentType = "application/json";
 
         public ApplicationErrorHandlingMiddleware(RequestDelegate next,
@@ -91,7 +91,7 @@ namespace BankingManagementSystem.Middlewares
             context.Response.ContentType = ContentType;
             context.Response.StatusCode = (int)status;
             _logger.LogError(exception,
-                "{RequesuestMethod}{Route}{QueryParameters}{UserPermissions}"
+                "{RequestMethod}{Route}{QueryParameters}{UserPermissions}"
                 , request.Method, request.Path, requestParametersBuilder.ToString(), string.Empty);
             await context.Response.WriteAsync(exceptionResult);
         }

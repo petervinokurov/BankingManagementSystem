@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
+using BankingManagementSystem.Domains.UserManagementDomain;
 using BankingManagementSystem.Dto;
-using BankingManagementSystem.Entities;
 using BankingManagementSystem.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -62,17 +60,17 @@ namespace BankingManagementSystem.Controllers
             return _claimPairsService.ClaimPairs();
         }
 
-        [HttpPost] public Task CreateNewRoles(IEnumerable<RoleDto> request)
+        [HttpPost] public Task<CreateRolesResponse> CreateNewRoles(CreateRolesRequest request)
         {
             return _service.CreateNewRoles(request);
         }
 
-        [HttpPut] public Task UpdateRoles(List<RoleDto> request)
+        [HttpPut] public Task<UpdateRolesResponse> UpdateRoles(UpdateRolesRequest request)
         {
             return _service.UpdateRoles(request);
         }
 
-        [HttpDelete] public Task DeleteRoles([FromQuery]List<Guid> request)
+        [HttpDelete] public Task<DeleteRolesResponse> DeleteRoles([FromQuery]DeleteRolesRequest request)
         {
             return _service.DeleteRoles(request);
         }

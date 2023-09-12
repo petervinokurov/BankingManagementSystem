@@ -25,6 +25,8 @@ import { appReducer } from './app-state/app.reducer';
 import { UserProfileDetailsComponent } from './app-components/user-profile-details/user-profile-details.component';
 import { userManagementReducer } from './user-management/user-management-state/user-management.reducer';
 import { UserManagementEffects } from './user-management/user-management-state/user-management.effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
 
 @NgModule({
   declarations: [
@@ -47,6 +49,7 @@ import { UserManagementEffects } from './user-management/user-management-state/u
     BrowserAnimationsModule,
     DxMenuModule,
     ToastrModule.forRoot(),
+    StoreDevtoolsModule.instrument(), //TODO Implement Development and Production environment
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS,
