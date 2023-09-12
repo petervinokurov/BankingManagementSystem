@@ -6,11 +6,6 @@ import { ClaimDto, claimAdapter } from "../claims/claimDto";
 
 export const selectUserManagementState = createFeatureSelector<UserManagementState>('userManagement');
 
-export const selectUsers = createSelector(
-  selectUserManagementState,
-  (userManagement: UserManagementState) => userAdapter.getSelectors().selectAll(userManagement.usersSource)
-);
-
 export const selectUsersCount = createSelector(
   selectUserManagementState,
   (userManagement: UserManagementState) => userAdapter.getSelectors().selectAll(userManagement.usersSource).length
@@ -33,8 +28,7 @@ export const selectRoles = createSelector(
 
     return roleAdapter.getSelectors().selectAll(userManagement.rolesSource).map(role => {
       let cl = claims.filter(c => role.roleClaims.find(rc => rc.claimView === c.claimView));
-      let role1 = {...role, roleClaims: cl};
-      return role1;
+      return {...role, roleClaims: cl};
     });
   }
 );
@@ -42,4 +36,16 @@ export const selectRoles = createSelector(
 export const selectRolesCount = createSelector(
   selectUserManagementState,
   (userManagement: UserManagementState) => roleAdapter.getSelectors().selectAll(userManagement.rolesSource).length
+);
+
+export const selectUsers = createSelector(
+  selectUserManagementState,
+  selectRoles,
+  selectClaims,
+  (userManagement: UserManagementState, roles, claims) => {
+    return userAdapter.getSelectors().selectAll(userManagement.usersSource).map(user => {
+      let userRoles = roles.filter(r => user.roles.find(ur => ur.id === r.id));
+      let userClaims = claims.filter(c => user.claims.find(uc => uc.claimView === c.claimView));
+      return {...user, roles: userRoles, claims: userClaims};
+    })}
 );
