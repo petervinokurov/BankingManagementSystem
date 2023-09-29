@@ -8,7 +8,7 @@ export const selectUserManagementState = createFeatureSelector<UserManagementSta
 
 export const selectUsersCount = createSelector(
   selectUserManagementState,
-  (userManagement: UserManagementState) => userAdapter.getSelectors().selectAll(userManagement.usersSource).length
+  (userManagement: UserManagementState) => userAdapter.getSelectors().selectTotal(userManagement.usersSource)
 );
 
 export const selectClaims = createSelector(
@@ -18,7 +18,7 @@ export const selectClaims = createSelector(
 
 export const selectClaimsCount = createSelector(
   selectUserManagementState,
-  (userManagement: UserManagementState) => claimAdapter.getSelectors().selectAll(userManagement.claimsSource).length
+  (userManagement: UserManagementState) => claimAdapter.getSelectors().selectTotal(userManagement.claimsSource)
 );
 
 export const selectRoles = createSelector(
@@ -35,7 +35,7 @@ export const selectRoles = createSelector(
 
 export const selectRolesCount = createSelector(
   selectUserManagementState,
-  (userManagement: UserManagementState) => roleAdapter.getSelectors().selectAll(userManagement.rolesSource).length
+  (userManagement: UserManagementState) => roleAdapter.getSelectors().selectTotal(userManagement.rolesSource)
 );
 
 export const selectUsers = createSelector(
