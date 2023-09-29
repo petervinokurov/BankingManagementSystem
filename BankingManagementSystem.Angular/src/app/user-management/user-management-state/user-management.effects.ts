@@ -40,10 +40,7 @@ export class UserManagementEffects {
     updateRoles$ = createEffect(
       () => this.actions$.pipe(ofType(updateRoles),
       mergeMap((payload) =>
-      this.service.updateRoles(payload.request).pipe(map((response: UpdateRolesResponse) => {
-        //const updatedRoles = response.updatedRoles.map(r => new Update<RoleDto>(r));
-        return updateRolesSuccess({response})
-      }))))
+      this.service.updateRoles(payload.request).pipe(map((response: UpdateRolesResponse) => updateRolesSuccess({response})))))
     );
 
     claims$ = createEffect(
@@ -51,6 +48,4 @@ export class UserManagementEffects {
       mergeMap(() =>
       this.service.getClaimsList().pipe(map((claims: ClaimDto[]) => claimsSuccess({claims})))))
     );
-
-
 }

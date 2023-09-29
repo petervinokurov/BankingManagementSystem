@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { lastValueFrom, Observable } from 'rxjs';
-import { UserManagementService } from '../user-management.service';
+import { Observable } from 'rxjs';
 import { RoleDto } from './roleDto';
 import { DataChange } from 'devextreme/ui/data_grid';
 import { ClaimDto } from '../claims/claimDto';
