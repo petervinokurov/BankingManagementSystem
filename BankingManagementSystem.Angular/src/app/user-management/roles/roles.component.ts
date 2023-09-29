@@ -42,9 +42,11 @@ export class RolesComponent implements OnInit {
 
   async onClaimsChanged(event: ClaimDto[], item: RoleDto){
     item.roleClaims = event;
-    let request = new UpdateRolesRequest();
-    request.updateRoles = [item];
-    this.store.dispatch(updateRoles({request}));
+    if (item.id){
+      let request = new UpdateRolesRequest();
+      request.updateRoles = [item];
+      this.store.dispatch(updateRoles({request}));
+    }
   }
 
   async saveRole(e: any){
