@@ -14,7 +14,8 @@ export const userManagementState:UserManagementState ={
 export const userManagementReducer = createReducer(
   userManagementState,
   on(usersSuccess, (state, action) => ({...state, usersSource: userAdapter.addMany(action.users, state.usersSource) })),
-  on(rolesSuccess, (state, action) => ({...state, rolesSource: roleAdapter.addMany(action.roles, state.rolesSource)})),
+  on(rolesSuccess, (state, action) => ({...state, rolesSource: roleAdapter.addMany(action.roles, state.rolesSource)
+    , claimsSource: claimAdapter.addMany(action.roles.flatMap(r => r.roleClaims), state.claimsSource)})),
   on(createRolesSuccess, (state, action) => ({...state, rolesSource: roleAdapter.addMany(action.response.createdRoles, state.rolesSource)})),
   on(deleteRolesSuccess, (state, action) => ({...state, rolesSource: roleAdapter.removeMany(action.response.deletedRoleIds, state.rolesSource)})),
   on(updateRolesSuccess, (state, action) => ({...state, rolesSource: roleAdapter.upsertMany(action.response.updatedRoles, state.rolesSource)})),

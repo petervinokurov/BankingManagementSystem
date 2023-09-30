@@ -21,20 +21,17 @@ export class RolesComponent implements OnInit {
   public rolesSource$:Observable<RoleDto[]> = this.store.select(selectRoles);
   public claimsSourceCount$: Observable<number> = this.store.select(selectClaimsCount);
 
-  constructor(private readonly service:UserManagementService,
-    private store:Store) { }
+  constructor(private store:Store) { }
 
   async ngOnInit() {
-
-
-    this.claimsSource$.subscribe(data => {
-      if (data.length === 0){
-        this.store.dispatch(claims())
-      }
-    });
     this.rolesSource$.subscribe(data => {
       if (data.length === 0){
         this.store.dispatch(roles())
+      }
+    });
+    this.claimsSource$.subscribe(data => {
+      if (data.length === 0){
+        this.store.dispatch(claims())
       }
     });
   }

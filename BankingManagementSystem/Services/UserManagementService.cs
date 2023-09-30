@@ -86,7 +86,7 @@ namespace BankingManagementSystem.Services
 
         public async Task<List<BmsRoleProjection>> RoleList()
         {
-           return await _context.Roles.ProjectTo<BmsRoleProjection>(_mapper.ConfigurationProvider).ToListAsync();
+           return await _context.Roles.Include(x => x.RoleClaims).ProjectTo<BmsRoleProjection>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
         public async Task<List<UserDto>> UserList()
