@@ -91,7 +91,10 @@ namespace BankingManagementSystem.Services
 
         public async Task<List<UserDto>> UserList()
         {
-            return await _context.Users.ProjectTo<UserDto>(_mapper.ConfigurationProvider).ToListAsync();
+            return await _context.Users
+                .Include(u=>u.Roles)
+                .Include(u => u.Claims)
+                .ProjectTo<UserDto>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
         public async Task<CreateRolesResponse> CreateNewRoles(CreateRolesRequest request)

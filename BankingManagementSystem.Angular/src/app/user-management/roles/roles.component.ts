@@ -4,7 +4,7 @@ import { RoleDto } from './roleDto';
 import { DataChange } from 'devextreme/ui/data_grid';
 import { ClaimDto } from '../claims/claimDto';
 import { claims, roles, createRoles, deleteRoles, updateRoles } from '../user-management-state/user-management.actions';
-import { selectClaims, selectClaimsCount, selectRoles } from '../user-management-state/user-management.selectors';
+import { selectClaims, selectClaimsCount, selectRoles, selectRolesCount } from '../user-management-state/user-management.selectors';
 import { Store } from '@ngrx/store';
 import { CreateRolesRequest } from '../domain/createRolesRequest';
 import { DeleteRolesRequest } from '../domain/deleteRolesRequest';
@@ -19,18 +19,19 @@ export class RolesComponent implements OnInit {
 
   public claimsSource$: Observable<ClaimDto[]> = this.store.select(selectClaims);
   public rolesSource$:Observable<RoleDto[]> = this.store.select(selectRoles);
+  public rolesSourceCount$:Observable<number> = this.store.select(selectRolesCount);
   public claimsSourceCount$: Observable<number> = this.store.select(selectClaimsCount);
 
   constructor(private store:Store) { }
 
   async ngOnInit() {
-    this.rolesSource$.subscribe(data => {
-      if (data.length === 0){
+    this.rolesSourceCount$.subscribe(data => {
+      if (!data){
         this.store.dispatch(roles())
       }
     });
-    this.claimsSource$.subscribe(data => {
-      if (data.length === 0){
+    this.claimsSourceCount$.subscribe(data => {
+      if (!data){
         this.store.dispatch(claims())
       }
     });

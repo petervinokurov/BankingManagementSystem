@@ -32,19 +32,25 @@ export class UserListComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.store.dispatch(users())
 
-    this.rolesSource$.subscribe(data => {
-      if (data.length === 0){
+    this.usersCount$.subscribe(data =>{
+      if (!data){
+        this.store.dispatch(users());
+      }
+    });
+
+    this.rolesSourceCount$.subscribe(data => {
+      if (!data){
         this.store.dispatch(roles())
       }
     });
-
-    this.claimsSource$.subscribe(data => {
-      if (data.length === 0){
+    this.claimsSourceCount$.subscribe(data => {
+      if (!data){
         this.store.dispatch(claims())
       }
     });
+
+
   }
 
   async saveUsers(e: any){
@@ -61,7 +67,6 @@ export class UserListComponent implements OnInit {
         newUserDto.claims = user.claims;
         return newUserDto;
       } );
-      console.log(createUsers);
       await lastValueFrom(this.service.createNewUsers(createUsers));
     }
     const updated = changes.filter(c => c.type === 'update');
