@@ -77,7 +77,6 @@
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Entities\" />
-    <Folder Include="Entities\EntitiesUpdateExtensions" />
     <Folder Include="Services\" />
     <Folder Include="Dto\" />
     <Folder Include="Projections\" />

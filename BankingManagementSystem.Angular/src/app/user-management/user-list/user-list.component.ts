@@ -6,10 +6,11 @@ import { ClaimDto } from '../claims/claimDto';
 import { RoleDto } from '../roles/roleDto';
 import { DataChange } from 'devextreme/ui/data_grid';
 import { NewUserDto } from '../new-user/newUserDto';
-import { claims, roles, users } from '../user-management-state/user-management.actions';
+import { claims, createUsers, roles, updateUsers, users } from '../user-management-state/user-management.actions';
 import { Store } from '@ngrx/store';
 import { selectClaims, selectClaimsCount, selectRoles, selectRolesCount, selectUsers, selectUsersCount } from '../user-management-state/user-management.selectors';
-import { Dictionary } from '@ngrx/entity';
+import { CreateUsersRequest } from '../domain/createUsersRequest';
+import { UpdateUsersRequest } from '../domain/UpdateUsersRequest';
 
 @Component({
   selector: 'app-user-list',
@@ -17,8 +18,6 @@ import { Dictionary } from '@ngrx/entity';
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit {
-
-
   public users$ : Observable<(UserDto | undefined)[]> = this.store.select(selectUsers);
   public usersCount$ = this.store.select(selectUsersCount);
 
@@ -32,7 +31,6 @@ export class UserListComponent implements OnInit {
   }
 
   async ngOnInit() {
-
     this.usersCount$.subscribe(data =>{
       if (!data){
         this.store.dispatch(users());
@@ -49,8 +47,6 @@ export class UserListComponent implements OnInit {
         this.store.dispatch(claims())
       }
     });
-
-
   }
 
   async saveUsers(e: any){
@@ -58,7 +54,7 @@ export class UserListComponent implements OnInit {
     const changes = (e.changes as DataChange<UserDto, string>[]);
     const inserted = changes.filter(c => c.type === 'insert');
     if (inserted.length > 0){
-      const createUsers = inserted.map(i =>{
+      const users = inserted.map(i =>{
         var user = i.data as UserDto;
         let newUserDto = new NewUserDto();
         newUserDto.userName = user.userName;
@@ -66,8 +62,10 @@ export class UserListComponent implements OnInit {
         newUserDto.roles = user.roles;
         newUserDto.claims = user.claims;
         return newUserDto;
-      } );
-      await lastValueFrom(this.service.createNewUsers(createUsers));
+      });
+      const request = new CreateUsersRequest();
+      request.newUsers = users;
+      this.store.dispatch(createUsers({request}));
     }
     const updated = changes.filter(c => c.type === 'update');
     if (updated.length > 0){
@@ -76,7 +74,9 @@ export class UserListComponent implements OnInit {
         data.id = x.key;
         return data;
       });
-      await lastValueFrom(this.service.updateUsers(usersForUpdate));
+      const request = new UpdateUsersRequest();
+      request.users = usersForUpdate;
+      this.store.dispatch(updateUsers({request}));
     }
 
     const deleted = changes.filter(c => c.type === 'remove');

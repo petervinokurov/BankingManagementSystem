@@ -23,50 +23,37 @@ namespace BankingManagementSystem.Services
             _mapper = mapper;
         }
 
-        public Task<BmsResponse> CreateNewUser(NewUserDto newUser)
+        public async Task<CreateUsersResponse> CreateNewUsers(CreateUsersRequest request)
         {
-            var result = new BmsResponse();
-            if (_context.Users.Any(u => u.NormalizedEmail == newUser.Username.ToUpperInvariant()))
+            var response = new CreateUsersResponse();
+            var existedUsers = await _context.Users.Where(r => request.NewUsers.Select(x => x.Email.ToUpperInvariant()).Contains(r.Email)).Select(x => x.Email).ToListAsync();
+            response.ApplicationError = string.Join(',',existedUsers.Select(x => $"User {x} already exist.{Environment.NewLine}").ToArray());
+            var newUsers = request.NewUsers.Where(r => !existedUsers.Contains(r.Email)).Select(u =>
             {
-                result.ApplicationError = $"User '{newUser.Username}' already exist.";
-            }
-            else
-            {
-                _context.Users.AddAsync(_mapper.Map<User>(newUser));
-                _context.SaveChangesAsync();
-            }
-            return Task.FromResult(result);
-        }
-
-        public async Task<BmsResponse> CreateNewUsers(IEnumerable<NewUserDto> newUsers)
-        {
-            var response = new BmsResponse();
-            await _context.Roles.ToListAsync();
-            var existedRoles = await _context.Users.Where(r => newUsers.Select(x => x.Email.ToUpperInvariant()).Contains(r.Email)).Select(x => x.Email).ToListAsync();
-            response.ApplicationError = string.Join(',',existedRoles.Select(x => $"User {x} already exist.").ToArray());
-            await _context.Users.AddRangeAsync(newUsers.Where(r => !existedRoles.Contains(r.Email)).Select(r =>
-            {
-                var user = _mapper.Map<User>(r);
-                user.Roles = _context.Roles.Where(r => user.Roles.Select(ur => ur.Id).Contains(r.Id)).ToList();
+                var user = _mapper.Map<User>(u);
+                user.Roles = _context.Roles.Where(r => u.Roles.Select(ur => ur.Id).Contains(r.Id)).ToList();
                 return user;
-            }));
+            });
+            await _context.Users.AddRangeAsync(newUsers);
             
             await _context.SaveChangesAsync();
             return await Task.FromResult(response);
         }
 
-        public async Task<BmsResponse> UpdateUsers(IEnumerable<UserDto> users)
+        public async Task<UpdateUsersResponse> UpdateUsers(UpdateUsersRequest request)
         {
-            var response = new BmsResponse();
+            var response = new UpdateUsersResponse();
             var repositoryUsers = await _context.Users
-                .Include(r => r.Claims)
-                .Include(r => r.Roles)
-                .Where(r => users.Select(x => x.Id).Contains(r.Id)).ToListAsync();
+                .Include(u => u.Roles)
+                .Include(u => u.Claims)
+                .Where(r => request.Users.Select(x => x.Id).Contains(r.Id)).ToListAsync();
+            var rolesList = await _context.Roles.ToListAsync();
 
-            repositoryUsers.ForEach(rr =>
+            repositoryUsers.ForEach(ur =>
             {
-                var user = users.Single(r => r.Id == rr.Id);
-                _mapper.Map(user, rr);
+                var user = request.Users.Single(r => r.Id == ur.Id);
+                _mapper.Map(user, ur);
+                ur.Roles = rolesList.Where(rl => ur.Roles.Select(r => r.Id).Contains(rl.Id)).ToList();
             });
             await _context.SaveChangesAsync();
             return await Task.FromResult(response);

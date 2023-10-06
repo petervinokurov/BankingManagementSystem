@@ -11,7 +11,7 @@ namespace BankingManagementSystem
         public MappingProfile(ICryptographyService cryptographyService)
         {
             CreateMap<Customer, CustomerDto>();
-            CreateMap<User, UserDto>();
+            CreateMap<User, UserDto>().ReverseMap();
             CreateMap<RoleClaim, ClaimDto>().ReverseMap();
             CreateMap<UserClaim, ClaimDto>().ReverseMap();
             CreateMap<Role, BmsRoleProjection>();
