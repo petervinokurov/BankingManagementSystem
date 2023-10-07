@@ -11,10 +11,9 @@ namespace BankingManagementSystem.Services
 {
 	public interface IUserManagementService
 	{
-		Task<BmsResponse> CreateNewUser(NewUserDto newUser);
-		Task<BmsResponse> CreateNewUsers(IEnumerable<NewUserDto> newUsers);
-		Task<BmsResponse> UpdateUsers(IEnumerable<UserDto> users);
-		Task<BmsResponse> DeleteUsers(IEnumerable<Guid> userIds);
+		Task<CreateUsersResponse> CreateNewUsers(CreateUsersRequest request);
+		Task<UpdateUsersResponse> UpdateUsers(UpdateUsersRequest request);
+		Task<DeleteUsersResponse> DeleteUsers(DeleteUsersRequest request);
 		Task<List<UserDto>> UserList();
 		Task<List<BmsRoleProjection>> RoleList();
 		Task<CreateRolesResponse> CreateNewRoles(CreateRolesRequest request);

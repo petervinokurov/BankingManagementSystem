@@ -13,6 +13,12 @@ import { DeleteRolesRequest } from "./domain/deleteRolesRequest";
 import { DeleteRolesResponse } from "./domain/deleteRolesResponse";
 import { UpdateRolesRequest } from "./domain/updateRolesRequest";
 import { UpdateRolesResponse } from "./domain/updateRolesResponse";
+import { CreateUsersRequest } from "./domain/createUsersRequest";
+import { CreateUsersResponse } from "./domain/createUsersResponse";
+import { DeleteUsersRequest } from "./domain/deleteUsersRequest";
+import { DeleteUsersResponse } from "./domain/deleteUsersResponse";
+import { UpdateUsersRequest } from "./domain/updateUsersRequest";
+import { UpdateUsersResponse } from "./domain/updateUsersResponse";
 
 @Injectable()
 export class UserManagementService {
@@ -33,9 +39,9 @@ export class UserManagementService {
 	}
 
   public createNewUsers(
-    request:NewUserDto[]
-  ): Observable<BmsResponse> {
-    return this.httpService.post<BmsResponse>(
+    request:CreateUsersRequest
+  ): Observable<CreateUsersResponse> {
+    return this.httpService.post<CreateUsersResponse>(
 			`${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.CreateNewUsers}`,
 			request,
 			this.cancellationSubject
@@ -43,18 +49,18 @@ export class UserManagementService {
   }
 
   public updateUsers(
-    request:UserDto[]
-  ): Observable<UserDto[]> {
-    return this.httpService.put<UserDto[]>(
+    request:UpdateUsersRequest
+  ): Observable<UpdateUsersResponse> {
+    return this.httpService.put<UpdateUsersResponse>(
       `${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.UpdateUsers}`,
       request,
       this.cancellationSubject
     );
   }
 
-  public deleteUsers(request:string[]
-  ): Observable<string[]>{
-    return this.httpService.delete<string[]>(
+  public deleteUsers(request:DeleteUsersRequest
+  ): Observable<DeleteUsersResponse>{
+    return this.httpService.delete<DeleteUsersResponse>(
       `${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.DeleteUsers}`,
       request,
       this.cancellationSubject

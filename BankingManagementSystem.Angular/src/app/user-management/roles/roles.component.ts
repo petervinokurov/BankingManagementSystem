@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { lastValueFrom, Observable } from 'rxjs';
-import { UserManagementService } from '../user-management.service';
+import { Observable } from 'rxjs';
 import { RoleDto } from './roleDto';
 import { DataChange } from 'devextreme/ui/data_grid';
 import { ClaimDto } from '../claims/claimDto';
 import { claims, roles, createRoles, deleteRoles, updateRoles } from '../user-management-state/user-management.actions';
-import { selectClaims, selectClaimsCount, selectRoles } from '../user-management-state/user-management.selectors';
+import { selectClaims, selectClaimsCount, selectRoles, selectRolesCount } from '../user-management-state/user-management.selectors';
 import { Store } from '@ngrx/store';
 import { CreateRolesRequest } from '../domain/createRolesRequest';
 import { DeleteRolesRequest } from '../domain/deleteRolesRequest';
@@ -20,24 +19,31 @@ export class RolesComponent implements OnInit {
 
   public claimsSource$: Observable<ClaimDto[]> = this.store.select(selectClaims);
   public rolesSource$:Observable<RoleDto[]> = this.store.select(selectRoles);
+  public rolesSourceCount$:Observable<number> = this.store.select(selectRolesCount);
   public claimsSourceCount$: Observable<number> = this.store.select(selectClaimsCount);
 
-  constructor(private readonly service:UserManagementService,
-    private store:Store) { }
+  constructor(private store:Store) { }
 
   async ngOnInit() {
-
-
-    this.claimsSource$.subscribe(data => {
-      if (data.length === 0){
-        this.store.dispatch(claims())
-      }
-    });
-    this.rolesSource$.subscribe(data => {
-      if (data.length === 0){
+    this.rolesSourceCount$.subscribe(data => {
+      if (!data){
         this.store.dispatch(roles())
       }
     });
+    this.claimsSourceCount$.subscribe(data => {
+      if (!data){
+        this.store.dispatch(claims())
+      }
+    });
+  }
+
+  async onClaimsChanged(event: ClaimDto[], item: RoleDto){
+    item.roleClaims = event;
+    if (item.id){
+      let request = new UpdateRolesRequest();
+      request.updateRoles = [item];
+      this.store.dispatch(updateRoles({request}));
+    }
   }
 
   async saveRole(e: any){

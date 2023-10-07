@@ -24,22 +24,17 @@ namespace BankingManagementSystem.Controllers
             _claimPairsService = claimPairsService;
         }
 
-        [HttpPost] public Task<BmsResponse> CreateNewUser(NewUserDto newUser)
+        [HttpPost] public Task<CreateUsersResponse> CreateNewUsers(CreateUsersRequest request)
         {
-            return _service.CreateNewUser(newUser);
+            return _service.CreateNewUsers(request);
         }
         
-        [HttpPost] public Task<BmsResponse> CreateNewUsers(IEnumerable<NewUserDto> newUsers)
-        {
-            return _service.CreateNewUsers(newUsers);
-        }
-        
-        [HttpPut] public Task UpdateUsers(IEnumerable<UserDto> request)
+        [HttpPut] public Task<UpdateUsersResponse> UpdateUsers(UpdateUsersRequest request)
         {
             return _service.UpdateUsers(request);
         }
 
-        [HttpDelete] public Task DeleteUsers([FromQuery]IEnumerable<Guid> request)
+        [HttpDelete] public Task<DeleteUsersResponse> DeleteUsers([FromQuery]DeleteUsersRequest request)
         {
             return _service.DeleteUsers(request);
         }

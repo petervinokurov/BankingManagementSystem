@@ -32,7 +32,7 @@
         [maxDisplayedTags]="(claimsSourceCount$ | async)!"
         [showMultiTagOnly]="true"
         [searchEnabled]="true"
-        (onValueChanged)="cellInfo.setValue($event.value)"
+        (onValueChanged)="onClaimsChanged($event.value, cellInfo.data)"
       >
       </dx-tag-box>
     </div>
