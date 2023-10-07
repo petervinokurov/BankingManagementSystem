@@ -10,8 +10,10 @@ import { UpdateRolesRequest } from "../domain/updateRolesRequest";
 import { UpdateRolesResponse } from "../domain/updateRolesResponse";
 import { CreateUsersRequest } from "../domain/createUsersRequest";
 import { CreateUsersResponse } from "../domain/createUsersResponse";
-import { UpdateUsersRequest } from "../domain/UpdateUsersRequest";
-import { UpdateUsersResponse } from "../domain/UpdateUsersResponse";
+import { UpdateUsersRequest } from "../domain/updateUsersRequest";
+import { UpdateUsersResponse } from "../domain/updateUsersResponse";
+import { DeleteUsersResponse } from "../domain/deleteUsersResponse";
+import { DeleteUsersRequest } from "../domain/deleteUsersRequest";
 
 export const users = createAction('[User Managment Component] Users');
 export const usersSuccess = createAction('[User Managment Component] Users Success', props<{ users: UserDto[] }>());
@@ -19,6 +21,8 @@ export const createUsers = createAction('[User Managment Component] Create Users
 export const createUsersSuccess = createAction('[User Managment Component] Create Users Success', props<{ response: CreateUsersResponse }>());
 export const updateUsers = createAction('[User Managment Component] Update Users', props<{ request: UpdateUsersRequest }>());
 export const updateUsersSuccess = createAction('[User Managment Component] Update Users Success', props<{ response: UpdateUsersResponse }>());
+export const deleteUsers = createAction('[User Managment Component] Delete Users', props<{ request: DeleteUsersRequest }>());
+export const deleteUsersSuccess = createAction('[User Managment Component] Delete Users Success', props<{ response: DeleteUsersResponse }>());
 
 export const roles = createAction('[User Managment Component] Roles');
 export const rolesSuccess = createAction('[User Managment Component] Roles Success', props<{ roles: RoleDto[] }>());

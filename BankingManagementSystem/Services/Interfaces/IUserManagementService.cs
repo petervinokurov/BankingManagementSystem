@@ -13,7 +13,7 @@ namespace BankingManagementSystem.Services
 	{
 		Task<CreateUsersResponse> CreateNewUsers(CreateUsersRequest request);
 		Task<UpdateUsersResponse> UpdateUsers(UpdateUsersRequest request);
-		Task<BmsResponse> DeleteUsers(IEnumerable<Guid> userIds);
+		Task<DeleteUsersResponse> DeleteUsers(DeleteUsersRequest request);
 		Task<List<UserDto>> UserList();
 		Task<List<BmsRoleProjection>> RoleList();
 		Task<CreateRolesResponse> CreateNewRoles(CreateRolesRequest request);

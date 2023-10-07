@@ -6,11 +6,12 @@ import { ClaimDto } from '../claims/claimDto';
 import { RoleDto } from '../roles/roleDto';
 import { DataChange } from 'devextreme/ui/data_grid';
 import { NewUserDto } from '../new-user/newUserDto';
-import { claims, createUsers, roles, updateUsers, users } from '../user-management-state/user-management.actions';
+import { claims, createUsers, deleteUsers, roles, updateUsers, users } from '../user-management-state/user-management.actions';
 import { Store } from '@ngrx/store';
 import { selectClaims, selectClaimsCount, selectRoles, selectRolesCount, selectUsers, selectUsersCount } from '../user-management-state/user-management.selectors';
 import { CreateUsersRequest } from '../domain/createUsersRequest';
-import { UpdateUsersRequest } from '../domain/UpdateUsersRequest';
+import { UpdateUsersRequest } from '../domain/updateUsersRequest';
+import { DeleteUsersRequest } from '../domain/deleteUsersRequest';
 
 @Component({
   selector: 'app-user-list',
@@ -81,8 +82,11 @@ export class UserListComponent implements OnInit {
 
     const deleted = changes.filter(c => c.type === 'remove');
     if (deleted.length > 0){
+      let request = new DeleteUsersRequest();
+
       let deleteUserIds = deleted.map(x => x.key as string);
-      await lastValueFrom(this.service.deleteUsers(deleteUserIds));
+      request.userIds = deleteUserIds;
+      this.store.dispatch(deleteUsers({request}));
     }
   }
 }

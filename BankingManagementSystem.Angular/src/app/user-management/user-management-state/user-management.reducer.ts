@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { UserManagementState } from './user-management.state';
-import { claimsSuccess, createRolesSuccess, createUsersSuccess, deleteRolesSuccess, rolesSuccess, updateRolesSuccess, updateUsersSuccess, usersSuccess } from './user-management.actions';
+import { claimsSuccess, createRolesSuccess, createUsersSuccess, deleteRolesSuccess, deleteUsersSuccess, rolesSuccess, updateRolesSuccess, updateUsersSuccess, usersSuccess } from './user-management.actions';
 import { initialUserState, userAdapter } from '../user-list/userDto';
 import { initialRoleState, roleAdapter } from '../roles/roleDto';
 import { claimAdapter, initialClaimState } from '../claims/claimDto';
@@ -25,6 +25,8 @@ export const userManagementReducer = createReducer(
   on(updateUsersSuccess, (state, action) => ({...state,
     usersSource: userAdapter.upsertMany(action.response.users, state.usersSource)
    })),
+  on(deleteUsersSuccess, (state, action) => ({...state,
+    usersSource:userAdapter.removeMany(action.response.userIds, state.usersSource)})),
   on(rolesSuccess, (state, action) => ({...state, rolesSource: roleAdapter.addMany(action.roles, state.rolesSource)
     , claimsSource: claimAdapter.upsertMany(action.roles.flatMap(r => r.roleClaims), state.claimsSource)})),
   on(createRolesSuccess, (state, action) => ({...state, rolesSource: roleAdapter.addMany(action.response.createdRoles, state.rolesSource)})),

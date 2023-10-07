@@ -34,7 +34,7 @@ namespace BankingManagementSystem.Controllers
             return _service.UpdateUsers(request);
         }
 
-        [HttpDelete] public Task DeleteUsers([FromQuery]IEnumerable<Guid> request)
+        [HttpDelete] public Task<DeleteUsersResponse> DeleteUsers([FromQuery]DeleteUsersRequest request)
         {
             return _service.DeleteUsers(request);
         }

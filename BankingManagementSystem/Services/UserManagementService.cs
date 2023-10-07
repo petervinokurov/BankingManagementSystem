@@ -59,15 +59,16 @@ namespace BankingManagementSystem.Services
             return await Task.FromResult(response);
         }
 
-        public async Task<BmsResponse> DeleteUsers(IEnumerable<Guid> userIds)
+        public async Task<DeleteUsersResponse> DeleteUsers(DeleteUsersRequest request)
         {
-            var response = new BmsResponse();
+            var response = new DeleteUsersResponse();
             var usersToRemove = _context.Users
                 .Include(u => u.Roles)
                 .Include(u => u.Claims)
-                .Where(r => userIds.Contains(r.Id));
+                .Where(r => request.UserIds.Contains(r.Id)).ToList();
             _context.Users.RemoveRange(usersToRemove);
             await _context.SaveChangesAsync();
+            response.UserIds = usersToRemove.Select(u => u.Id).ToList();
             return await Task.FromResult(response);
         }
 

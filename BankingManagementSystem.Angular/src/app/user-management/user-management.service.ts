@@ -15,8 +15,10 @@ import { UpdateRolesRequest } from "./domain/updateRolesRequest";
 import { UpdateRolesResponse } from "./domain/updateRolesResponse";
 import { CreateUsersRequest } from "./domain/createUsersRequest";
 import { CreateUsersResponse } from "./domain/createUsersResponse";
-import { UpdateUsersRequest } from "./domain/UpdateUsersRequest";
-import { UpdateUsersResponse } from "./domain/UpdateUsersResponse";
+import { DeleteUsersRequest } from "./domain/deleteUsersRequest";
+import { DeleteUsersResponse } from "./domain/deleteUsersResponse";
+import { UpdateUsersRequest } from "./domain/updateUsersRequest";
+import { UpdateUsersResponse } from "./domain/updateUsersResponse";
 
 @Injectable()
 export class UserManagementService {
@@ -56,9 +58,9 @@ export class UserManagementService {
     );
   }
 
-  public deleteUsers(request:string[]
-  ): Observable<string[]>{
-    return this.httpService.delete<string[]>(
+  public deleteUsers(request:DeleteUsersRequest
+  ): Observable<DeleteUsersResponse>{
+    return this.httpService.delete<DeleteUsersResponse>(
       `${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.DeleteUsers}`,
       request,
       this.cancellationSubject
