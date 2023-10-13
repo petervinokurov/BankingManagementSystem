@@ -7,17 +7,17 @@ import { UserManagementApiRoutes } from "./user-management-api-routes";
 import { UserDto } from "./user-list/userDto";
 import { RoleDto } from "./roles/roleDto";
 import { ClaimDto } from "./claims/claimDto";
-import { CreateRolesRequest } from "./domain/createRolesRequest";
+import { CreateRolesCommand } from "./domain/createRolesRequest";
 import { CreateRolesResponse } from "./domain/createRolesResponse";
-import { DeleteRolesRequest } from "./domain/deleteRolesRequest";
+import { DeleteRolesCommand } from "./domain/deleteRolesRequest";
 import { DeleteRolesResponse } from "./domain/deleteRolesResponse";
-import { UpdateRolesRequest } from "./domain/updateRolesRequest";
+import { UpdateRolesCommand } from "./domain/updateRolesRequest";
 import { UpdateRolesResponse } from "./domain/updateRolesResponse";
-import { CreateUsersRequest } from "./domain/createUsersRequest";
+import { CreateUsersCommand } from "./domain/createUsersRequest";
 import { CreateUsersResponse } from "./domain/createUsersResponse";
-import { DeleteUsersRequest } from "./domain/deleteUsersRequest";
+import { DeleteUsersCommand } from "./domain/deleteUsersRequest";
 import { DeleteUsersResponse } from "./domain/deleteUsersResponse";
-import { UpdateUsersRequest } from "./domain/updateUsersRequest";
+import { UpdateUsersCommand } from "./domain/updateUsersRequest";
 import { UpdateUsersResponse } from "./domain/updateUsersResponse";
 
 @Injectable()
@@ -39,7 +39,7 @@ export class UserManagementService {
 	}
 
   public createNewUsers(
-    request:CreateUsersRequest
+    request:CreateUsersCommand
   ): Observable<CreateUsersResponse> {
     return this.httpService.post<CreateUsersResponse>(
 			`${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.CreateNewUsers}`,
@@ -49,7 +49,7 @@ export class UserManagementService {
   }
 
   public updateUsers(
-    request:UpdateUsersRequest
+    request:UpdateUsersCommand
   ): Observable<UpdateUsersResponse> {
     return this.httpService.put<UpdateUsersResponse>(
       `${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.UpdateUsers}`,
@@ -58,7 +58,7 @@ export class UserManagementService {
     );
   }
 
-  public deleteUsers(request:DeleteUsersRequest
+  public deleteUsers(request:DeleteUsersCommand
   ): Observable<DeleteUsersResponse>{
     return this.httpService.delete<DeleteUsersResponse>(
       `${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.DeleteUsers}`,
@@ -92,7 +92,7 @@ export class UserManagementService {
   }
 
   public createNewRoles(
-    request:CreateRolesRequest
+    request:CreateRolesCommand
   ): Observable<CreateRolesResponse> {
     return this.httpService.post<CreateRolesResponse>(
       `${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.CreateNewRoles}`,
@@ -102,7 +102,7 @@ export class UserManagementService {
   }
 
   public updateRoles(
-    request:UpdateRolesRequest
+    request:UpdateRolesCommand
   ): Observable<UpdateRolesResponse> {
     return this.httpService.put<UpdateRolesResponse>(
       `${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.UpdateRoles}`,
@@ -112,7 +112,7 @@ export class UserManagementService {
   }
 
   public deleteRoles(
-    request:DeleteRolesRequest
+    request:DeleteRolesCommand
   ): Observable<DeleteRolesResponse>{
     return this.httpService.delete<DeleteRolesResponse>(
       `${UserManagementApiRoutes.Root}/${UserManagementApiRoutes.DeleteRoles}`,

@@ -1,3 +1,3 @@
-export class DeleteUsersRequest{
+export class DeleteUsersCommand{
   public userIds: string[] = []
 }

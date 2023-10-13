@@ -1,3 +1,3 @@
-export class DeleteRolesRequest{
+export class DeleteRolesCommand{
   public roleIds: string[] = []
 }

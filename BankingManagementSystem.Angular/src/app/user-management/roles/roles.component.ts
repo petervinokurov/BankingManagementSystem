@@ -6,9 +6,9 @@ import { ClaimDto } from '../claims/claimDto';
 import { claims, roles, createRoles, deleteRoles, updateRoles } from '../user-management-state/user-management.actions';
 import { selectClaims, selectClaimsCount, selectRoles, selectRolesCount } from '../user-management-state/user-management.selectors';
 import { Store } from '@ngrx/store';
-import { CreateRolesRequest } from '../domain/createRolesRequest';
-import { DeleteRolesRequest } from '../domain/deleteRolesRequest';
-import { UpdateRolesRequest } from '../domain/updateRolesRequest';
+import { CreateRolesCommand } from '../domain/createRolesRequest';
+import { DeleteRolesCommand } from '../domain/deleteRolesRequest';
+import { UpdateRolesCommand } from '../domain/updateRolesRequest';
 
 @Component({
   selector: 'app-roles',
@@ -40,7 +40,7 @@ export class RolesComponent implements OnInit {
   async onClaimsChanged(event: ClaimDto[], item: RoleDto){
     item.roleClaims = event;
     if (item.id){
-      let request = new UpdateRolesRequest();
+      let request = new UpdateRolesCommand();
       request.updateRoles = [item];
       this.store.dispatch(updateRoles({request}));
     }
@@ -51,13 +51,13 @@ export class RolesComponent implements OnInit {
     const changes = (e.changes as DataChange<RoleDto, string>[]);
     const inserted = changes.filter(c => c.type === 'insert');
     if (inserted.length > 0){
-      let request = new CreateRolesRequest();
+      let request = new CreateRolesCommand();
       request.newRoles = inserted.map(i => i.data as RoleDto);
       this.store.dispatch(createRoles({request}));
     }
     const updated = changes.filter(c => c.type === 'update');
     if (updated.length > 0){
-      let request = new UpdateRolesRequest();
+      let request = new UpdateRolesCommand();
       request.updateRoles = changes.filter(c => c.type === 'update').map(x => {
         let data = x.data as RoleDto;
         data.id = x.key;
@@ -68,7 +68,7 @@ export class RolesComponent implements OnInit {
 
     const deleted = changes.filter(c => c.type === 'remove');
     if (deleted.length > 0){
-      let request = new DeleteRolesRequest();
+      let request = new DeleteRolesCommand();
       request.roleIds = deleted.map(x => x.key);
       this.store.dispatch(deleteRoles({request}));
     }

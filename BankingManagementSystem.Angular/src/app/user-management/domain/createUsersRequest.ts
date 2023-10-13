@@ -1,5 +1,5 @@
 import { NewUserDto } from "../new-user/newUserDto";
 
-export class CreateUsersRequest{
+export class CreateUsersCommand{
   public newUsers: NewUserDto[] = []
 }
