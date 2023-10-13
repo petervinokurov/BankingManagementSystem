@@ -1,5 +1,5 @@
 import { UserDto } from "../user-list/userDto";
 
-export class UpdateUsersRequest{
+export class UpdateUsersCommand{
   public users: UserDto[] = []
 }

@@ -9,7 +9,7 @@ import { ClaimDto } from "../claims/claimDto";
 import { CreateRolesResponse } from "../domain/createRolesResponse";
 import { DeleteRolesResponse } from "../domain/deleteRolesResponse";
 import { UpdateRolesResponse } from "../domain/updateRolesResponse";
-import { CreateUsersRequest } from "../domain/createUsersRequest";
+import { CreateUsersCommand } from "../domain/createUsersRequest";
 import { CreateUsersResponse } from "../domain/createUsersResponse";
 import { UpdateUsersResponse } from "../domain/updateUsersResponse";
 import { DeleteUsersResponse } from "../domain/deleteUsersResponse";

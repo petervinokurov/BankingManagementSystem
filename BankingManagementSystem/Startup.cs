@@ -28,6 +28,10 @@ namespace BankingManagementSystem
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMediatR(cfg => {
+                cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
+            });
+            
             services.AddLogging();
             services.AddCors(options =>
               options.AddPolicy("AllowNgApp", p => p
@@ -47,7 +51,6 @@ namespace BankingManagementSystem
             services.AddTransient<ICustomerService, CustomerService>();
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IIdentityService, IdentityService>();
-            services.AddTransient<IUserManagementService, UserManagementService>();
             services.AddSingleton<ICryptographyService, CryptographyService>();
             services.AddDistributedMemoryCache();
             

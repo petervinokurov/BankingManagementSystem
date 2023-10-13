@@ -6,7 +6,6 @@ using BankingManagementSystem.IdentityDomain;
 using BankingManagementSystem.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankingManagementSystem.Controllers
@@ -18,8 +17,7 @@ namespace BankingManagementSystem.Controllers
         private readonly IIdentityService _identityService;
         private const string Token = "Token";
 
-        public IdentityController(IIdentityService identityService,
-            IHttpContextAccessor httpContextAccessor)
+        public IdentityController(IIdentityService identityService)
         {
             _identityService = identityService;
         }

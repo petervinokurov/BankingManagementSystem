@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { lastValueFrom, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { UserManagementService } from '../user-management.service';
 import { UserDto } from './userDto';
 import { ClaimDto } from '../claims/claimDto';
@@ -9,9 +9,9 @@ import { NewUserDto } from '../new-user/newUserDto';
 import { claims, createUsers, deleteUsers, roles, updateUsers, users } from '../user-management-state/user-management.actions';
 import { Store } from '@ngrx/store';
 import { selectClaims, selectClaimsCount, selectRoles, selectRolesCount, selectUsers, selectUsersCount } from '../user-management-state/user-management.selectors';
-import { CreateUsersRequest } from '../domain/createUsersRequest';
-import { UpdateUsersRequest } from '../domain/updateUsersRequest';
-import { DeleteUsersRequest } from '../domain/deleteUsersRequest';
+import { CreateUsersCommand } from '../domain/createUsersRequest';
+import { UpdateUsersCommand } from '../domain/updateUsersRequest';
+import { DeleteUsersCommand } from '../domain/deleteUsersRequest';
 
 @Component({
   selector: 'app-user-list',
@@ -64,7 +64,7 @@ export class UserListComponent implements OnInit {
         newUserDto.claims = user.claims;
         return newUserDto;
       });
-      const request = new CreateUsersRequest();
+      const request = new CreateUsersCommand();
       request.newUsers = users;
       this.store.dispatch(createUsers({request}));
     }
@@ -75,14 +75,14 @@ export class UserListComponent implements OnInit {
         data.id = x.key;
         return data;
       });
-      const request = new UpdateUsersRequest();
+      const request = new UpdateUsersCommand();
       request.users = usersForUpdate;
       this.store.dispatch(updateUsers({request}));
     }
 
     const deleted = changes.filter(c => c.type === 'remove');
     if (deleted.length > 0){
-      let request = new DeleteUsersRequest();
+      let request = new DeleteUsersCommand();
 
       let deleteUserIds = deleted.map(x => x.key as string);
       request.userIds = deleteUserIds;
