@@ -19,9 +19,7 @@ namespace BankingManagementSystem.Middlewares
         const string ContentType = "application/json";
 
         public ApplicationErrorHandlingMiddleware(RequestDelegate next,
-            
-            ILogger<ApplicationErrorHandlingMiddleware> logger
-            )
+            ILogger<ApplicationErrorHandlingMiddleware> logger)
 		{
 			_next = next;
             _logger = logger;

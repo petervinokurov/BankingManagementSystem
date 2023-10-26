@@ -1,9 +1,10 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using BankingManagementSystem.Dto;
 using BankingManagementSystem.IdentityDomain;
 using BankingManagementSystem.Services;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,21 +13,31 @@ namespace BankingManagementSystem.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
+    [IgnoreAntiforgeryToken]
     public class IdentityController : ControllerBase
     {
         private readonly IIdentityService _identityService;
+        private readonly IAntiforgery _antiForgery;
         private const string Token = "Token";
+        private const string XsrfToken = "XSRF-TOKEN";
 
-        public IdentityController(IIdentityService identityService)
+        public IdentityController(IIdentityService identityService, IAntiforgery antiForgery)
         {
             _identityService = identityService;
+            _antiForgery = antiForgery;
         }
 
         [HttpPost]
         public async Task<BmsResponse> Login(SignInDto model)
         {
             var response = await _identityService.Login(model.Username, model.Password);
-            HttpContext.Response.Cookies.Append(Token, response.AccessToken);
+            if (!string.IsNullOrWhiteSpace(response.AccessToken))
+            {
+                HttpContext.Response.Cookies.Append(Token, response.AccessToken);
+                
+                 _antiForgery.GetAndStoreTokens(HttpContext);
+            }
+            
             return response;
         }
 
@@ -34,6 +45,7 @@ namespace BankingManagementSystem.Controllers
         public async Task<BmsResponse> LogOut()
         {
             HttpContext.Response.Cookies.Delete(Token);
+            HttpContext.Response.Cookies.Delete(XsrfToken);
             var userClaimEmail = HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Email);
             return await _identityService.Logout(userClaimEmail?.Value);
         }
@@ -61,7 +73,7 @@ namespace BankingManagementSystem.Controllers
             }
             
             HttpContext.Response.Cookies.Append(Token, response.AccessToken);
-            return Ok((BmsResponse)response);
+            return Ok(response);
         }
 
         [HttpGet]

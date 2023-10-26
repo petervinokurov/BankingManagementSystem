@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -44,9 +43,9 @@ namespace BankingManagementSystem.Services
                 return await Task.FromResult(response);
             }
 
-            var validUser = await _context.Users
-                .Where(x => x.NormalizedEmail == userEmail.ToUpper())
-                .ProjectTo<UserDto>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
+            var validUser = await _context.Users.Where(x => x.NormalizedEmail == userEmail.ToUpper())
+                .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
+                .SingleOrDefaultAsync();
             var refreshToken = await _context.UserTokens.SingleOrDefaultAsync(x => x.UserId == validUser.Id);
             if (refreshToken == null) return await Task.FromResult(response);
             _context.UserTokens.Remove(refreshToken);
@@ -62,7 +61,6 @@ namespace BankingManagementSystem.Services
             {
                 response.ApplicationError = "Login or password are empty.";
                 return await Task.FromResult(response);
-
             }
             var passwordHash = _cryptographyService.GetPasswordHash(password);
             var validUser = await _context.Users
@@ -74,21 +72,26 @@ namespace BankingManagementSystem.Services
             if (validUser != null)
             {
                 var accessToken = _tokenService.BuildAccessToken(validUser);
-                
+
                 var refreshToken = await _context.UserTokens.SingleOrDefaultAsync(x => x.UserId == validUser.Id);
                 if (refreshToken == null)
                 {
                     var newRefreshToken = _tokenService.BuildRefreshToken(validUser);
                     _context.UserTokens.Add(new IdentityUserToken<Guid>
-                        { UserId = validUser.Id, Value = newRefreshToken, LoginProvider = _jwtSettings.Provider, Name = RefreshTokenName});
+                    {
+                        UserId = validUser.Id,
+                        Value = newRefreshToken,
+                        LoginProvider = _jwtSettings.Provider,
+                        Name = RefreshTokenName
+                    });
                     await _context.SaveChangesAsync();
-                } 
+                }
                 else if (!_tokenService.ValidateToken(refreshToken.Value))
                 {
                     refreshToken.Value = _tokenService.BuildRefreshToken(validUser);
                     await _context.SaveChangesAsync();
                 }
-                
+
                 response.AccessToken = accessToken;
             }
             else
