@@ -26,7 +26,7 @@ import { UserProfileDetailsComponent } from './app-components/user-profile-detai
 import { userManagementReducer } from './user-management/user-management-state/user-management.reducer';
 import { UserManagementEffects } from './user-management/user-management-state/user-management.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-
+import { XsrfInterceptor } from './common-services/xsrf.interceptor';
 
 @NgModule({
   declarations: [
@@ -54,6 +54,9 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
   providers: [
     { provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
+      multi: true },
+    { provide: HTTP_INTERCEPTORS,
+      useClass: XsrfInterceptor,
       multi: true },
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     IdentityService,
