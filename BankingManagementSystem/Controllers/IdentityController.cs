@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace BankingManagementSystem.Controllers
 {
@@ -18,13 +19,19 @@ namespace BankingManagementSystem.Controllers
     {
         private readonly IIdentityService _identityService;
         private readonly IAntiforgery _antiForgery;
-        private const string Token = "Token";
-        private const string XsrfToken = "XSRF-TOKEN";
+        private string Token { get; }
+        private string XsrfToken { get; }
 
-        public IdentityController(IIdentityService identityService, IAntiforgery antiForgery)
+        public IdentityController(IIdentityService identityService, 
+            IAntiforgery antiForgery, 
+            IOptions<JwtSettings> jwtSettings,
+            IOptions<CsrfSettings> csrfSettings)
         {
             _identityService = identityService;
             _antiForgery = antiForgery;
+            Token = jwtSettings.Value.JwtName;
+            XsrfToken = csrfSettings.Value.XsrfToken;
+
         }
 
         [HttpPost]
@@ -34,8 +41,7 @@ namespace BankingManagementSystem.Controllers
             if (!string.IsNullOrWhiteSpace(response.AccessToken))
             {
                 HttpContext.Response.Cookies.Append(Token, response.AccessToken);
-                
-                 _antiForgery.GetAndStoreTokens(HttpContext);
+                _antiForgery.GetAndStoreTokens(HttpContext);
             }
             
             return response;
