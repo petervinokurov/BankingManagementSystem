@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -33,19 +32,21 @@ public class Startup
         services.AddMediatR(cfg => {
             cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
         });
-            
-        services.AddLogging();
-        services.AddMvc();
 
+        services.AddLogging();
+        
         services.AddAntiforgery(options =>
         {
-            options.HeaderName = "X-XSRF-TOKEN";
+            options.HeaderName = "X-Xsrf-Token";
             options.Cookie = new CookieBuilder
             {
-                Name = "XSRF-TOKEN", SameSite = SameSiteMode.Strict, HttpOnly = true, IsEssential = true
+                Name = "XSRF-TOKEN", 
+                SameSite = SameSiteMode.Strict,
+                HttpOnly = true, 
+                IsEssential = true
             };
         });
-        
+
         services.AddCors(options =>
             options.AddPolicy("AllowNgApp", p => p
                 .WithOrigins("https://localhost:5001")
@@ -80,10 +81,13 @@ public class Startup
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.Jwt.Key))
             };
         });
+        
+        
         services.AddControllers(options =>
         {
-            options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            options.Filters.Add(new ValidateAntiforgeryToken());
         });
+        
         services.AddSpaStaticFiles(options =>
         {
             options.RootPath = "ClientApp/dist";
