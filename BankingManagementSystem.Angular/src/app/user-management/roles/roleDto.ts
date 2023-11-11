@@ -4,7 +4,7 @@ import { ClaimDto } from "../claims/claimDto";
 export class RoleDto{
   public id!:string;
   public name!:string;
-  public concurrencyStamp:string | undefined;
+  public concurrencyStamp!:string;
   public roleClaimsIds: string[] | [] = [];
   public roleClaims: ClaimDto[] | ClaimDto[] = [];
 }

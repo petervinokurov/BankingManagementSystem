@@ -63,6 +63,7 @@ namespace BankingManagementSystem
                 .ForMember(d => d.Name, opt => opt.Condition(f => f.Name != default))
                 .ForMember(d => d.NormalizedName, opt => opt.MapFrom(f => f.Name.ToUpperInvariant()))
                 .ForMember(d => d.Name, opt => opt.Condition(f => f.Name != default))
+                .ForMember(d => d.ConcurrencyStamp, opt => opt.MapFrom(f => f.ConcurrencyStamp))
                 .ForMember(d => d.ConcurrencyStamp, opt => opt.NullSubstitute(Guid.NewGuid().ToString()));
         }
     }

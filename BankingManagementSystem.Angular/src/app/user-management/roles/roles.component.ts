@@ -4,7 +4,7 @@ import { RoleDto } from './roleDto';
 import { DataChange } from 'devextreme/ui/data_grid';
 import { ClaimDto } from '../claims/claimDto';
 import { claims, roles, createRoles, deleteRoles, updateRoles } from '../user-management-state/user-management.actions';
-import { selectClaims, selectClaimsCount, selectRoles, selectRolesCount } from '../user-management-state/user-management.selectors';
+import { selectClaims, selectClaimsCount, selectRoleById, selectRoles, selectRolesCount } from '../user-management-state/user-management.selectors';
 import { Store } from '@ngrx/store';
 import { CreateRolesCommand } from '../domain/createRolesRequest';
 import { DeleteRolesCommand } from '../domain/deleteRolesRequest';
@@ -61,6 +61,10 @@ export class RolesComponent implements OnInit {
       request.updateRoles = changes.filter(c => c.type === 'update').map(x => {
         let data = x.data as RoleDto;
         data.id = x.key;
+        this.store.select(selectRoleById(x.key)).subscribe((item) => {
+          data.concurrencyStamp = item?.concurrencyStamp!;
+        });
+
         return data;
       });
       this.store.dispatch(updateRoles({request}));
