@@ -26,8 +26,6 @@ namespace BankingManagementSystem.Entities
 
         private readonly DemoDataProvider _demoDataProvider = new();
 
-        private const string ConcurrencyStamp = null;
-
         public BankingManagementSystemContext(IOptions<DatabaseSettings> databaseSettings, DbContextOptions<BankingManagementSystemContext> options)
             : base(options)
         {
@@ -43,21 +41,23 @@ namespace BankingManagementSystem.Entities
             {
                 var entity = entry.Entity;
                 var state = entry.State;
-                if (state == EntityState.Modified && entity is IdentityRole<Guid>)
+                
+                if (state != EntityState.Modified ||
+                    entity is not (IdentityUser<Guid> or IdentityRole<Guid> or IConcurrencyVulnerable)) continue;
+                
+                var databaseValues = entry.OriginalValues;
+                var clientValues = entry.CurrentValues;
+                
+                var originalRowVersion = (string)databaseValues[IConcurrencyVulnerable.ConcurrencyCheckField];
+                var currentRowVersion = (string)clientValues[IConcurrencyVulnerable.ConcurrencyCheckField];
+
+                if (!string.Equals(originalRowVersion, currentRowVersion,
+                        StringComparison.InvariantCultureIgnoreCase))
                 {
-                    var databaseValues = entry.OriginalValues;
-                    var clientValues = entry.CurrentValues;
-                    var originalRowVersion = (string)databaseValues[nameof(ConcurrencyStamp)];
-                    var currentRowVersion = (string)clientValues[nameof(ConcurrencyStamp)];
-
-                    if (!string.Equals(originalRowVersion, currentRowVersion,
-                            StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        throw new DbUpdateConcurrencyException("Concurrency conflict detected");
-                    }
-
-                    clientValues[nameof(ConcurrencyStamp)] = Guid.NewGuid().ToString();
+                    throw new DbUpdateConcurrencyException("Concurrency conflict detected");
                 }
+
+                clientValues[IConcurrencyVulnerable.ConcurrencyCheckField] = Guid.NewGuid().ToString();
             }
 
             return base.SaveChangesAsync(cancellationToken);
