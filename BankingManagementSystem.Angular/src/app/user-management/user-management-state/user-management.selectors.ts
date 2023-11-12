@@ -1,8 +1,8 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { UserManagementState } from "./user-management.state";
 import { userAdapter } from "../user-list/userDto";
-import { RoleDto, roleAdapter } from "../roles/roleDto";
-import { ClaimDto, claimAdapter } from "../claims/claimDto";
+import { roleAdapter } from "../roles/roleDto";
+import { claimAdapter } from "../claims/claimDto";
 
 export const selectUserManagementState = createFeatureSelector<UserManagementState>('userManagement');
 
@@ -25,13 +25,18 @@ export const selectRoles = createSelector(
   selectUserManagementState,
   selectClaims,
   (userManagement: UserManagementState, claims) => {
-
     return roleAdapter.getSelectors().selectAll(userManagement.rolesSource).map(role => {
       let cl = claims.filter(c => role.roleClaims.find(rc => rc.claimView === c.claimView));
       return {...role, roleClaims: cl};
     });
   }
 );
+
+export const selectRoleById = (id: string) => createSelector(
+  selectUserManagementState,
+  (userManagement: UserManagementState) => {
+    return userManagement.rolesSource.entities[id];
+});
 
 export const selectRolesCount = createSelector(
   selectUserManagementState,

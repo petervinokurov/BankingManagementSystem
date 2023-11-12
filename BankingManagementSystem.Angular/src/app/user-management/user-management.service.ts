@@ -17,8 +17,8 @@ import { CreateUsersCommand } from "./domain/createUsersRequest";
 import { CreateUsersResponse } from "./domain/createUsersResponse";
 import { DeleteUsersCommand } from "./domain/deleteUsersRequest";
 import { DeleteUsersResponse } from "./domain/deleteUsersResponse";
-import { UpdateUsersCommand } from "./domain/updateUsersRequest";
 import { UpdateUsersResponse } from "./domain/updateUsersResponse";
+import { UpdateUsersCommand } from "./domain/updateUsersRequest";
 
 @Injectable()
 export class UserManagementService {

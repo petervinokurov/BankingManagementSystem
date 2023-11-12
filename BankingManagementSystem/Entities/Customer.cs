@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BankingManagementSystem.Entities
 {
-    public class Customer
+    public class Customer : IConcurrencyVulnerable
     {
         public int Id { get; set; }
 
@@ -12,5 +12,7 @@ namespace BankingManagementSystem.Entities
         public string Name { get; set; }
 
         public IEnumerable<Account> Accounts { get; set; }
+        
+        public string ConcurrencyStamp { get; set; }
     }
 }

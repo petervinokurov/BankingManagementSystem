@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -21,13 +24,44 @@ namespace BankingManagementSystem.Entities
 
         private readonly DatabaseSettings _databaseSettings;
 
-        private readonly DemoDataProvider _demoDataProvider = new DemoDataProvider();
+        private readonly DemoDataProvider _demoDataProvider = new();
 
         public BankingManagementSystemContext(IOptions<DatabaseSettings> databaseSettings, DbContextOptions<BankingManagementSystemContext> options)
             : base(options)
         {
             _databaseSettings = databaseSettings?.Value;
         }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        {
+            var entries = ChangeTracker.Entries()
+                .Where(e => e.State == EntityState.Modified);
+
+            foreach (var entry in entries)
+            {
+                var entity = entry.Entity;
+                var state = entry.State;
+                
+                if (state != EntityState.Modified ||
+                    entity is not (IdentityUser<Guid> or IdentityRole<Guid> or IConcurrencyVulnerable)) continue;
+                
+                var databaseValues = entry.OriginalValues;
+                var clientValues = entry.CurrentValues;
+                
+                var originalRowVersion = (string)databaseValues[IConcurrencyVulnerable.ConcurrencyCheckField];
+                var currentRowVersion = (string)clientValues[IConcurrencyVulnerable.ConcurrencyCheckField];
+
+                if (!string.Equals(originalRowVersion, currentRowVersion,
+                        StringComparison.InvariantCultureIgnoreCase))
+                {
+                    throw new DbUpdateConcurrencyException("Data conflict detected");
+                }
+
+                clientValues[IConcurrencyVulnerable.ConcurrencyCheckField] = Guid.NewGuid().ToString();
+            }
+
+            return base.SaveChangesAsync(cancellationToken);
+        }   
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
             optionsBuilder.UseNpgsql(_databaseSettings.ConnectionString);
