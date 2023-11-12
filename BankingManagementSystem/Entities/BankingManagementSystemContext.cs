@@ -54,7 +54,7 @@ namespace BankingManagementSystem.Entities
                 if (!string.Equals(originalRowVersion, currentRowVersion,
                         StringComparison.InvariantCultureIgnoreCase))
                 {
-                    throw new DbUpdateConcurrencyException("Concurrency conflict detected");
+                    throw new DbUpdateConcurrencyException("Data conflict detected");
                 }
 
                 clientValues[IConcurrencyVulnerable.ConcurrencyCheckField] = Guid.NewGuid().ToString();
