@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -13,10 +13,17 @@ import { AppState } from 'src/app/app-state/app.state';
 })
 export class UserProfileDetailsComponent {
 
+  @Input() profilePicture!: number[];
+
   constructor(private readonly actions$:Actions,
     private readonly router:Router,
     private readonly store:Store<AppState>){
 
+  }
+
+  getImageUrl(): string {
+    const base64Data = btoa(String.fromCharCode.apply(null, this.profilePicture));
+    return `data:${'image/jpeg'};base64,${base64Data}`;
   }
 
   public async onLogOut(){

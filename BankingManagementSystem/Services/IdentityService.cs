@@ -128,10 +128,10 @@ namespace BankingManagementSystem.Services
                 return response;
             }
 
-            var userDto = await _context.Users
+            var userProfileDto = await _context.Users
                 .Where(x => x.NormalizedEmail == userEmail.ToUpper())
-                .ProjectTo<UserDto>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
-            response.User = userDto;
+                .ProjectTo<UserProfileDto>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
+            response.User = userProfileDto;
             
             return response;
         }

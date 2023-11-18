@@ -1,12 +1,13 @@
 import { createReducer, on } from '@ngrx/store';
-import { loginSuccess, logout, refreshTokenSuccess, userProfileSuccess, userTokenInvalid, userTokenValid } from './app.actions';
+import { loginSuccess, logout, refreshTokenSuccess, userProfileSuccess, userTokenValid } from './app.actions';
 import { AppState } from './app.state';
 import { UserDto } from '../user-management/user-list/userDto';
+import { UserProfileDto, initialUserProfileState, userProfileAdapter } from '../app-components/user-profile/userProfileDto';
 
 export const initialState:AppState ={
   isLogin: false,
-  userName: '',
-  userEmail: ''
+  currentUserId: '',
+  userProfile: initialUserProfileState
 };
 
 export const appReducer = createReducer(
@@ -23,11 +24,7 @@ export const appReducer = createReducer(
 
   on(logout, (state) =>
     ({...state, isLogin: false})),
-
-  on(userProfileSuccess, (state, action) => {
-    const userDto = action.response.user as UserDto;
-    state = ({...state, userName: userDto.userName.toString()});
-    state = ({...state, userEmail: userDto.email.toString()});
-    return state;
-  })
+//on(claimsSuccess, (state, action) => ({...state, claimsSource: claimAdapter.addMany(action.claims, state.claimsSource)}))
+  on(userProfileSuccess, (state, action) =>
+    ({...state, currentUserId: action.response.user.id, userProfile: userProfileAdapter.addOne(action.response.user, state.userProfile)}))
 );

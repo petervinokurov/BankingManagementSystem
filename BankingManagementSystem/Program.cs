@@ -17,7 +17,7 @@ namespace BankingManagementSystem
             {
                 var db = scope.ServiceProvider.GetRequiredService<BankingManagementSystemContext>();
                 var demoDataProvider = new DemoDataProvider();
-                if (db.Users.Count() < demoDataProvider.UserCount)
+                if (db.Users.Count() < DemoDataProvider.UserCount)
                 {
                     db.Users.AddRange(demoDataProvider.Fake1000Users());
                     db.SaveChanges();

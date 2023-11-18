@@ -1,6 +1,6 @@
-import { ClaimDto, ClaimsState } from "../claims/claimDto";
-import { RoleDto, RolesState } from "../roles/roleDto";
-import { UserDto, UsersState } from "../user-list/userDto";
+import { ClaimsState } from "../claims/claimDto";
+import { RolesState } from "../roles/roleDto";
+import { UsersState } from "../user-list/userDto";
 
 export interface UserManagementState{
   usersSource: UsersState,
