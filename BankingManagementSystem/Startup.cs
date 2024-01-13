@@ -84,17 +84,16 @@ public class Startup
             };
         });
         
-        
-        services.AddControllers(options =>
-        {
-            options.Filters.Add(new ValidateAntiforgeryToken());
-        });
-        
         services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Banking Management System", Version = "v1" });
         });
-        
+
+        services.AddControllers(options =>
+        {
+            options.Filters.Add(new ValidateAntiforgeryToken());
+        });
+
         services.AddSpaStaticFiles(options =>
         {
             options.RootPath = "ClientApp/dist";
