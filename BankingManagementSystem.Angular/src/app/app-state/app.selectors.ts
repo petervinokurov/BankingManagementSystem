@@ -1,19 +1,16 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { AppState } from "./app.state";
 
-export const selectIsLogin = createFeatureSelector<AppState>('appState');
+export const selectAppState = createFeatureSelector<AppState>('appState');
 
 export const selectUserLogin = createSelector(
-  selectIsLogin,
+  selectAppState,
   (appState) => appState.isLogin
 );
 
-export const selectUserName = createSelector(
-  selectIsLogin,
-  (appState) => appState.userName
-);
-
-export const selectUserEmail = createSelector(
-  selectIsLogin,
-  (appState) => appState.userEmail
+export const selectUserProfile = createSelector(
+  selectAppState,
+  (appState: AppState) => {
+    return appState.userProfile.entities[appState.currentUserId];
+  }
 );

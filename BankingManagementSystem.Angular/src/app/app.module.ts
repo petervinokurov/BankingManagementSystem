@@ -26,13 +26,16 @@ import { UserProfileDetailsComponent } from './app-components/user-profile-detai
 import { userManagementReducer } from './user-management/user-management-state/user-management.reducer';
 import { UserManagementEffects } from './user-management/user-management-state/user-management.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { ImageCropperModule} from 'ngx-image-cropper';
+import { ProfilePictureCropperComponent } from './app-components/user-profile-details/profile-picture-cropper/profile-picture-cropper.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     UserProfileComponent,
-    UserProfileDetailsComponent
+    UserProfileDetailsComponent,
+    ProfilePictureCropperComponent
   ],
   imports: [
     EffectsModule.forRoot([AppEffects]),
@@ -40,6 +43,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     BrowserModule,
     StoreModule.forRoot({ appState: appReducer }),
     StoreModule.forFeature("userManagement", userManagementReducer),
+    ImageCropperModule,
     HttpClientModule,
     AppRoutingModule,
     FormsModule,

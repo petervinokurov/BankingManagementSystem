@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 export class AppComponent {
   protected cancellationObservable: Observable<void> = new Observable();
   isUserLogin$ = this.store.select(selectUserLogin);
+  title = "Banking Management System";
 
   constructor(
     private readonly cookie:CookieService,

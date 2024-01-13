@@ -12,6 +12,7 @@ namespace BankingManagementSystem
         {
             CreateMap<Customer, CustomerDto>();
             CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<User, UserProfileDto>().ReverseMap();
             CreateMap<RoleClaim, ClaimDto>().ReverseMap();
             CreateMap<UserClaim, ClaimDto>().ReverseMap();
             CreateMap<Role, BmsRoleProjection>();

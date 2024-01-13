@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'BankingManagementSystem.Angular'`, () => {
+  it(`should have as title 'Banking Management System'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('BankingManagementSystem.Angular');
+    expect(app.title).toEqual('Banking Management System');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('BankingManagementSystem.Angular app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('Banking Management System app is running!');
   });
 });

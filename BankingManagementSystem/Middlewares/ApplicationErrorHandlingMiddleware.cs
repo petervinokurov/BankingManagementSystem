@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using BankingManagementSystem.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using NLog;
 
 namespace BankingManagementSystem.Middlewares
 {
@@ -44,29 +43,21 @@ namespace BankingManagementSystem.Middlewares
 
         private async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            HttpStatusCode status;
             var request = context.Request;
             var requestParametersBuilder = new StringBuilder();
 
-            switch (exception)
+            var status = exception switch
             {
-                case
-                    NotImplementedException:
-                    status = HttpStatusCode.NotImplemented;
-                    break;
-                case
-                    UnauthorizedAccessException:
-                    status = HttpStatusCode.Unauthorized;
-                    break;
-                default:
-                    status = HttpStatusCode.InternalServerError;
-                    break;
-            }
+                NotImplementedException => HttpStatusCode.NotImplemented,
+                UnauthorizedAccessException => HttpStatusCode.Unauthorized,
+                _ => HttpStatusCode.InternalServerError
+            };
+
             if (request.Method == HttpMethods.Put)
-            if (request.QueryString.HasValue)
-            {
-                requestParametersBuilder.Append($"Query: {request.QueryString.ToString()}");
-            }
+                if (request.QueryString.HasValue)
+                {
+                    requestParametersBuilder.Append($"Query: {request.QueryString.ToString()}");
+                }
 
             if (context.Request.ContentType == ContentType && request.ContentLength > 0 && request.ContentLength <= MaxBodyLength)
             {
@@ -79,7 +70,7 @@ namespace BankingManagementSystem.Middlewares
             }
             else if (request.ContentLength > MaxBodyLength)
             {
-                requestParametersBuilder.Append($"Body to large to be buffered. Limit set to 30k bytes cause performance reason.");
+                requestParametersBuilder.Append("Body to large to be buffered. Limit set to 30k bytes cause performance reason.");
             }
             
             var exceptionResult = JsonSerializer.Serialize(new BmsResponse

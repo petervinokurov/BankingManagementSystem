@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from 'src/app/app-state/app.state';
-import { selectUserEmail, selectUserName } from 'src/app/app-state/app.selectors';
+import { selectUserProfile } from 'src/app/app-state/app.selectors';
 import { Router } from '@angular/router';
 import { AppRoutes } from 'src/app/app-routes';
+import { UserProfileDto } from './userProfileDto';
 
 @Component({
   selector: 'app-user-profile',
@@ -15,8 +16,7 @@ import { AppRoutes } from 'src/app/app-routes';
 export class UserProfileComponent {
   protected cancellationObservable: Observable<void> = new Observable();
 
-  userEmail$ = this.store.select(selectUserEmail);
-  userName$ = this.store.select(selectUserName);
+  public userProfile$: Observable<UserProfileDto | undefined> = this.store.select(selectUserProfile);
 
   constructor(
     private readonly router:Router,

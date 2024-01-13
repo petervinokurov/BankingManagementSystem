@@ -1,7 +1,9 @@
+import { UserProfileState } from "../app-components/user-profile/userProfileDto";
+
 export interface AppState{
   isLogin: boolean,
-  userName: string,
-  userEmail: string
+  currentUserId: string,
+  userProfile: UserProfileState
 }
 
 

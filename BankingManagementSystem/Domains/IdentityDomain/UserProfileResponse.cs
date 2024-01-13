@@ -4,5 +4,5 @@ namespace BankingManagementSystem.IdentityDomain;
 
 public class UserProfileResponse : BmsResponse
 {
-    public UserDto User { get; set; }
+    public UserProfileDto User { get; set; }
 }
