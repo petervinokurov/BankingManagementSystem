@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Dimensions, ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-profile-picture-cropper',
@@ -11,22 +12,45 @@ export class ProfilePictureCropperComponent {
 
   imageChangedEvent: any = '';
   croppedImage: any = '';
+  canvasRotation = 0;
+  rotation?: number;
+  translateH = 0;
+  translateV = 0;
+  scale = 1;
+  aspectRatio = 4 / 3;
+  showCropper = false;
+  containWithinAspectRatio = false;
+  transform: ImageTransform = {
+    translateUnit: 'px'
+  };
+  loading = false;
+  allowMoveImage = false;
+  hidden = false;
+
+  constructor(private sanitizer: DomSanitizer)
+  {
+  }
 
   fileChangeEvent(event: any): void {
-      this.imageChangedEvent = event;
+    this.loading = true;
+    this.imageChangedEvent = event;
   }
+
   imageCropped(event: ImageCroppedEvent) {
-    console.log('image cropped');
-    this.croppedImage = event.base64;
+    this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(event.objectUrl || event.base64 || '');
+    console.log(event);
   }
 
   imageLoaded() {
-    console.log('show cropper');
+    this.showCropper = true;
+    console.log('Image loaded');
   }
 
-  cropperReady() {
-    console.log('cropper ready');
+  cropperReady(sourceImageDimensions: Dimensions) {
+    console.log('Cropper ready', sourceImageDimensions);
+    this.loading = false;
   }
+
   loadImageFailed() {
     console.log('show message');
   }

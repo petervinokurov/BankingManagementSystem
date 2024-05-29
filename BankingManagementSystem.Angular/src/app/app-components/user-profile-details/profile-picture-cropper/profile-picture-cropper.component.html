@@ -1,24 +1,33 @@
-<input type="file" (change)="fileChangeEvent($event)" />
-<div class="image-container">
 
-  <div>
-    <image-cropper
-      [imageChangedEvent]="imageChangedEvent"
-      [maintainAspectRatio]="true"
-      [aspectRatio]="4 / 3"
-      [resizeToWidth]="128"
-      format="png"
-      (imageCropped)="imageCropped($event)"
-      (imageLoaded)="imageLoaded()"
-      (cropperReady)="cropperReady()"
-      (loadImageFailed)="loadImageFailed()">
-    </image-cropper>
-
-  </div>
-
-  <!--I'm using the :hover pseudo-class in CSS to control the opacity when hovering over the .image-container element.-->
-  <div class="overlay">
-    <p>Edit profile picture</p>
-  </div>
+<input type="file" (change)="fileChangeEvent($event)" accept="image/*" />
+<div class="cropper-wrapper">
+  <image-cropper
+    [imageChangedEvent]="imageChangedEvent"
+    [maintainAspectRatio]="true"
+    [containWithinAspectRatio]="containWithinAspectRatio"
+    [aspectRatio]="aspectRatio"
+    [cropperMinWidth]="128"
+    [onlyScaleDown]="true"
+    [roundCropper]="false"
+    [canvasRotation]="canvasRotation"
+    [(transform)]="transform"
+    [alignImage]="'center'"
+    [style.display]="showCropper ? null : 'none'"
+    [allowMoveImage]="allowMoveImage"
+    [hidden]="hidden"
+    imageAltText="Alternative image text"
+    backgroundColor="red"
+    output="blob"
+    format="png"
+    (imageCropped)="imageCropped($event)"
+    (imageLoaded)="imageLoaded()"
+    (cropperReady)="cropperReady($event)"
+    (loadImageFailed)="loadImageFailed()"
+  ></image-cropper>
+  <div *ngIf="loading" class="loader">Loading...</div>
+  <img [src]="croppedImage" [style.border]="croppedImage ? '1px solid black' : 'none'" />
 </div>
+
+
+
 
