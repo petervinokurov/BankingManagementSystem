@@ -5,7 +5,7 @@ import { UserProfileDetailsComponent } from './app-components/user-profile-detai
 
 const routes: Routes = [
   {path: "", component: LoginComponent},
-  {path: "swagger"},
+  {path: "swagger", redirectTo: "swagger/index.html"},
   {path: "user-details", component: UserProfileDetailsComponent},
   {path: "user-management",
     loadChildren: () => import("./user-management/user-management.module").then((m) => m.UserManagementModule)}
