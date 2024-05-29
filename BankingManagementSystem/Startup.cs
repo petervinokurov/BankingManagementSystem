@@ -10,7 +10,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 namespace BankingManagementSystem;
 
@@ -82,12 +84,16 @@ public class Startup
             };
         });
         
-        
+        services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Banking Management System", Version = "v1" });
+        });
+
         services.AddControllers(options =>
         {
             options.Filters.Add(new ValidateAntiforgeryToken());
         });
-        
+
         services.AddSpaStaticFiles(options =>
         {
             options.RootPath = "ClientApp/dist";
@@ -102,6 +108,11 @@ public class Startup
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        if (env.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Banking management system v1"));
+        }
         app.UseMiddleware<ApplicationErrorHandlingMiddleware>();
         app.UseSpaStaticFiles();
             
