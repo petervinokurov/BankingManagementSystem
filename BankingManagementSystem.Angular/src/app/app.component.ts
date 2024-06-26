@@ -7,6 +7,8 @@ import { refreshTokenSuccess, userProfile, userTokenInvalid, userTokenValid } fr
 import { selectUserLogin } from './app-state/app.selectors';
 import { Actions, ofType } from '@ngrx/effects';
 import { Router } from '@angular/router';
+import { AppRoutes } from './app-routes';
+import { UserManagementRoutes } from './user-management/user-management-routes';
 
 @Component({
   selector: 'app-root',
@@ -28,15 +30,15 @@ export class AppComponent {
   ){}
 
   public onNavigateRoles(){
-    this.router.navigate(["user-management/roles"]);
+    this.router.navigate([AppRoutes.UserManagement, UserManagementRoutes.Roles]);
   }
 
   public onNavigateClaims(){
-    this.router.navigate(["user-management/claims"]);
+    this.router.navigate([AppRoutes.UserManagement, UserManagementRoutes.Claims]);
   }
 
   public onNavigateUsers(){
-    this.router.navigate(["user-management/user-list"]);
+    this.router.navigate([AppRoutes.UserManagement, UserManagementRoutes.UserList]);
   }
 
   public ngOnInit(){

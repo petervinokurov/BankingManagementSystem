@@ -21,3 +21,14 @@ image-cropper {
   color: white;
 }
 
+.container {
+  display: flex;
+  justify-content: center; /* Distributes space between the columns */
+}
+
+.column {
+  flex: 1; /* Makes columns equal width */
+  margin: 0 10px; /* Adds space between columns */
+  padding: 20px;
+}
+

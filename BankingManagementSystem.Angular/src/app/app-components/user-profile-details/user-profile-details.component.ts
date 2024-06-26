@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { AppRoutes } from 'src/app/app-routes';
+import { AppRoutes, UserProfileRoutes } from 'src/app/app-routes';
 import { logout, logoutSuccess } from 'src/app/app-state/app.actions';
 import { AppState } from 'src/app/app-state/app.state';
 
@@ -24,6 +24,11 @@ export class UserProfileDetailsComponent {
   getImageUrl(): string {
     const base64Data = btoa(String.fromCharCode.apply(null, this.profilePicture));
     return `data:${'image/jpeg'};base64,${base64Data}`;
+  }
+
+  public onProfilePicture()
+  {
+    this.router.navigate([AppRoutes.UserDetails, UserProfileRoutes.ProfilePicture]);
   }
 
   public async onLogOut(){

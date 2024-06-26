@@ -4,5 +4,10 @@ export enum AppRoutes {
   Transactions = "transactions",
   UserAccount = "user-account",
   Products = "products",
-  CustomerRelationships = "customer-relationships"
+  CustomerRelationships = "customer-relationships",
+  UserManagement = "user-management"
+}
+
+export enum UserProfileRoutes {
+  ProfilePicture = "profile-photo"
 }

@@ -1,33 +1,33 @@
-
-<input type="file" (change)="fileChangeEvent($event)" accept="image/*" />
-<div class="cropper-wrapper">
-  <image-cropper
-    [imageChangedEvent]="imageChangedEvent"
-    [maintainAspectRatio]="true"
-    [containWithinAspectRatio]="containWithinAspectRatio"
-    [aspectRatio]="aspectRatio"
-    [cropperMinWidth]="128"
-    [onlyScaleDown]="true"
-    [roundCropper]="false"
-    [canvasRotation]="canvasRotation"
-    [(transform)]="transform"
-    [alignImage]="'center'"
-    [style.display]="showCropper ? null : 'none'"
-    [allowMoveImage]="allowMoveImage"
-    [hidden]="hidden"
-    imageAltText="Alternative image text"
-    backgroundColor="red"
-    output="blob"
-    format="png"
-    (imageCropped)="imageCropped($event)"
-    (imageLoaded)="imageLoaded()"
-    (cropperReady)="cropperReady($event)"
-    (loadImageFailed)="loadImageFailed()"
-  ></image-cropper>
-  <div *ngIf="loading" class="loader">Loading...</div>
-  <img [src]="croppedImage" [style.border]="croppedImage ? '1px solid black' : 'none'" />
+<div>
+  <input type="file" (change)="fileChangeEvent($event)" accept="image/*" />
+  <div class="container">
+    <div class="column cropper-wrapper">
+      <image-cropper
+      [imageChangedEvent]="imageChangedEvent"
+      [maintainAspectRatio]="true"
+      [containWithinAspectRatio]="false"
+      [aspectRatio]="4 / 3"
+      [cropperMinWidth]="128"
+      [onlyScaleDown]="true"
+      [roundCropper]="false"
+      [canvasRotation]="0"
+      [(transform)]="transform"
+      [alignImage]="'center'"
+      [style.display]="showCropper ? null : 'none'"
+      [allowMoveImage]="false"
+      [hidden]="false"
+      imageAltText="Alternative image text"
+      backgroundColor="red"
+      output="blob"
+      format="png"
+      (imageCropped)="imageCropped($event)"
+      (imageLoaded)="imageLoaded()"
+      (cropperReady)="cropperReady($event)"
+      (loadImageFailed)="loadImageFailed()">
+      </image-cropper>
+    </div>
+    <div class="column">
+      <img width="256" [src]="croppedImage"  />
+    </div>
+  </div>
 </div>
-
-
-
-
