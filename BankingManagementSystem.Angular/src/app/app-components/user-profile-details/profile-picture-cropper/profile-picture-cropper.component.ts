@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Store } from '@ngrx/store';
 import { Dimensions, ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
+import { UpdateProfilePhotoCommand } from 'src/app/app-requests/updateProfilePhotoRequest';
+import { updateUserProfilePhoto } from 'src/app/app-state/app.actions';
 
 @Component({
   selector: 'app-profile-picture-cropper',
@@ -16,8 +19,11 @@ export class ProfilePictureCropperComponent {
   transform: ImageTransform = {
     translateUnit: 'px'
   };
+  updateProfilePhotoCommand: UpdateProfilePhotoCommand = {userId: "", photo: ""};
 
-  constructor(private sanitizer: DomSanitizer)
+  constructor(private sanitizer: DomSanitizer,
+    private readonly store: Store
+  )
   {
   }
 
@@ -38,5 +44,13 @@ export class ProfilePictureCropperComponent {
   }
 
   loadImageFailed() {
+  }
+
+  onSavePhoto(){
+    console.log(this.croppedImage);
+    this.updateProfilePhotoCommand.photo = this.croppedImage;
+    console.log(this.updateProfilePhotoCommand.photo);
+
+    this.store.dispatch(updateUserProfilePhoto({command : this.updateProfilePhotoCommand}));
   }
 }

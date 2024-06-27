@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { IdentityService } from '../login/identity.service';
-import { login, loginSuccess, logout, logoutSuccess, refreshTokenSuccess, userProfile, userProfileSuccess, userTokenInvalid } from './app.actions';
+import { login, loginSuccess, logout, logoutSuccess, refreshTokenSuccess, updateUserProfilePhoto, updateUserProfilePhotoSuccess, userProfile, userProfileSuccess, userTokenInvalid } from './app.actions';
 import { map, mergeMap, } from 'rxjs';
 import { UserProfileResponse } from '../app-responses/user-profile-response';
+import { UpdateProfilePhotoResponse } from '../app-responses/user-photo-response';
 
 @Injectable()
 export class AppEffects {
@@ -31,4 +32,9 @@ export class AppEffects {
     () => this.actions$.pipe(ofType(userTokenInvalid),
     mergeMap(() => this.service.refreshToken().pipe(map(() => refreshTokenSuccess()))))
   );
+
+  updateUserProfilePhoto$ = createEffect(
+    () => this.actions$.pipe(ofType(updateUserProfilePhoto),
+      mergeMap((request) =>
+         this.service.updateUserProfilePhoto(request.command).pipe(map((response: UpdateProfilePhotoResponse) => updateUserProfilePhotoSuccess({response}))))));
 }

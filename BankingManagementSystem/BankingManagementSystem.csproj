@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <Folder Include="Domains\UserProfileDomain\Queries" />
     <Folder Include="Entities\" />
     <Folder Include="Services\" />
     <Folder Include="Dto\" />

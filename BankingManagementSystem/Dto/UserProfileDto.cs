@@ -10,5 +10,5 @@ public class UserProfileDto
 
     public string Email { get; set; }
 
-    public byte[] ProfilePicture { get; set; }
+    public string ProfilePicture { get; set; }
 }

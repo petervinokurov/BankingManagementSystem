@@ -3,5 +3,6 @@ export enum IdentityApiRoutes {
 	Login = "login",
   Logout = "logout",
   UserProfile = "userprofile",
-  RefreshToken = "refreshtoken"
+  RefreshToken = "refreshtoken",
+  UpdateProfilePhoto = "updateprofilephoto"
 }

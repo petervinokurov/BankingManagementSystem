@@ -12,6 +12,8 @@ namespace BankingManagementSystem.Entities
         public ICollection<Role> Roles { get; set; }
 
         public ICollection<UserClaim> Claims { get; set; }
+
+        public string ProfilePhoto { get; set; }
 	}
 }
 

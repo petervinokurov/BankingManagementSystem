@@ -6,30 +6,29 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BankingManagementSystem.Controllers
+namespace BankingManagementSystem.Controllers;
+
+[ApiController]
+[Route("api/[controller]/[action]")]
+public class CustomerController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]/[action]")]
-    public class CustomerController : ControllerBase
+    private ICustomerService _customerService;
+
+    public CustomerController(ICustomerService customerService)
     {
-        private ICustomerService _customerService;
+        _customerService = customerService;
+    }
 
-        public CustomerController(ICustomerService customerService)
-        {
-            _customerService = customerService;
-        }
+    [HttpPost]
+    public int CreateCustomer(CustomerDto customer)
+    {
+        return 0;
+    }
 
-        [HttpPost]
-        public int CreateCustomer(CustomerDto customer)
-        {
-            return 0;
-        }
-
-        [HttpGet]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public Task<List<CustomerDto>> Customers()
-        {
-            return _customerService.CustomersList();
-        }
+    [HttpGet]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public Task<List<CustomerDto>> Customers()
+    {
+        return _customerService.CustomersList();
     }
 }
