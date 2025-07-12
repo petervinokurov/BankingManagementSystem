@@ -25,3 +25,7 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## Setting adjustment
+
+The budget size inccreased up to 5 Mb to avoid build errors in development lead by initial stat chunk. Gzip < 1Mb, Parsed size <2Mb. 

@@ -4,6 +4,8 @@ import { HttpApiService } from "../common-services/http-api.service";
 import { LoginDto } from "./loginDto";
 import { IdentityApiRoutes } from "./identity-api-routes";
 import { UserProfileResponse } from "../app-responses/user-profile-response";
+import { UpdateProfilePhotoCommand } from "../app-requests/updateProfilePhotoRequest";
+import { UpdateProfilePhotoResponse } from "../app-responses/user-photo-response";
 
 @Injectable()
 export class IdentityService {
@@ -31,5 +33,12 @@ export class IdentityService {
 
   public userProfile():Observable<UserProfileResponse>{
     return this.httpService.get(`${IdentityApiRoutes.Root}/${IdentityApiRoutes.UserProfile}`,this.cancellationSubject);
+  }
+
+  public updateUserProfilePhoto(request:UpdateProfilePhotoCommand): Observable<UpdateProfilePhotoResponse>{
+    return this.httpService.post<UpdateProfilePhotoResponse>(
+      `${IdentityApiRoutes.Root}/${IdentityApiRoutes.UpdateProfilePhoto}`,
+       request,
+       this.cancellationSubject);
   }
 }

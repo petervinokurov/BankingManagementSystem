@@ -1,5 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Store } from '@ngrx/store';
+import { Dimensions, ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
+import { UpdateProfilePhotoCommand } from 'src/app/app-requests/updateProfilePhotoRequest';
+import { updateUserProfilePhoto } from 'src/app/app-state/app.actions';
 
 @Component({
   selector: 'app-profile-picture-cropper',
@@ -11,23 +15,38 @@ export class ProfilePictureCropperComponent {
 
   imageChangedEvent: any = '';
   croppedImage: any = '';
+  showCropper = false;
+  transform: ImageTransform = {
+    translateUnit: 'px'
+  };
+  updateProfilePhotoCommand: UpdateProfilePhotoCommand = {userId: "", photo: ""};
+
+  constructor(private sanitizer: DomSanitizer,
+    private readonly store: Store
+  )
+  {
+  }
 
   fileChangeEvent(event: any): void {
-      this.imageChangedEvent = event;
+    this.imageChangedEvent = event;
   }
+
   imageCropped(event: ImageCroppedEvent) {
-    console.log('image cropped');
     this.croppedImage = event.base64;
   }
 
   imageLoaded() {
-    console.log('show cropper');
+    this.showCropper = true;
   }
 
-  cropperReady() {
-    console.log('cropper ready');
+  cropperReady(sourceImageDimensions: Dimensions) {
   }
+
   loadImageFailed() {
-    console.log('show message');
+  }
+
+  onSavePhoto(){
+    this.updateProfilePhotoCommand.photo = this.croppedImage;
+    this.store.dispatch(updateUserProfilePhoto({command: this.updateProfilePhotoCommand}));
   }
 }

@@ -1,24 +1,34 @@
-<input type="file" (change)="fileChangeEvent($event)" />
-<div class="image-container">
-
-  <div>
-    <image-cropper
+<div>
+  <input type="file" (change)="fileChangeEvent($event)" accept="image/*" />
+  <div class="container">
+    <div class="column cropper-wrapper">
+      <image-cropper
       [imageChangedEvent]="imageChangedEvent"
       [maintainAspectRatio]="true"
+      [containWithinAspectRatio]="false"
       [aspectRatio]="4 / 3"
-      [resizeToWidth]="128"
+      [cropperMinWidth]="128"
+      [onlyScaleDown]="true"
+      [roundCropper]="false"
+      [canvasRotation]="0"
+      [(transform)]="transform"
+      [alignImage]="'center'"
+      [style.display]="showCropper ? null : 'none'"
+      [allowMoveImage]="false"
+      [hidden]="false"
+      imageAltText="Alternative image text"
+      backgroundColor="red"
+      output="base64"
       format="png"
       (imageCropped)="imageCropped($event)"
       (imageLoaded)="imageLoaded()"
-      (cropperReady)="cropperReady()"
+      (cropperReady)="cropperReady($event)"
       (loadImageFailed)="loadImageFailed()">
-    </image-cropper>
-
+      </image-cropper>
+    </div>
+    <div class="column">
+      <img width="256" [src]="croppedImage"  />
+    </div>
   </div>
-
-  <!--I'm using the :hover pseudo-class in CSS to control the opacity when hovering over the .image-container element.-->
-  <div class="overlay">
-    <p>Edit profile picture</p>
-  </div>
+  <button type="menu" (click)="onSavePhoto()">Save</button>
 </div>
-

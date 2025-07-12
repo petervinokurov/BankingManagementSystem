@@ -4,7 +4,7 @@ export class UserProfileDto{
   public id!:string;
   public userName!: string;
   public email!:string;
-  public profilePicture: number[] | undefined;
+  public profilePicture: string | undefined;
 }
 
 export const userProfileAdapter: EntityAdapter<UserProfileDto> = createEntityAdapter<UserProfileDto>({
