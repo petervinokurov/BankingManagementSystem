@@ -32,8 +32,7 @@ export class ProfilePictureCropperComponent {
   }
 
   imageCropped(event: ImageCroppedEvent) {
-    this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(event.objectUrl || event.base64 || '');
-    console.log(event);
+    this.croppedImage = event.base64;
   }
 
   imageLoaded() {
@@ -47,10 +46,7 @@ export class ProfilePictureCropperComponent {
   }
 
   onSavePhoto(){
-    console.log(this.croppedImage);
     this.updateProfilePhotoCommand.photo = this.croppedImage;
-    console.log(this.updateProfilePhotoCommand.photo);
-
-    this.store.dispatch(updateUserProfilePhoto({command : this.updateProfilePhotoCommand}));
+    this.store.dispatch(updateUserProfilePhoto({command: this.updateProfilePhotoCommand}));
   }
 }

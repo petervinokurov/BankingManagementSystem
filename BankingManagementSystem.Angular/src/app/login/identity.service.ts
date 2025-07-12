@@ -36,6 +36,9 @@ export class IdentityService {
   }
 
   public updateUserProfilePhoto(request:UpdateProfilePhotoCommand): Observable<UpdateProfilePhotoResponse>{
-    return this.httpService.post<UpdateProfilePhotoResponse>(`${IdentityApiRoutes.Root}/${IdentityApiRoutes.UpdateProfilePhoto}`, this.cancellationSubject);
+    return this.httpService.post<UpdateProfilePhotoResponse>(
+      `${IdentityApiRoutes.Root}/${IdentityApiRoutes.UpdateProfilePhoto}`,
+       request,
+       this.cancellationSubject);
   }
 }
