@@ -7,11 +7,13 @@ using BankingManagementSystem.Domains.UserProfileDomain.Responses;
 using BankingManagementSystem.Dto;
 using BankingManagementSystem.IdentityDomain;
 using BankingManagementSystem.Services;
+using BankingManagementSystem.SignalRHubs;
 using MediatR;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Options;
 
 namespace BankingManagementSystem.Controllers;
@@ -24,6 +26,7 @@ public class IdentityController : ControllerBase
     private readonly IIdentityService _identityService;
     private readonly IAntiforgery _antiForgery;
     private readonly IMediator _mediator;
+    private readonly IHubContext<UserProfileHub> _userProfileHub;
     private string Token { get; }
     private string XsrfToken { get; }
 
@@ -31,13 +34,15 @@ public class IdentityController : ControllerBase
         IAntiforgery antiForgery, 
         IMediator mediator,
         IOptions<JwtSettings> jwtSettings,
-        IOptions<CsrfSettings> csrfSettings)
+        IOptions<CsrfSettings> csrfSettings,
+        IHubContext<UserProfileHub> userProfileHub)
     {
         _identityService = identityService;
         _antiForgery = antiForgery;
         Token = jwtSettings.Value.JwtName;
         XsrfToken = csrfSettings.Value.XsrfToken;
         _mediator = mediator;
+        _userProfileHub = userProfileHub;
     }
 
     [HttpPost]
@@ -90,11 +95,11 @@ public class IdentityController : ControllerBase
 
     [HttpGet]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public Task<UserProfileResponse> UserProfile()
+    public async Task<UserProfileResponse> UserProfile()
     {
-        
+        await _userProfileHub.Clients.All.SendAsync("ItemUpdated", new UserDto { Email="I am from hub"});
         var userClaimEmail = HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Email);
-        return _identityService.UserProfile(userClaimEmail?.Value);
+        return await _identityService.UserProfile(userClaimEmail?.Value);
     }
     
     [HttpPost] 

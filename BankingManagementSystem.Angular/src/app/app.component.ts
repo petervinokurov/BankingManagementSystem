@@ -9,6 +9,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import { Router } from '@angular/router';
 import { AppRoutes } from './app-routes';
 import { UserManagementRoutes } from './user-management/user-management-routes';
+import { SignalRService } from './common-services/signalr-hub-service';
 
 @Component({
   selector: 'app-root',
@@ -26,7 +27,8 @@ export class AppComponent {
     private readonly jwtHelper: JwtHelperService,
     private actions$: Actions,
     private store:Store,
-    private router:Router
+    private router:Router,
+    private signalRService: SignalRService
   ){}
 
   public onNavigateRoles(){
@@ -52,5 +54,7 @@ export class AppComponent {
         this.store.dispatch(userProfile());
       });
     }
+
+    this.signalRService.startConnection();
   }
 }

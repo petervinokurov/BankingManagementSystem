@@ -4,6 +4,7 @@ using AutoMapper;
 using BankingManagementSystem.Entities;
 using BankingManagementSystem.Middlewares;
 using BankingManagementSystem.Services;
+using BankingManagementSystem.SignalRHubs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -49,6 +50,7 @@ public class Startup
             };
         });
 
+        services.AddSignalR();
         services.AddCors(options =>
             options.AddPolicy("AllowNgApp", p => p
                 .WithOrigins("https://localhost:5001")
@@ -130,7 +132,7 @@ public class Startup
         {
             endpoints.MapControllers();
             endpoints.Map("api/{**slug}", ctx => throw new Exception($"Wrong route {ctx.Request.Path}"));
-                
+            endpoints.MapHub<UserProfileHub>("/hub/userupdates");
         }).UseSpa(spa => {
             spa.Options.SourcePath = "ClientApp";
         }); 
