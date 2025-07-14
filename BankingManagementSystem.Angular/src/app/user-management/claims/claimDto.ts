@@ -1,9 +1,9 @@
 import { EntityAdapter, EntityState, createEntityAdapter } from "@ngrx/entity";
 
 export class ClaimDto {
-  claimType!: string;
-  claimValue!: string;
-  claimView!:string;
+  claimType: string = "";
+  claimValue: string = "";
+  claimView: string = "::";
  }
 
 export const claimAdapter: EntityAdapter<ClaimDto> = createEntityAdapter<ClaimDto>({

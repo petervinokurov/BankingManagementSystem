@@ -35,6 +35,7 @@
     <PackageReference Include="NLog.Database" Version="5.1.0" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="TypeGen" Version="6.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -89,4 +90,7 @@
     <Folder Include="Middlewares\" />
     <Folder Include="Options\" />
   </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="dotnet typegen  generate" />
+  </Target>
 </Project>

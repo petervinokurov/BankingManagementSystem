@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -54,7 +55,8 @@ public class RefreshTokenMiddleware
                 context.Response.Cookies.Append(Token, token);
             }
         }
-        context.Request.Headers.Add("Authorization", "Bearer " + token);
+
+        context.Request.Headers.TryAdd("Authorization", "Bearer " + token);
         await _next(context);
     }
 }
