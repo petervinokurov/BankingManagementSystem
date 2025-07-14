@@ -6,7 +6,6 @@ import { NewUserDto } from "./new-user/newUserDto";
 import { UserManagementApiRoutes } from "./user-management-api-routes";
 import { UserDto } from "./user-list/userDto";
 import { RoleDto } from "./roles/roleDto";
-import { ClaimDto } from "./claims/claimDto";
 import { CreateRolesCommand } from "./domain/createRolesRequest";
 import { CreateRolesResponse } from "./domain/createRolesResponse";
 import { DeleteRolesCommand } from "./domain/deleteRolesRequest";
@@ -19,6 +18,7 @@ import { DeleteUsersCommand } from "./domain/deleteUsersRequest";
 import { DeleteUsersResponse } from "./domain/deleteUsersResponse";
 import { UpdateUsersResponse } from "./domain/updateUsersResponse";
 import { UpdateUsersCommand } from "./domain/updateUsersRequest";
+import { ClaimDto } from "../generated-dto/claim-dto";
 
 @Injectable()
 export class UserManagementService {

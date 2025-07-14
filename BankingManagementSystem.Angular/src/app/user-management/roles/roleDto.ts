@@ -1,6 +1,5 @@
 import { EntityAdapter, EntityState, createEntityAdapter } from "@ngrx/entity";
-import { ClaimDto } from "../claims/claimDto";
-
+import { ClaimDto } from "src/app/generated-dto/claim-dto";
 export class RoleDto{
   public id!:string;
   public name!:string;

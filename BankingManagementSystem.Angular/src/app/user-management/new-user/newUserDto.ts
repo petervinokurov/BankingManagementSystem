@@ -1,6 +1,5 @@
-import { ClaimDto } from "../claims/claimDto";
+import { ClaimDto } from "src/app/generated-dto/claim-dto";
 import { RoleDto } from "../roles/roleDto";
-import { UserDto } from "../user-list/userDto";
 
 export class NewUserDto{
   public userName:string = "admin@admin.com";

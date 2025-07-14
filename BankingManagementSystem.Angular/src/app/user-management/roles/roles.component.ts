@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RoleDto } from './roleDto';
 import { DataChange } from 'devextreme/ui/data_grid';
-import { ClaimDto } from '../claims/claimDto';
 import { claims, roles, createRoles, deleteRoles, updateRoles } from '../user-management-state/user-management.actions';
 import { selectClaims, selectClaimsCount, selectRoleById, selectRoles, selectRolesCount } from '../user-management-state/user-management.selectors';
 import { Store } from '@ngrx/store';
 import { CreateRolesCommand } from '../domain/createRolesRequest';
 import { DeleteRolesCommand } from '../domain/deleteRolesRequest';
 import { UpdateRolesCommand } from '../domain/updateRolesRequest';
+import { ClaimDto } from 'src/app/generated-dto/claim-dto';
 
 @Component({
   selector: 'app-roles',
