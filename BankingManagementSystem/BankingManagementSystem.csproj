@@ -91,6 +91,6 @@
     <Folder Include="Options\" />
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="dotnet typegen  generate" />
+    <Exec Command="dotnet typegen generate" />
   </Target>
 </Project>

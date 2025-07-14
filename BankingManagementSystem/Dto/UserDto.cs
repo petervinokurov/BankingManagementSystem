@@ -8,12 +8,12 @@ namespace BankingManagementSystem
 	{
 		public Guid Id { get; set; }
 
-		public string UserName { get; set; }
+		public string UserName { get; set; } = string.Empty;
 
-		public string Email { get; set; }
+		public string Email { get; set; } = string.Empty;
 
-		public List<RoleDto> Roles { get; set; }
+		public List<RoleDto> Roles { get; set; } = new();
 
-		public List<ClaimDto> Claims { get; set; }
+		public List<ClaimDto> Claims { get; set; } = new();
 	}
 }
