@@ -5,7 +5,6 @@ import { BmsResponse } from "../common-services/models/BmsResponse";
 import { NewUserDto } from "./new-user/newUserDto";
 import { UserManagementApiRoutes } from "./user-management-api-routes";
 import { UserDto } from "./user-list/userDto";
-import { RoleDto } from "./roles/roleDto";
 import { CreateRolesCommand } from "./domain/createRolesRequest";
 import { CreateRolesResponse } from "./domain/createRolesResponse";
 import { DeleteRolesCommand } from "./domain/deleteRolesRequest";
@@ -19,6 +18,7 @@ import { DeleteUsersResponse } from "./domain/deleteUsersResponse";
 import { UpdateUsersResponse } from "./domain/updateUsersResponse";
 import { UpdateUsersCommand } from "./domain/updateUsersRequest";
 import { ClaimDto } from "../generated-dto/claim-dto";
+import { RoleDto } from "../generated-dto/role-dto";
 
 @Injectable()
 export class UserManagementService {

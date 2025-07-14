@@ -1,6 +1,5 @@
 import { createAction, props } from "@ngrx/store";
 import { UserDto } from "../user-list/userDto";
-import { RoleDto } from "../roles/roleDto";
 import { CreateRolesCommand } from "../domain/createRolesRequest";
 import { CreateRolesResponse } from "../domain/createRolesResponse";
 import { DeleteRolesCommand } from "../domain/deleteRolesRequest";
@@ -14,6 +13,7 @@ import { UpdateUsersResponse } from "../domain/updateUsersResponse";
 import { DeleteUsersResponse } from "../domain/deleteUsersResponse";
 import { DeleteUsersCommand } from "../domain/deleteUsersRequest";
 import { ClaimDto } from "src/app/generated-dto/claim-dto";
+import { RoleDto } from "src/app/generated-dto/role-dto";
 
 export const users = createAction('[User Managment Component] Users');
 export const usersSuccess = createAction('[User Managment Component] Users Success', props<{ users: UserDto[] }>());

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { RoleDto } from './roleDto';
 import { DataChange } from 'devextreme/ui/data_grid';
 import { claims, roles, createRoles, deleteRoles, updateRoles } from '../user-management-state/user-management.actions';
 import { selectClaims, selectClaimsCount, selectRoleById, selectRoles, selectRolesCount } from '../user-management-state/user-management.selectors';
@@ -9,6 +8,7 @@ import { CreateRolesCommand } from '../domain/createRolesRequest';
 import { DeleteRolesCommand } from '../domain/deleteRolesRequest';
 import { UpdateRolesCommand } from '../domain/updateRolesRequest';
 import { ClaimDto } from 'src/app/generated-dto/claim-dto';
+import { RoleDto } from 'src/app/generated-dto/role-dto';
 
 @Component({
   selector: 'app-roles',
