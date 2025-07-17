@@ -5,6 +5,8 @@ using BankingManagementSystem.Entities;
 using BankingManagementSystem.Middlewares;
 using BankingManagementSystem.Services;
 using BankingManagementSystem.SignalRHubs;
+using Hangfire;
+using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -50,7 +52,7 @@ public class Startup
             };
         });
 
-        var redisConnectionString = Configuration.GetSection("ConnectionStrings:Redis").Value;
+        var redisConnectionString = Configuration.GetConnectionString("Redis");
         if (redisConnectionString != null)
             services.AddSignalR()
                 .AddStackExchangeRedis(redisConnectionString,
@@ -79,6 +81,14 @@ public class Startup
         services.AddIdentityCore<User>(options => options.SignIn.RequireConfirmedAccount = true)
             .AddRoles<Role>()
             .AddEntityFrameworkStores<BankingManagementSystemContext>();
+        
+        services.AddHangfire(configuration => configuration
+            .UseSimpleAssemblyNameTypeSerializer()
+            .UseRecommendedSerializerSettings()
+            .UsePostgreSqlStorage(c =>
+                c.UseNpgsqlConnection(Configuration.GetConnectionString("Hangfire"))));
+        
+        
         services.AddTransient<IClaimPairsService, ClaimPairsService>();
         services.AddTransient<ICustomerService, CustomerService>();
         services.AddTransient<ITokenService, TokenService>();
@@ -129,6 +139,8 @@ public class Startup
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Banking management system v1"));
         }
+        
+        app.UseHangfireDashboard("/hangfire");
         app.UseMiddleware<ApplicationErrorHandlingMiddleware>();
         app.UseSpaStaticFiles();
             
@@ -150,5 +162,6 @@ public class Startup
         }).UseSpa(spa => {
             spa.Options.SourcePath = "ClientApp";
         }); 
+        
     }
 }
