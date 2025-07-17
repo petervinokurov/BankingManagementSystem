@@ -57,7 +57,7 @@ public class Startup
                 .AllowCredentials()
                 .AllowAnyMethod()
                 .AllowAnyHeader()));
-        services.Configure<DatabaseSettings>(Configuration.GetSection("Database"));
+        services.Configure<DatabaseSettings>(Configuration.GetSection("ConnectionStrings"));
         services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
 
         services.AddDbContext<BankingManagementSystemContext>();

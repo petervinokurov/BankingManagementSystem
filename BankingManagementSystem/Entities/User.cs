@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using AutoMapper.Configuration.Annotations;
 using Microsoft.AspNetCore.Identity;
 
 namespace BankingManagementSystem.Entities
@@ -12,7 +14,8 @@ namespace BankingManagementSystem.Entities
         public ICollection<Role> Roles { get; set; }
 
         public ICollection<UserClaim> Claims { get; set; }
-
+        
+        [NotMapped]
         public string ProfilePhoto { get; set; }
 	}
 }

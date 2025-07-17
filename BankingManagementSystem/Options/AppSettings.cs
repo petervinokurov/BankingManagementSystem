@@ -4,7 +4,7 @@
 	{
 		public JwtSettings Jwt { get; set; }
 
-		public DatabaseSettings Database { get; set; }
+		public DatabaseSettings ConnectionStrings { get; set; }
 
 		public CsrfSettings Csrf { get; set; }
 	}

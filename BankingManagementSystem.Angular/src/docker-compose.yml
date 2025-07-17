@@ -5,9 +5,9 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: example
-      POSTGRES_DB: devdb
+      POSTGRES_DB: BankingManagementSystem
     ports:
-      - "5532:5532"
+      - "5532:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
 
