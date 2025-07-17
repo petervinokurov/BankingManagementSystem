@@ -50,7 +50,21 @@ public class Startup
             };
         });
 
-        services.AddSignalR();
+        var redisConnectionString = Configuration.GetSection("ConnectionStrings:Redis").Value;
+        if (redisConnectionString != null)
+            services.AddSignalR()
+                .AddStackExchangeRedis(redisConnectionString,
+                    options =>
+                    {
+                        //TODO Add to settings
+                        options.Configuration.ChannelPrefix = "BankingManagementSystem";
+                        options.Configuration.AbortOnConnectFail = false;
+                        options.Configuration.ConnectRetry = 10;
+                        options.Configuration.ConnectTimeout = 10000;
+                        options.Configuration.SyncTimeout = 2000;
+                         
+                        //options.Configuration.Password = 'define later';
+                    });
         services.AddCors(options =>
             options.AddPolicy("AllowNgApp", p => p
                 .WithOrigins("https://localhost:5001")
