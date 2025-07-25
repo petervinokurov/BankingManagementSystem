@@ -1,9 +1,7 @@
-// signalr.service.ts
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { Store } from '@ngrx/store';
 import { UserManagementHubEvents } from '../user-management/user-management-hub-events';
-//import { updateItem } from './store/actions'; // your actual action
 
 @Injectable({
   providedIn: 'root'

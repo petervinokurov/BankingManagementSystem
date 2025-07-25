@@ -5,5 +5,5 @@ namespace BankingManagementSystem.Domains.UserManagementDomain.Responses;
 
 public class CreateRolesResponse : BmsResponse
 {
-    public IEnumerable<RoleDto> CreatedRoles { get; set; }
+    public IEnumerable<RoleDto> CreatedRoles { get; set; } = new List<RoleDto>();
 }

@@ -97,7 +97,6 @@ public class IdentityController : ControllerBase
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public async Task<UserProfileResponse> UserProfile()
     {
-        await _userProfileHub.Clients.All.SendAsync(UserManagementHubEvents.UserUpdated, new UserDto { Email="I am from hub"});
         var userClaimEmail = HttpContext.User.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Email);
         return await _identityService.UserProfile(userClaimEmail?.Value);
     }
