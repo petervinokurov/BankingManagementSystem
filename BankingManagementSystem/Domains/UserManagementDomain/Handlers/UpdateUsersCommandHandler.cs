@@ -5,6 +5,7 @@ using AutoMapper;
 using BankingManagementSystem.Domains.UserManagementDomain.Commands;
 using BankingManagementSystem.Domains.UserManagementDomain.Responses;
 using BankingManagementSystem.Entities;
+using BankingManagementSystem.Services;
 using BankingManagementSystem.SignalRHubs;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
@@ -17,14 +18,20 @@ public class UpdateUsersCommandHandler: IRequestHandler<UpdateUsersCommand, Upda
     private readonly BankingManagementSystemContext _context;
     private readonly IMapper _mapper;
     private readonly IHubContext<UserProfileHub> _userProfileHub;
+    private readonly IDistributedCacheService _distributedCache;
+    private readonly ICurrentUser _currentUser;
 
     public UpdateUsersCommandHandler(BankingManagementSystemContext context,
         IMapper mapper,
-        IHubContext<UserProfileHub> userHubContext)
+        IHubContext<UserProfileHub> userHubContext,
+        IDistributedCacheService distributedCache,
+        ICurrentUser currentUser)
     {
         _context = context;
         _mapper = mapper;
         _userProfileHub = userHubContext;
+        _distributedCache = distributedCache;
+        _currentUser = currentUser;
     }
 
     public async Task<UpdateUsersResponse> Handle(UpdateUsersCommand request, CancellationToken cancellationToken)
@@ -44,7 +51,8 @@ public class UpdateUsersCommandHandler: IRequestHandler<UpdateUsersCommand, Upda
         });
         await _context.SaveChangesAsync(cancellationToken);
         response.Users = request.Users;
-        await _userProfileHub.Clients.All.SendAsync(UserManagementHubEvents.UserUpdated, response.Users, cancellationToken);
+        var connectionId = await _distributedCache.GetAsync<string>(_currentUser.Email);
+        await _userProfileHub.Clients.AllExcept(connectionId).SendAsync(UserManagementHubEvents.UserUpdated, response.Users, cancellationToken);
         return await Task.FromResult(response);
     }
 }

@@ -2,21 +2,34 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { IdentityService } from '../login/identity.service';
 import { login, loginSuccess, logout, logoutSuccess, refreshTokenSuccess, updateUserProfilePhoto, updateUserProfilePhotoSuccess, userProfile, userProfileSuccess, userTokenInvalid } from './app.actions';
-import { map, mergeMap, } from 'rxjs';
+import { map, mergeMap, tap, } from 'rxjs';
 import { UserProfileResponse } from '../app-responses/user-profile-response';
 import { UpdateProfilePhotoResponse } from '../app-responses/user-photo-response';
+import { SignalRService } from '../common-services/signalr-hub-service';
 
 @Injectable()
 export class AppEffects {
 
   constructor(private actions$: Actions,
-    private service:IdentityService ) {}
+    private service:IdentityService,
+    private signalR: SignalRService ) {}
 
   login$ = createEffect(
     () => this.actions$.pipe(ofType(login),
     mergeMap( (action) =>
        this.service.login(action.loginDto).pipe(map(() => loginSuccess()))
   )));
+
+  connectSignalR$ = createEffect(
+  () =>
+    this.actions$.pipe(
+      ofType(loginSuccess),
+      tap(() => {
+        this.signalR.init();
+      })
+    ),
+    { dispatch: false }
+  );
 
   logout$ = createEffect(
     () => this.actions$.pipe(ofType(logout),

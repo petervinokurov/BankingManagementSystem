@@ -1,29 +1,31 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
-import { Store } from '@ngrx/store';
 import { UserManagementHubEvents } from '../user-management/user-management-hub-events';
 
-@Injectable({
-  providedIn: 'root'
-})
-
+@Injectable({ providedIn: 'root' })
 export class SignalRService {
-  private hubConnection: signalR.HubConnection | undefined;
 
-  constructor(private store: Store) {}
+  private hubConnection!: signalR.HubConnection;
 
-  public startConnection(): void {
+  constructor() {
+  }
+
+  public async init(): Promise<void> {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:5001/hub/userupdates') // replace with your SignalR hub URL
+      .withUrl('/hub/userupdates', { withCredentials: true })
       .withAutomaticReconnect()
       .build();
 
-    this.hubConnection
-      .start()
-      .then(() => console.log('SignalR connection started'))
-      .catch(err => console.error('SignalR error:', err));
+    try {
+      await this.hubConnection.start();
+      this.registerListeners();
+    } catch (err) {
+      console.error('❌ SignalR connection failed:', err);
+    }
+  }
 
-    this.registerListeners();
+  public getHubConnection(): signalR.HubConnection {
+    return this.hubConnection;
   }
 
   private registerListeners(): void {
@@ -34,3 +36,7 @@ export class SignalRService {
     });
   }
 }
+
+
+
+

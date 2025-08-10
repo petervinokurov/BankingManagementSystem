@@ -54,7 +54,5 @@ export class AppComponent {
         this.store.dispatch(userProfile());
       });
     }
-
-    this.signalRService.startConnection();
   }
 }
