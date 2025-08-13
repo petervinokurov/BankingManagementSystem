@@ -5,5 +5,5 @@ namespace BankingManagementSystem.Domains.UserManagementDomain.Responses;
 
 public class CreateUsersResponse : BmsResponse
 {
-    public IEnumerable<UserDto> NewUsers { get; set; }
+    public IEnumerable<UserDto> NewUsers { get; set; } = new List<UserDto>();
 }

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ClaimDto } from './claimDto';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectClaims, selectClaimsCount } from '../user-management-state/user-management.selectors';
 import { claims } from '../user-management-state/user-management.actions';
+import { ClaimDto } from 'src/app/generated-dto/claim-dto';
 
 @Component({
   selector: 'app-claims',

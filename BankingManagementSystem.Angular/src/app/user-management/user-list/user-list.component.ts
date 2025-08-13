@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserManagementService } from '../user-management.service';
-import { UserDto } from './userDto';
-import { ClaimDto } from '../claims/claimDto';
-import { RoleDto } from '../roles/roleDto';
 import { DataChange } from 'devextreme/ui/data_grid';
 import { NewUserDto } from '../new-user/newUserDto';
 import { claims, createUsers, deleteUsers, roles, updateUsers, users } from '../user-management-state/user-management.actions';
@@ -12,6 +9,9 @@ import { selectClaims, selectClaimsCount, selectRoles, selectRolesCount, selectU
 import { CreateUsersCommand } from '../domain/createUsersRequest';
 import { UpdateUsersCommand } from '../domain/updateUsersRequest';
 import { DeleteUsersCommand } from '../domain/deleteUsersRequest';
+import { ClaimDto } from 'src/app/generated-dto/claim-dto';
+import { RoleDto } from 'src/app/generated-dto/role-dto';
+import { UserDto } from 'src/app/generated-dto/user-dto';
 
 @Component({
   selector: 'app-user-list',

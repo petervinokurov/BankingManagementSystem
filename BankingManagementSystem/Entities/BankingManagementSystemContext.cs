@@ -31,6 +31,11 @@ namespace BankingManagementSystem.Entities
         {
             _databaseSettings = databaseSettings?.Value;
         }
+        
+        public BankingManagementSystemContext(DbContextOptions<BankingManagementSystemContext> options)
+            : base(options)
+        {
+        }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
@@ -61,11 +66,16 @@ namespace BankingManagementSystem.Entities
             }
 
             return base.SaveChangesAsync(cancellationToken);
-        }   
+        }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-            optionsBuilder.UseNpgsql(_databaseSettings.ConnectionString);
-
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseNpgsql(_databaseSettings.DefaultConnection);
+            }
+        }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
@@ -90,6 +100,7 @@ namespace BankingManagementSystem.Entities
                 .HasIndex(b => b.UserName).HasDatabaseName("UserNameIndex");
 
             modelBuilder.Entity<User>().HasData(_demoDataProvider.GetSystemAdmin());
+            modelBuilder.Entity<User>().HasData(_demoDataProvider.GetTester());
 
             modelBuilder.Entity<Role>()
                 .HasKey(b => b.Id);

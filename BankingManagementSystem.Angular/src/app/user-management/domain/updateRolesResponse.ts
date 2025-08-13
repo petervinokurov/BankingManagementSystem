@@ -1,4 +1,4 @@
-import { RoleDto } from "../roles/roleDto";
+import { RoleDto } from "src/app/generated-dto/role-dto";
 
 export class UpdateRolesResponse{
   public updatedRoles: RoleDto[] = []

@@ -9,6 +9,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import { Router } from '@angular/router';
 import { AppRoutes } from './app-routes';
 import { UserManagementRoutes } from './user-management/user-management-routes';
+import { SignalRService } from './common-services/signalr-hub-service';
 
 @Component({
   selector: 'app-root',

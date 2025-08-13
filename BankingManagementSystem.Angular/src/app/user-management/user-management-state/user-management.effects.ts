@@ -2,17 +2,16 @@ import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { UserManagementService } from "../user-management.service";
 import { claims, claimsSuccess, createRoles, createRolesSuccess, createUsers, createUsersSuccess, deleteRoles, deleteRolesSuccess, deleteUsers, deleteUsersSuccess, roles, rolesSuccess, updateRoles, updateRolesSuccess, updateUsers, updateUsersSuccess, users, usersSuccess } from "./user-management.actions";
-import { map, merge, mergeMap } from "rxjs";
-import { UserDto } from "../user-list/userDto";
-import { RoleDto } from "../roles/roleDto";
-import { ClaimDto } from "../claims/claimDto";
+import { map, mergeMap } from "rxjs";
 import { CreateRolesResponse } from "../domain/createRolesResponse";
 import { DeleteRolesResponse } from "../domain/deleteRolesResponse";
 import { UpdateRolesResponse } from "../domain/updateRolesResponse";
-import { CreateUsersCommand } from "../domain/createUsersRequest";
 import { CreateUsersResponse } from "../domain/createUsersResponse";
 import { UpdateUsersResponse } from "../domain/updateUsersResponse";
 import { DeleteUsersResponse } from "../domain/deleteUsersResponse";
+import { ClaimDto } from "src/app/generated-dto/claim-dto";
+import { RoleDto } from "src/app/generated-dto/role-dto";
+import { UserDto } from "src/app/generated-dto/user-dto";
 
 @Injectable()
 export class UserManagementEffects {
@@ -34,7 +33,7 @@ export class UserManagementEffects {
       mergeMap((payload) =>
       this.service.updateUsers(payload.request).pipe(map((response: UpdateUsersResponse) => updateUsersSuccess({response})))))
     );
-    deleteUsers4 = createEffect(
+    deleteUsers$ = createEffect(
       () => this.actions$.pipe(ofType(deleteUsers),
       mergeMap((payload) =>
       this.service.deleteUsers(payload.request).pipe(map((response: DeleteUsersResponse) => deleteUsersSuccess({response})))))

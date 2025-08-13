@@ -1,13 +1,6 @@
 import { EntityAdapter, EntityState, createEntityAdapter } from "@ngrx/entity";
-import { ClaimDto } from "../claims/claimDto";
-
-export class RoleDto{
-  public id!:string;
-  public name!:string;
-  public concurrencyStamp!:string;
-  public roleClaimsIds: string[] | [] = [];
-  public roleClaims: ClaimDto[] | ClaimDto[] = [];
-}
+import { ClaimDto } from "src/app/generated-dto/claim-dto";
+import { RoleDto } from "src/app/generated-dto/role-dto";
 
 export const roleAdapter: EntityAdapter<RoleDto> = createEntityAdapter<RoleDto>({
   selectId: (role: RoleDto) => role.id,

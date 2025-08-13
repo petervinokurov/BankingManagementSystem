@@ -20,6 +20,7 @@
     "@angular/platform-browser-dynamic": "^15.2.8",
     "@angular/router": "^15.2.8",
     "@auth0/angular-jwt": "^5.1.2",
+    "@microsoft/signalr": "^8.0.7",
     "@ng-bootstrap/ng-bootstrap": "^13.1.1",
     "@ngrx/effects": "^16.0.0",
     "@ngrx/entity": "^16.0.1",

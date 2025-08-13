@@ -4,6 +4,9 @@ using AutoMapper;
 using BankingManagementSystem.Entities;
 using BankingManagementSystem.Middlewares;
 using BankingManagementSystem.Services;
+using BankingManagementSystem.SignalRHubs;
+using Hangfire;
+using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +16,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
+using Role = BankingManagementSystem.Entities.Role;
 
 namespace BankingManagementSystem;
 
@@ -49,13 +54,35 @@ public class Startup
             };
         });
 
+        var redisConnectionString = Configuration.GetConnectionString("Redis");
+        
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = redisConnectionString;
+            options.InstanceName = "BMS:";
+        });
+        
+        if (redisConnectionString != null)
+            services.AddSignalR()
+                .AddStackExchangeRedis(redisConnectionString,
+                    options =>
+                    {
+                        //TODO Add to settings
+                        options.Configuration.ChannelPrefix =new RedisChannel("BankingManagementSystem",RedisChannel.PatternMode.Literal);
+                        options.Configuration.AbortOnConnectFail = false;
+                        options.Configuration.ConnectRetry = 10;
+                        options.Configuration.ConnectTimeout = 10000;
+                        options.Configuration.SyncTimeout = 2000;
+                         
+                        //options.Configuration.Password = 'define later';
+                    });
         services.AddCors(options =>
             options.AddPolicy("AllowNgApp", p => p
                 .WithOrigins("https://localhost:5001")
                 .AllowCredentials()
                 .AllowAnyMethod()
                 .AllowAnyHeader()));
-        services.Configure<DatabaseSettings>(Configuration.GetSection("Database"));
+        services.Configure<DatabaseSettings>(Configuration.GetSection("ConnectionStrings"));
         services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
 
         services.AddDbContext<BankingManagementSystemContext>();
@@ -63,11 +90,21 @@ public class Startup
         services.AddIdentityCore<User>(options => options.SignIn.RequireConfirmedAccount = true)
             .AddRoles<Role>()
             .AddEntityFrameworkStores<BankingManagementSystemContext>();
+        
+        services.AddHangfire(configuration => configuration
+            .UseSimpleAssemblyNameTypeSerializer()
+            .UseRecommendedSerializerSettings()
+            .UsePostgreSqlStorage(c =>
+                c.UseNpgsqlConnection(Configuration.GetConnectionString("Hangfire"))));
+        
+        
         services.AddTransient<IClaimPairsService, ClaimPairsService>();
         services.AddTransient<ICustomerService, CustomerService>();
         services.AddTransient<ITokenService, TokenService>();
         services.AddTransient<IIdentityService, IdentityService>();
         services.AddSingleton<ICryptographyService, CryptographyService>();
+        services.AddSingleton<IDistributedCacheService, DistributedCacheService>();
+        services.AddScoped<ICurrentUser, CurrentUser>();
         services.AddDistributedMemoryCache();
             
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
@@ -113,6 +150,8 @@ public class Startup
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Banking management system v1"));
         }
+        
+        app.UseHangfireDashboard("/hangfire");
         app.UseMiddleware<ApplicationErrorHandlingMiddleware>();
         app.UseSpaStaticFiles();
             
@@ -130,9 +169,10 @@ public class Startup
         {
             endpoints.MapControllers();
             endpoints.Map("api/{**slug}", ctx => throw new Exception($"Wrong route {ctx.Request.Path}"));
-                
+            endpoints.MapHub<UserProfileHub>("/hub/userupdates");
         }).UseSpa(spa => {
             spa.Options.SourcePath = "ClientApp";
         }); 
+        
     }
 }

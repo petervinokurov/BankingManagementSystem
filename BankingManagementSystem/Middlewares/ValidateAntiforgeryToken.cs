@@ -24,7 +24,9 @@ public class ValidateAntiforgeryToken : IAsyncActionFilter
         {
             var tokenSet = antiForgery?.GetTokens(context.HttpContext);
             if (csrfSettings?.Value.CsrfHeader != null)
-                context.HttpContext.Request.Headers.Add(csrfSettings.Value.CsrfHeader, tokenSet?.RequestToken);
+            {
+                context.HttpContext.Request.Headers.TryAdd(csrfSettings.Value.CsrfHeader, tokenSet?.RequestToken);
+            }
             await antiForgery?.ValidateRequestAsync(context.HttpContext)!;
         }
         

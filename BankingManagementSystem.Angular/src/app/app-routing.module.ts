@@ -8,6 +8,7 @@ import { AppRoutes, UserProfileRoutes } from './app-routes';
 const routes: Routes = [
   {path: "", component: LoginComponent},
   {path: "swagger", redirectTo: "swagger/index.html"},
+  {path: "hangfire", redirectTo: "hangfire"},
   {path: AppRoutes.UserDetails, component: UserProfileDetailsComponent,
     children: [
       {path: UserProfileRoutes.ProfilePicture, component: ProfilePictureCropperComponent}
