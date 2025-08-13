@@ -16,6 +16,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
+using Role = BankingManagementSystem.Entities.Role;
 
 namespace BankingManagementSystem;
 
@@ -53,13 +55,20 @@ public class Startup
         });
 
         var redisConnectionString = Configuration.GetConnectionString("Redis");
+        
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = redisConnectionString;
+            options.InstanceName = "BMS:";
+        });
+        
         if (redisConnectionString != null)
             services.AddSignalR()
                 .AddStackExchangeRedis(redisConnectionString,
                     options =>
                     {
                         //TODO Add to settings
-                        options.Configuration.ChannelPrefix = "BankingManagementSystem";
+                        options.Configuration.ChannelPrefix =new RedisChannel("BankingManagementSystem",RedisChannel.PatternMode.Literal);
                         options.Configuration.AbortOnConnectFail = false;
                         options.Configuration.ConnectRetry = 10;
                         options.Configuration.ConnectTimeout = 10000;
@@ -94,6 +103,8 @@ public class Startup
         services.AddTransient<ITokenService, TokenService>();
         services.AddTransient<IIdentityService, IdentityService>();
         services.AddSingleton<ICryptographyService, CryptographyService>();
+        services.AddSingleton<IDistributedCacheService, DistributedCacheService>();
+        services.AddScoped<ICurrentUser, CurrentUser>();
         services.AddDistributedMemoryCache();
             
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>

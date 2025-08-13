@@ -27,8 +27,7 @@ export class AppComponent {
     private readonly jwtHelper: JwtHelperService,
     private actions$: Actions,
     private store:Store,
-    private router:Router,
-    private signalRService: SignalRService
+    private router:Router
   ){}
 
   public onNavigateRoles(){

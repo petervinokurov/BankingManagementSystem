@@ -52,7 +52,7 @@ public class UpdateUsersCommandHandler: IRequestHandler<UpdateUsersCommand, Upda
         await _context.SaveChangesAsync(cancellationToken);
         response.Users = request.Users;
         var connectionId = await _distributedCache.GetAsync<string>(_currentUser.Email);
-        await _userProfileHub.Clients.AllExcept(connectionId).SendAsync(UserManagementHubEvents.UserUpdated, response.Users, cancellationToken);
+        await _userProfileHub.Clients.AllExcept(connectionId).SendAsync(UserManagementHubEvents.UserUpdated, response, cancellationToken);
         return await Task.FromResult(response);
     }
 }

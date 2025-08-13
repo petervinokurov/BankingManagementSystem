@@ -100,6 +100,7 @@ namespace BankingManagementSystem.Entities
                 .HasIndex(b => b.UserName).HasDatabaseName("UserNameIndex");
 
             modelBuilder.Entity<User>().HasData(_demoDataProvider.GetSystemAdmin());
+            modelBuilder.Entity<User>().HasData(_demoDataProvider.GetTester());
 
             modelBuilder.Entity<Role>()
                 .HasKey(b => b.Id);

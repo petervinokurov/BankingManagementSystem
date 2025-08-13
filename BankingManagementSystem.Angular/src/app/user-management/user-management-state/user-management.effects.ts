@@ -33,7 +33,7 @@ export class UserManagementEffects {
       mergeMap((payload) =>
       this.service.updateUsers(payload.request).pipe(map((response: UpdateUsersResponse) => updateUsersSuccess({response})))))
     );
-    deleteUsers4 = createEffect(
+    deleteUsers$ = createEffect(
       () => this.actions$.pipe(ofType(deleteUsers),
       mergeMap((payload) =>
       this.service.deleteUsers(payload.request).pipe(map((response: DeleteUsersResponse) => deleteUsersSuccess({response})))))

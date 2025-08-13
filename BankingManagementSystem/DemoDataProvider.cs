@@ -355,7 +355,7 @@ namespace BankingManagementSystem
 
 			return userList.Values;
 		}
-
+		
 		public User GetSystemAdmin()
 		{
 			return new User
@@ -370,6 +370,21 @@ namespace BankingManagementSystem
                 TwoFactorEnabled = false
             };
         }
+
+		public User GetTester()
+		{
+			return new User
+			{
+				Id = new Guid("8eadc938-6a4a-433a-bc3f-8e9ed491b4c1"),
+				UserName = "tester",
+				Email = "tester@irocbank.com",
+				NormalizedEmail = "testuser@irocbank.com".ToUpperInvariant(),
+				PasswordHash = _cryptographyService.GetPasswordHash("tester"),
+				SecurityStamp = new Guid("25c400a5-fbf2-49c2-a5de-c82dd4bf8563").ToString(),
+				ConcurrencyStamp = new Guid("51f1c476-aa56-4e56-8113-d43e5be95dda").ToString(),
+				TwoFactorEnabled = false
+			};
+		}
 
 		public IEnumerable<Role> GetDefaultSystemRoles()
 		{

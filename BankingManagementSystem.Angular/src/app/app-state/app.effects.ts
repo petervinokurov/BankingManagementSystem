@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { IdentityService } from '../login/identity.service';
-import { login, loginSuccess, logout, logoutSuccess, refreshTokenSuccess, updateUserProfilePhoto, updateUserProfilePhotoSuccess, userProfile, userProfileSuccess, userTokenInvalid } from './app.actions';
+import { login, loginSuccess, logout, logoutSuccess, refreshTokenSuccess, updateUserProfilePhoto, updateUserProfilePhotoSuccess, userProfile, userProfileSuccess, userTokenInvalid, userTokenValid } from './app.actions';
 import { map, mergeMap, tap, } from 'rxjs';
 import { UserProfileResponse } from '../app-responses/user-profile-response';
 import { UpdateProfilePhotoResponse } from '../app-responses/user-photo-response';
@@ -23,7 +23,7 @@ export class AppEffects {
   connectSignalR$ = createEffect(
   () =>
     this.actions$.pipe(
-      ofType(loginSuccess),
+      ofType(userTokenValid),
       tap(() => {
         this.signalR.init();
       })

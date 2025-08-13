@@ -11,15 +11,17 @@ namespace BankingManagementSystem.SignalRHubs;
 public class UserProfileHub : Hub
 {
     private readonly IDistributedCacheService _distributedCacheService;
+    private readonly ICurrentUser _currentUser;
 
-    public UserProfileHub(IDistributedCacheService distributedCache)
+    public UserProfileHub(IDistributedCacheService distributedCache, ICurrentUser currentUser)
     {
         _distributedCacheService = distributedCache;
+        _currentUser = currentUser;
     }
     
     public override async Task OnConnectedAsync()
     {
-        var userId = Context.User?.Identity?.Name;
+        var userId = _currentUser.Email;
 
         if (!string.IsNullOrEmpty(userId))
         {

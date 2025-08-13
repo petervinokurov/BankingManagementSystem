@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { UserManagementHubEvents } from '../user-management/user-management-hub-events';
+import { Store } from '@ngrx/store';
+import { updateUsersSuccess } from '../user-management/user-management-state/user-management.actions';
+import { UpdateUsersResponse } from '../user-management/domain/updateUsersResponse';
 
 @Injectable({ providedIn: 'root' })
 export class SignalRService {
 
   private hubConnection!: signalR.HubConnection;
 
-  constructor() {
+  constructor(private readonly store:Store) {
   }
 
   public async init(): Promise<void> {
@@ -30,13 +33,7 @@ export class SignalRService {
 
   private registerListeners(): void {
     this.hubConnection?.on(UserManagementHubEvents.userUpdated, (data) => {
-      // Dispatch NgRx action with received data
-      console.log(data);
-      //this.store.dispatch(updateItem({ item: data }));
+      this.store.dispatch(updateUsersSuccess({ response: data as UpdateUsersResponse }));
     });
   }
 }
-
-
-
-
